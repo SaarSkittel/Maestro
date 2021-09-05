@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Maestro</string>
+    <string name="main_title">Maestro Courses</string>
+    <string name="main_login">Login</string>
 </resources>

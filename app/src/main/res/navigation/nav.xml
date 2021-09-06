@@ -2,6 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+<<<<<<< Updated upstream
     android:id="@+id/nav"
     app:startDestination="@id/mainFragment">
     <fragment
@@ -17,3 +18,6 @@
         android:name="com.hit.maestro.fragments.RegisterFragment"
         android:label="RegisterFragment" />
 </navigation>
+=======
+    android:id="@+id/nav" />
+>>>>>>> Stashed changes

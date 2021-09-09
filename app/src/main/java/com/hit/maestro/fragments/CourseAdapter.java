@@ -52,11 +52,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     public void setListener(myCourseListener listener){
         this.listener=listener;
     }
+
     public CourseAdapter(List<Course> courses) {
         this.course = courses;
     }
 
-  public class CourseViewHolder extends RecyclerView.ViewHolder{
+  public static class CourseViewHolder extends RecyclerView.ViewHolder{
       ImageView image;
       TextView name;
       public CourseViewHolder(@NonNull View itemView) {
@@ -66,7 +67,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
           itemView.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
-                  listener.onCourseClicked(getAdapterPosition(),v);
+                  //listener.onCourseClicked(getAdapterPosition(),v);
               }
           });
       }

@@ -8,12 +8,12 @@
     android:padding="40dp">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
-        android:text="Register your account"
+        android:text="@string/register_title"
         android:textColor="@color/black"/>
 
     <ScrollView
@@ -26,13 +26,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name"
+                android:text="@string/name"
                 android:textColor="@color/black"
                 android:layout_marginTop="20dp"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter your full name"
+                android:hint="@string/enter_name"
                 android:background="@drawable/edittextshape"
                 android:textSize="13sp"
                 android:id="@+id/fullname_input"/>
@@ -40,13 +40,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username"
+                android:text="@string/username"
                 android:textColor="@color/black"
                 android:layout_marginTop="20dp"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter a username"
+                android:hint="@string/enter_username"
                 android:background="@drawable/edittextshape"
                 android:textSize="13sp"
                 android:id="@+id/username_input"/>
@@ -54,13 +54,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email address"
+                android:text="@string/email"
                 android:textColor="@color/black"
                 android:layout_marginTop="20dp"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter your email address"
+                android:hint="@string/enter_email"
                 android:background="@drawable/edittextshape"
                 android:textSize="13sp"
                 android:id="@+id/email_input"/>
@@ -68,13 +68,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password"
+                android:text="@string/password"
                 android:textColor="@color/black"
                 android:layout_marginTop="20dp"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter your password"
+                android:hint="@string/enter_password"
                 android:background="@drawable/edittextshape"
                 android:textSize="13sp"
                 android:id="@+id/password_input"/>
@@ -82,13 +82,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Confirm Password"
+                android:text="@string/confirm_password"
                 android:textColor="@color/black"
                 android:layout_marginTop="20dp"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter your password again"
+                android:hint="@string/password_again"
                 android:background="@drawable/edittextshape"
 
                 android:textSize="13sp"
@@ -99,7 +99,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign up"
+        android:text="@string/Sign_up"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:id="@+id/register_btn"
@@ -122,12 +122,12 @@
             android:layout_height="wrap_content"
             android:textSize="10sp"
             android:textColor="@color/black"
-            android:text="Already have an account?  "/>
+            android:text="@string/already_have"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
-            android:text="Sign in."
+            android:text="@string/sign_in"
             android:textColor="#04198A"
             android:id="@+id/sign_in_btn"
             android:textStyle="bold"

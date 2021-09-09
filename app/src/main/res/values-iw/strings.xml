@@ -3,4 +3,21 @@
     <string name="app_name">מאסטרו</string>
     <string name="main_title">הקורסים של מאסטרו</string>
     <string name="main_login">התחבר</string>
+    <string name="choose_action">בחר כיצד ברצונך להתחבר</string>
+    <string name="sign_in">התחבר</string>
+    <string name="Sign_up">הרשם</string>
+    <string name="register_title">צור חשבון חדש</string>
+    <string name="name">שם</string>
+    <string name="enter_name">הכנס את שמך המלא</string>
+    <string name="username">שם משתמש</string>
+    <string name="enter_username">הכנס שם משתמש</string>
+    <string name="email">כתובת דוא\"ל</string>
+    <string name="enter_email">הכנס כתובת דוא\"ל</string>
+    <string name="password">סיסמה</string>
+    <string name="enter_password">הכנס סיסמה</string>
+    <string name="confirm_password">אשר את הסיסמה</string>
+    <string name="password_again">הכנס את הסיסמה שוב</string>
+    <string name="already_have">"יש לך כבר חשבון?   "</string>
+    <string name="remember_me">זכור אותי</string>
+    <string name="submit">כניסה</string>
 </resources>

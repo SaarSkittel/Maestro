@@ -23,13 +23,17 @@ import com.hit.maestro.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragment extends Fragment implements RegisterFragment.OnRegisterFragmentListener {
+public class MainFragment extends Fragment implements RegisterFragment.OnRegisterFragmentListener, RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener {
     View view;
     final String REGISTER_TAG="1";
+    final String REGISTER_OR_LOGIN_TAG="2";
+    final String LOGIN_TAG = "3";
     RecyclerView recyclerView;
     CourseAdapter adapter;
     Button registerBtn;
     RegisterFragment registerFragment;
+    RegisterOrLoginFragment registerOrLoginFragment;
+    LoginFragment loginFragment;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,7 +45,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
         courseList.add(new Course("Bass Guitar","marty","android.resource://com.hit.maestro/drawable/bass","123"));
         courseList.add(new Course("Piano","marty","android.resource://com.hit.maestro/drawable/piano","123"));
         courseList.add(new Course("Drum","marty","android.resource://com.hit.maestro/drawable/drums","123"));
-        registerFragment=new RegisterFragment((RegisterFragment.OnRegisterFragmentListener)this);
+
 
         adapter=new CourseAdapter(courseList);
         recyclerView =view.findViewById(R.id.course_rv);
@@ -54,10 +58,8 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                registerFragment.show(getChildFragmentManager(),REGISTER_TAG);
-
-
+                registerOrLoginFragment=new RegisterOrLoginFragment((RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener)MainFragment.this);
+                registerOrLoginFragment.show(getChildFragmentManager(),REGISTER_OR_LOGIN_TAG);
             }
         });
 
@@ -81,11 +83,31 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
 
     @Override
     public void onRegister(String fullname, String username, String email, String password) {
-
+        registerFragment.dismiss();
     }
 
     @Override
     public void onSignInFromRegisterFragment() {
+        registerFragment.dismiss();
+        loginFragment = new LoginFragment();
+        loginFragment.show(getChildFragmentManager(),LOGIN_TAG);
+    }
 
+    @Override
+    public void onSignIn() {
+        //Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(REGISTER_OR_LOGIN_TAG);
+        //getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        registerOrLoginFragment.dismiss();
+        loginFragment = new LoginFragment();
+        loginFragment.show(getChildFragmentManager(),LOGIN_TAG);
+    }
+
+    @Override
+    public void onSignUp() {
+        //Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(REGISTER_OR_LOGIN_TAG);
+        //getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        registerOrLoginFragment.dismiss();
+        registerFragment=new RegisterFragment((RegisterFragment.OnRegisterFragmentListener)this);
+        registerFragment.show(getChildFragmentManager(),REGISTER_TAG);
     }
 }

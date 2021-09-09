@@ -21,7 +21,7 @@ public class ReactionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)  {
         View root = inflater.inflate(R.layout.reaction_fragment,container,false);
-        
+
         return super.onCreateView(inflater, container, savedInstanceState);
 
     }

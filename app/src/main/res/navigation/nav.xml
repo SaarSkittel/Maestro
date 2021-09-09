@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-<<<<<<< Updated upstream
-    android:id="@+id/nav"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav"
     app:startDestination="@id/mainFragment">
+
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.hit.maestro.fragments.MainFragment"
         android:label="MainFragment" >
         <action
-            android:id="@+id/action_mainFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
+            android:id="@+id/action_mainFragment_to_registerDialogFragment"
+            app:destination="@id/registerDialogFragment" />
     </fragment>
     <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.hit.maestro.fragments.RegisterFragment"
-        android:label="RegisterFragment" />
+        android:id="@+id/registerDialogFragment"
+        android:name="com.hit.maestro.fragments.RegisterDialogFragment"
+        android:label="RegisterDialogFragment" />
 </navigation>
-=======
-    android:id="@+id/nav" />
->>>>>>> Stashed changes

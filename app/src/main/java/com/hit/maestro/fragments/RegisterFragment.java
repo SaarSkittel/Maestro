@@ -11,11 +11,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.hit.maestro.R;
 
-public class RegisterFragment extends Fragment {
+public class RegisterFragment extends DialogFragment {
 
     interface OnRegisterFragmentListener{
         void onRegister(String fullname,String username,String email, String password);
@@ -24,15 +25,14 @@ public class RegisterFragment extends Fragment {
 
     OnRegisterFragmentListener callBack;
 
+    public RegisterFragment(OnRegisterFragmentListener callBack) {
+        this.callBack = callBack;
+    }
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        try {
-            callBack = (OnRegisterFragmentListener) context;
-        }
-        catch (ClassCastException ex){
-            throw new ClassCastException("The activity must implement interface");
-        }
+
     }
 
     @Override

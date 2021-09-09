@@ -38,6 +38,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
         Course course =this.course.get(position);
         holder.name.setText(course.getName());
+        holder.lecturer.setText(course.getLecturer());
         Glide.with(holder.itemView).load(Uri.parse(course.getImage())).into(holder.image);
     }
 
@@ -60,10 +61,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
   public static class CourseViewHolder extends RecyclerView.ViewHolder{
       ImageView image;
       TextView name;
+      TextView lecturer;
       public CourseViewHolder(@NonNull View itemView) {
           super(itemView);
           image=itemView.findViewById(R.id.course_cell_image);
           name=itemView.findViewById(R.id.course_cell_name);
+          lecturer=itemView.findViewById(R.id.course_cell_lecturer);
           itemView.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {

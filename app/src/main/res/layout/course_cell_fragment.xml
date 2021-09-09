@@ -1,24 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-<LinearLayout
-    android:layout_width="match_parent"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/course_cell_image"
-        />
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:cardCornerRadius="25dp"
+    android:layout_margin="10dp">
+    <RelativeLayout
+        android:background="@color/purple_500"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/course_cell_name"
-        android:textSize="12sp"
-        android:gravity="center"
-        />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            android:layout_margin="20dp"
+            android:layout_width="500dp"
+            android:layout_height="250dp"
+            android:id="@+id/course_cell_image"
+            />
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/course_cell_image"
+            android:orientation="vertical"
+            android:background="@color/white">
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/course_cell_name"
+                android:textSize="20sp"
+                android:textColor="@color/black"
 
+                />
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/course_cell_lecturer"
+                android:textSize="12sp"
+                />
+        </LinearLayout>
+
+
+</RelativeLayout>
 </androidx.cardview.widget.CardView>

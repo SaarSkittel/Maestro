@@ -29,6 +29,7 @@ public class AboutCourse extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view=inflater.inflate(R.layout.main_fragment,container,false);
+
         CourseNameTv =   view.findViewById(R.id.course_name_tv);
         LecturerNameTv = view.findViewById(R.id.lecturer_name_tv);
         DescriptionTv =  view.findViewById(R.id.description_tv);

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "585347206933",
+    "project_id": "maestro-1829f",
+    "storage_bucket": "maestro-1829f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:585347206933:android:417a2c2d7681c404a8231c",
+        "android_client_info": {
+          "package_name": "com.hit.maestro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "585347206933-ti4b8d61icfj32dtfan18ncve3t792v0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvQc5v9BbMcIDm-9NPWKCWaIl8XhIZdOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "585347206933-ti4b8d61icfj32dtfan18ncve3t792v0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

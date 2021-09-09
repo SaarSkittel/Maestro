@@ -14,7 +14,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.hit.maestro.R;
+import com.hit.maestro.User;
 
 public class RegisterFragment extends DialogFragment {
 
@@ -49,18 +55,30 @@ public class RegisterFragment extends DialogFragment {
         EditText passwordConfET = rootView.findViewById(R.id.confirmPassword_input);
         String passwordConf = passwordConfET.getText().toString();
         TextView note = rootView.findViewById(R.id.note);
-
+        User user=User.getInstance();
         Button registerBtn = rootView.findViewById(R.id.register_btn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(fullname.isEmpty()||username.isEmpty()||email.isEmpty()||password.isEmpty()||passwordConf.isEmpty()){
+                if(fullnameET.getText().toString().isEmpty()||usernameET.getText().toString().isEmpty()||emailET.getText().toString().isEmpty()||passwordET.getText().toString().isEmpty()||passwordConfET.getText().toString().isEmpty()){
                     note.setText("Please fill all fields");
                 }
-                else if(!password.equals(passwordConf)){
+                else if(!passwordET.getText().toString().equals(passwordConfET.getText().toString())){
                     note.setText("Make sure the password is correct");
                 }
                 else{
+                    user.getFirebaseAuth().createUserWithEmailAndPassword(emailET.getText().toString(),passwordET.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                user.getFirebaseUser().updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(fullname).build());
+                                note.setText("Sign up successful");
+                            }
+                            else {
+                                note.setText(task.getException().getMessage());
+                            }
+                        }
+                    });
                     callBack.onRegister(fullname,username,email,password);
                 }
             }

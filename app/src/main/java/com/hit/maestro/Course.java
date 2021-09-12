@@ -1,16 +1,29 @@
 package com.hit.maestro;
 
-public class Course {
+import java.io.Serializable;
+import java.util.List;
+
+public class Course implements Serializable {
     String name;
     String lecturer;
     String image;
     String description;
+    List<Subject> subjects;
 
-    public Course(String name, String lecturer, String image, String description) {
+    public Course(String name, String lecturer, String image, String description, List<Subject> subjects) {
         this.name = name;
         this.lecturer = lecturer;
         this.image = image;
         this.description = description;
+        this.subjects = subjects;
+    }
+
+    public List<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
     }
 
     public String getName() {

@@ -6,5 +6,21 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.hit.maestro.fragments.MainFragment"
-        android:label="MainFragment" />
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_courseFragment"
+            app:destination="@id/courseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/courseFragment"
+        android:name="com.hit.maestro.fragments.CourseFragment"
+        android:label="CourseFragment" >
+        <action
+            android:id="@+id/action_courseFragment_to_lessonFragment"
+            app:destination="@id/lessonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/lessonFragment"
+        android:name="com.hit.maestro.fragments.LessonFragment"
+        android:label="LessonFragment" />
 </navigation>

@@ -1,6 +1,5 @@
-package com.hit.maestro.fragments;
+package com.hit.maestro;
 
-import android.app.PendingIntent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
-import com.hit.maestro.R;
+import com.hit.maestro.fragments.ChatMessage;
 
 import java.util.List;
 

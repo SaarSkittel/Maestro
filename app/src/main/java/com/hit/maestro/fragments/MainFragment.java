@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hit.maestro.Course;
+import com.hit.maestro.Lesson;
 import com.hit.maestro.R;
+import com.hit.maestro.Subject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,15 +41,34 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.main_fragment,container,false);
 
-        List<Course> courseList= new ArrayList<Course>();
-        courseList.add(new Course("Electric Guitar","marty","android.resource://com.hit.maestro/drawable/electric_guitar","123"));
-        courseList.add(new Course("Acoustic Guitar","marty","android.resource://com.hit.maestro/drawable/acoustic_guitar","123"));
-        courseList.add(new Course("Bass Guitar","marty","android.resource://com.hit.maestro/drawable/bass","123"));
-        courseList.add(new Course("Piano","marty","android.resource://com.hit.maestro/drawable/piano","123"));
-        courseList.add(new Course("Drum","marty","android.resource://com.hit.maestro/drawable/drums","123"));
+        List<Lesson> lessons =new ArrayList<Lesson>();
+        lessons.add(new Lesson("lesson1","123",""));
+        lessons.add(new Lesson("lesson2","123",""));
+        lessons.add(new Lesson("lesson3","123",""));
+        lessons.add(new Lesson("lesson4","123",""));
 
+        List<Subject>subjects= new ArrayList<Subject>();
+        subjects.add(new Subject("subject1",lessons));
+        subjects.add(new Subject("subject2",lessons));
+        subjects.add(new Subject("subject3",lessons));
+        subjects.add(new Subject("subject4",lessons));
+
+        List<Course> courseList= new ArrayList<Course>();
+        courseList.add(new Course("Electric Guitar","marty","android.resource://com.hit.maestro/drawable/electric_guitar","123",subjects));
+        courseList.add(new Course("Acoustic Guitar","marty","android.resource://com.hit.maestro/drawable/acoustic_guitar","123",subjects));
+        courseList.add(new Course("Bass Guitar","marty","android.resource://com.hit.maestro/drawable/bass","123",subjects));
+        courseList.add(new Course("Piano","marty","android.resource://com.hit.maestro/drawable/piano","123",subjects));
+        courseList.add(new Course("Drum","marty","android.resource://com.hit.maestro/drawable/drums","123",subjects));
 
         adapter=new CourseAdapter(courseList);
+        adapter.setListener(new CourseAdapter.myCourseListener() {
+            @Override
+            public void onCourseClicked(int position, View view) {
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("Course",courseList.get(position));
+                Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_courseFragment,bundle);
+            }
+        });
         recyclerView =view.findViewById(R.id.course_rv);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));

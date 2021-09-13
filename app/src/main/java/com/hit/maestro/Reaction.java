@@ -1,10 +1,12 @@
 package com.hit.maestro;
 
-public class Reaction {
-    String name;
-    String image;
-    String comment;
-    int Rating ;
+import java.io.Serializable;
+
+public class Reaction implements Serializable {
+    private String name;
+    private String image;
+    private String comment;
+    private int Rating ;
 
     public Reaction(String name, String image, String comment, int rating) {
         this.name = name;

@@ -7,6 +7,7 @@ public class Subject implements Serializable {
     private String nameSubject;
     private List<Lesson> lessons;
 
+    public Subject(){}
     public Subject(String nameSubject, List<Lesson> lessons) {
         this.nameSubject = nameSubject;
         this.lessons = lessons;

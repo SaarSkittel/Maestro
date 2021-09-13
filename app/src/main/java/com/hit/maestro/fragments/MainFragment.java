@@ -17,13 +17,17 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.Task;
 import com.hit.maestro.Course;
+import com.hit.maestro.DatabaseProxy;
 import com.hit.maestro.Lesson;
 import com.hit.maestro.R;
 import com.hit.maestro.Subject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 public class MainFragment extends Fragment implements RegisterFragment.OnRegisterFragmentListener, RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener {
     View view;
@@ -36,11 +40,14 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
     RegisterFragment registerFragment;
     RegisterOrLoginFragment registerOrLoginFragment;
     LoginFragment loginFragment;
+    DatabaseProxy proxy;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.main_fragment,container,false);
 
+        proxy= DatabaseProxy.getInstance();
+/*
         List<Lesson> lessons =new ArrayList<Lesson>();
         lessons.add(new Lesson("lesson1","123",""));
         lessons.add(new Lesson("lesson2","123",""));
@@ -53,12 +60,28 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
         subjects.add(new Subject("subject3",lessons));
         subjects.add(new Subject("subject4",lessons));
 
-        List<Course> courseList= new ArrayList<Course>();
+        List<Course> courseList=new ArrayList<Course>();
         courseList.add(new Course("Electric Guitar","marty","android.resource://com.hit.maestro/drawable/electric_guitar","123",subjects));
         courseList.add(new Course("Acoustic Guitar","marty","android.resource://com.hit.maestro/drawable/acoustic_guitar","123",subjects));
         courseList.add(new Course("Bass Guitar","marty","android.resource://com.hit.maestro/drawable/bass","123",subjects));
         courseList.add(new Course("Piano","marty","android.resource://com.hit.maestro/drawable/piano","123",subjects));
         courseList.add(new Course("Drum","marty","android.resource://com.hit.maestro/drawable/drums","123",subjects));
+
+        //proxy.setCourses(courseList, getContext());
+
+
+*/
+        Observer<List<Course>> courseListObserver=new Observer<List<Course>>() {
+
+        }
+        registerBtn = view.findViewById(R.id.login_btn);
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerOrLoginFragment=new RegisterOrLoginFragment((RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener)MainFragment.this);
+                registerOrLoginFragment.show(getChildFragmentManager(),REGISTER_OR_LOGIN_TAG);
+            }
+        });
 
         adapter=new CourseAdapter(courseList);
         adapter.setListener(new CourseAdapter.myCourseListener() {
@@ -74,16 +97,6 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         recyclerView.setAdapter(adapter);
-
-        registerBtn = view.findViewById(R.id.login_btn);
-        registerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerOrLoginFragment=new RegisterOrLoginFragment((RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener)MainFragment.this);
-                registerOrLoginFragment.show(getChildFragmentManager(),REGISTER_OR_LOGIN_TAG);
-            }
-        });
-
         return view;
     }/*
     @Override

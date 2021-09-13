@@ -10,6 +10,10 @@ public class Course implements Serializable {
     String description;
     List<Subject> subjects;
 
+    public Course() {
+
+    }
+
     public Course(String name, String lecturer, String image, String description, List<Subject> subjects) {
         this.name = name;
         this.lecturer = lecturer;

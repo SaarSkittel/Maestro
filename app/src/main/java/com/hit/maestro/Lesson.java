@@ -7,6 +7,7 @@ public class Lesson implements Serializable {
     private String chatTitle;
     private String url;
 
+    public Lesson(){}
     public Lesson(String nameLesson, String chatTitle, String url) {
         this.nameLesson = nameLesson;
         this.chatTitle = chatTitle;

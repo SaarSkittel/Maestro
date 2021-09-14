@@ -13,21 +13,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.hit.maestro.Course;
 import com.hit.maestro.DatabaseProxy;
 import com.hit.maestro.Lesson;
 import com.hit.maestro.R;
 import com.hit.maestro.Subject;
 
+import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 
 public class MainFragment extends Fragment implements RegisterFragment.OnRegisterFragmentListener, RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener {
     View view;
@@ -40,6 +46,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
     RegisterFragment registerFragment;
     RegisterOrLoginFragment registerOrLoginFragment;
     LoginFragment loginFragment;
+    List<Course> courseList= new ArrayList<Course>();
     DatabaseProxy proxy;
     @Nullable
     @Override
@@ -71,9 +78,43 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
 
 
 */
-        Observer<List<Course>> courseListObserver=new Observer<List<Course>>() {
 
-        }
+        adapter=new CourseAdapter(courseList);
+        proxy.getCourses().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    courseList.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Course course = dataSnapshot.getValue(Course.class);
+                        courseList.add(course);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+        adapter.setListener(new CourseAdapter.myCourseListener() {
+            @Override
+            public void onCourseClicked(int position, View view) {
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("Course", courseList.get(position));
+                Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_courseFragment,bundle);
+            }
+        });
+        recyclerView =view.findViewById(R.id.course_rv);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        recyclerView.setAdapter(adapter);
+
+
         registerBtn = view.findViewById(R.id.login_btn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,20 +124,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
             }
         });
 
-        adapter=new CourseAdapter(courseList);
-        adapter.setListener(new CourseAdapter.myCourseListener() {
-            @Override
-            public void onCourseClicked(int position, View view) {
-                Bundle bundle=new Bundle();
-                bundle.putSerializable("Course",courseList.get(position));
-                Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_courseFragment,bundle);
-            }
-        });
-        recyclerView =view.findViewById(R.id.course_rv);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        recyclerView.setAdapter(adapter);
         return view;
     }/*
     @Override

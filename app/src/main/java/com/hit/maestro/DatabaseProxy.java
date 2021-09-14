@@ -23,16 +23,22 @@ public class DatabaseProxy {
     private FirebaseDatabase database;
     private DatabaseReference courses;
     private List<Course> courseList;
-    private MutableLiveData<List<Course>> courseListLiveData=new MutableLiveData<>();
 
-    interface DatabaseListener{
-        void onFinishedCourse();
+    public DatabaseReference getCourses() {
+        return courses;
     }
+
+    public void setCourses(DatabaseReference courses) {
+        this.courses = courses;
+    }
+
+
 
     private DatabaseProxy() {
         database=FirebaseDatabase.getInstance();
         courses=database.getReference().child("courses");
         courseList=new ArrayList<Course>();
+
     }
     public static DatabaseProxy getInstance(){
         if(databaseProxy==null){
@@ -42,7 +48,7 @@ public class DatabaseProxy {
         }
         return databaseProxy;
     }
-    public MutableLiveData<List<Course>> getCourses(){
+   /* public List<Course> getCourses(){
 
         courses.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -61,7 +67,7 @@ public class DatabaseProxy {
 
             }
         });
-        courseListLiveData.setValue(courseList);
+
         return courseListLiveData;
     }
 
@@ -79,5 +85,5 @@ public class DatabaseProxy {
                 }
             }
         });
-    }
+    }*/
 }

@@ -5,12 +5,17 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -19,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -27,6 +33,7 @@ import com.hit.maestro.DatabaseProxy;
 import com.hit.maestro.Lesson;
 import com.hit.maestro.R;
 import com.hit.maestro.Subject;
+import com.hit.maestro.User;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -43,16 +50,47 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
     RecyclerView recyclerView;
     CourseAdapter adapter;
     Button registerBtn;
+    TextView helloTv;
     RegisterFragment registerFragment;
     RegisterOrLoginFragment registerOrLoginFragment;
     LoginFragment loginFragment;
     List<Course> courseList= new ArrayList<Course>();
     DatabaseProxy proxy;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    User user;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.main_fragment,container,false);
 
+        user = User.getInstance();
+        helloTv = view.findViewById(R.id.hello_tv);
+        drawerLayout=view.findViewById(R.id.drawer_Layout);
+        navigationView=view.findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                drawerLayout.closeDrawers();
+                switch (item.getItemId()){
+                    case R.id.item_sign_in:
+                        loginFragment = new LoginFragment();
+                        loginFragment.show(getChildFragmentManager(),LOGIN_TAG);
+                        break;
+                    case R.id.item_sign_up:
+                        registerFragment=new RegisterFragment((RegisterFragment.OnRegisterFragmentListener)MainFragment.this);
+                        registerFragment.show(getChildFragmentManager(),REGISTER_TAG);
+                        break;
+                    case R.id.item_sign_out:
+                        user.SignOut();
+                        setNavigationViewSituation(false);
+                        break;
+                }
+
+                return false;
+            }
+        });
+        setNavigationViewSituation(false);
         proxy= DatabaseProxy.getInstance();
 /*
         List<Lesson> lessons =new ArrayList<Lesson>();
@@ -125,6 +163,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
         });
 
 
+
         return view;
     }/*
     @Override
@@ -144,7 +183,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
 */
 
     @Override
-    public void onRegister(String fullname, String username, String email, String password) {
+    public void onRegister(String fullname, String email, String password) {
         registerFragment.dismiss();
     }
 
@@ -162,6 +201,10 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
         registerOrLoginFragment.dismiss();
         loginFragment = new LoginFragment();
         loginFragment.show(getChildFragmentManager(),LOGIN_TAG);
+        if(user.isConnected()) {
+            setNavigationViewSituation(true);
+            helloTv.setText("hello" + user.getFullName());
+        }
     }
 
     @Override
@@ -171,5 +214,27 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
         registerOrLoginFragment.dismiss();
         registerFragment=new RegisterFragment((RegisterFragment.OnRegisterFragmentListener)this);
         registerFragment.show(getChildFragmentManager(),REGISTER_TAG);
+        if(user.isConnected()) {
+            setNavigationViewSituation(true);
+            helloTv.setText("hello" + user.getFullName());
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        user.AddListener();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        user.RemoveListener();
+    }
+
+    private void setNavigationViewSituation(boolean signOutStatus){
+        navigationView.getMenu().findItem(R.id.item_sign_in).setVisible(!signOutStatus);
+        navigationView.getMenu().findItem(R.id.item_sign_up).setVisible(!signOutStatus);
+        navigationView.getMenu().findItem(R.id.item_sign_out).setVisible(signOutStatus);
     }
 }

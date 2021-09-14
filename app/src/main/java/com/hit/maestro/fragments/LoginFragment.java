@@ -11,32 +11,45 @@ import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 
 import com.hit.maestro.R;
+import com.hit.maestro.User;
 
 public class LoginFragment extends DialogFragment {
+
+    User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.login_fragment,container,false);
-        EditText usernameET = rootView.findViewById(R.id.username_login);
+        EditText emailET = rootView.findViewById(R.id.email_login);
         EditText passwordET = rootView.findViewById(R.id.password_login);
         TextView note = rootView.findViewById(R.id.note_login);
+        user = User.getInstance();
 
         Button submitBtn = rootView.findViewById(R.id.submit_btn);
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = usernameET.getText().toString();
+                String email = emailET.getText().toString();
                 String password = passwordET.getText().toString();
-                if(username.isEmpty()||password.isEmpty()){
+                if(email.isEmpty()||password.isEmpty()){
                     note.setText("Please fill all fields");
                 }
-                else if(checkLogin(username, password )){
-                    //התחבר
+                else{
+                    user.SignIn(email,password);
+                    if(user.isConnected()){
+                        LoginFragment.this.dismiss();
+                    }
+                    else{
+                        note.setText("The username or password is incorrect");
+                    }
+                }
+                /*else if(checkLogin(email, password )){
+                    login(email, password);
                     LoginFragment.this.dismiss();
                 }
                 else{
                     note.setText("The username or password is incorrect");
-                }
+                }*/
             }
         });
 
@@ -45,5 +58,9 @@ public class LoginFragment extends DialogFragment {
 
     private boolean checkLogin(String username, String password ){
         return true;
+    }
+
+    private void login(String username, String password){
+
     }
 }

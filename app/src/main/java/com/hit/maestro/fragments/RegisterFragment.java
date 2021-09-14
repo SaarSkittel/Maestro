@@ -25,10 +25,11 @@ import com.hit.maestro.User;
 public class RegisterFragment extends DialogFragment {
 
     interface OnRegisterFragmentListener{
-        void onRegister(String fullname,String username,String email, String password);
+        void onRegister(String fullname,String email, String password);
         void onSignInFromRegisterFragment();
     }
 
+    User user;
     OnRegisterFragmentListener callBack;
 
     public RegisterFragment(OnRegisterFragmentListener callBack) {
@@ -46,28 +47,26 @@ public class RegisterFragment extends DialogFragment {
         View rootView = inflater.inflate(R.layout.register_fragment,container,false);
         EditText fullnameET = rootView.findViewById(R.id.fullname_input);
         String fullname = fullnameET.getText().toString();
-        EditText usernameET = rootView.findViewById(R.id.username_input);
-        String username = usernameET.getText().toString();
         EditText emailET = rootView.findViewById(R.id.email_input);
         String email = emailET.getText().toString();
         EditText passwordET = rootView.findViewById(R.id.password_input);
         String password = passwordET.getText().toString();
         EditText passwordConfET = rootView.findViewById(R.id.confirmPassword_input);
-        String passwordConf = passwordConfET.getText().toString();
+        //String passwordConf = passwordConfET.getText().toString();
         TextView note = rootView.findViewById(R.id.note);
-        User user=User.getInstance();
+        user=User.getInstance();
         Button registerBtn = rootView.findViewById(R.id.register_btn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(fullnameET.getText().toString().isEmpty()||usernameET.getText().toString().isEmpty()||emailET.getText().toString().isEmpty()||passwordET.getText().toString().isEmpty()||passwordConfET.getText().toString().isEmpty()){
+                if(fullnameET.getText().toString().isEmpty()||emailET.getText().toString().isEmpty()||passwordET.getText().toString().isEmpty()||passwordConfET.getText().toString().isEmpty()){
                     note.setText("Please fill all fields");
                 }
                 else if(!passwordET.getText().toString().equals(passwordConfET.getText().toString())){
                     note.setText("Make sure the password is correct");
                 }
                 else{
-                    user.getFirebaseAuth().createUserWithEmailAndPassword(emailET.getText().toString(),passwordET.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                   /* user.getFirebaseAuth().createUserWithEmailAndPassword(emailET.getText().toString(),passwordET.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
@@ -78,8 +77,9 @@ public class RegisterFragment extends DialogFragment {
                                 note.setText(task.getException().getMessage());
                             }
                         }
-                    });
-                    callBack.onRegister(fullname,username,email,password);
+                    });*/
+                     user.CreateUser(fullnameET.getText().toString(),emailET.getText().toString(),passwordET.getText().toString());
+                    callBack.onRegister(fullnameET.getText().toString(),emailET.getText().toString(),passwordET.getText().toString());
                 }
             }
         });

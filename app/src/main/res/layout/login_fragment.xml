@@ -27,15 +27,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/username"
+                android:text="@string/email"
                 android:textColor="@color/black"
                 android:layout_marginTop="20dp"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/enter_username"
+                android:hint="@string/enter_email"
+                android:textSize="15sp"
                 android:background="@drawable/edittextshape"
-                android:id="@+id/username_login"/>
+                android:id="@+id/email_login"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -48,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_password"
                 android:background="@drawable/edittextshape"
+                android:textSize="15sp"
                 android:id="@+id/password_login"/>
         </LinearLayout>
     </ScrollView>

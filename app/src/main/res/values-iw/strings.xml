@@ -6,6 +6,7 @@
     <string name="choose_action">בחר כיצד ברצונך להתחבר</string>
     <string name="sign_in">התחבר</string>
     <string name="Sign_up">הרשם</string>
+    <string name="Sign_out">התנתק</string>
     <string name="register_title">צור חשבון חדש</string>
     <string name="name">שם</string>
     <string name="enter_name">הכנס את שמך המלא</string>

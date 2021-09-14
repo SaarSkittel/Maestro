@@ -71,42 +71,45 @@
         android:layout_margin="20dp"
         android:background="@color/black"/>
 
-    <androidx.viewpager.widget.ViewPager
+<Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Add comment"
+    android:id="@+id/add_comment_btn">
+
+</Button>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/pager">
-
-        <androidx.viewpager.widget.PagerTabStrip
-            android:id="@+id/pager_header"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp" />
-
-    </androidx.viewpager.widget.ViewPager>
-    <!--
-       < <ScrollView
-            android:id="@+id/content"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:id="@+id/recycleView_aboutCourse"/>
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/chat_btn"
+                android:id="@+id/chat_et"/>
 
-            <TextView
-                style="?android:textAppearanceMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingMultiplier="1.2"
-                android:padding="16dp"
-                android:text="lorem_ipsum" />
-            <TextView
-                style="?android:textAppearanceMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingMultiplier="1.2"
-                android:padding="16dp"
-                android:text="sssss" />
-        </ScrollView>
--->
+
+        </RelativeLayout>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_margin="20dp"
+        android:background="@color/black"/>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"

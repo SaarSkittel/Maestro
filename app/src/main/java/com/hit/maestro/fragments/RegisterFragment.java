@@ -78,9 +78,10 @@ public class RegisterFragment extends DialogFragment {
                             }
                         }
                     });*/
-                     user.CreateUser(fullnameET.getText().toString(),emailET.getText().toString(),passwordET.getText().toString());
-                     callBack.onCompleted();
-                     RegisterFragment.this.dismiss();
+                    note.setText("Sign up successful, please wait");
+                    user.CreateUser(fullnameET.getText().toString(),emailET.getText().toString(),passwordET.getText().toString());
+                    callBack.onCompleted();
+                    RegisterFragment.this.dismiss();
                 }
             }
         });

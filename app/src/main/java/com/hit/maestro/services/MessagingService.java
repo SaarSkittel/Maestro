@@ -12,6 +12,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.hit.maestro.DatabaseProxy;
+import com.hit.maestro.User;
 
 public class MessagingService extends FirebaseMessagingService {
     final String TAG="MessagingService";
@@ -51,10 +53,11 @@ public class MessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
-
+        //sender==>sender.chat.setmessage==>messageproxy==>sendmessage(uid)==>fcm==>Receiver.onmessagereceived==>setMessage==>pushnotif
         //sender==>UID==>client==>sender?
         if (remoteMessage.getData().size() > 0) {//from: /topics/A ==>/topics/UID, /topics/guitar
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+
             Intent intent= new Intent("message_received");
             intent.putExtra("message",remoteMessage.getSenderId() + ":" + remoteMessage.getData().get("message"));
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);

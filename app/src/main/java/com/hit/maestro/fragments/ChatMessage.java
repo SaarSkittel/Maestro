@@ -6,6 +6,7 @@ public class ChatMessage {
     private int viewType;
     private String image;
 
+    public ChatMessage(){}
     public ChatMessage(String message, String sender, int viewType, String image) {
         this.message = message;
         this.sender = sender;

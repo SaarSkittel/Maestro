@@ -43,6 +43,7 @@ public class LoginFragment extends DialogFragment {
                     user.SignIn(email,password);
                     if(user.isConnected()){
                         LoginFragment.this.dismiss();
+                        user.getUserData();
                         callback.onCompleted();
                     }
                     else{

@@ -1,5 +1,6 @@
 package com.hit.maestro;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -10,8 +11,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.hit.maestro.fragments.ChatMessage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,6 +28,7 @@ public class User {
     private String fullName;
     private String password;
     private String UID;
+    private FirebaseMessaging messaging=FirebaseMessaging.getInstance();
 
     public List<String> getCourses() {
         return courses;
@@ -107,9 +112,9 @@ public class User {
     }
 
     public void getUserData(){
-        User user = DatabaseProxy.getInstance().getUser(UID);
-        this.chats= user.chats;
-        this.courses= user.courses;
+        //User user = DatabaseProxy.getInstance().getUser(UID);
+       this.chats= DatabaseProxy.getInstance().getChats(getUID());
+       this.courses= DatabaseProxy.getInstance().getCourses(getUID());
     }
     public void setUserData(){
         DatabaseProxy.getInstance().setUser(this);
@@ -123,8 +128,18 @@ public class User {
                 firebaseUser = firebaseAuth.getCurrentUser();
                 if(firebaseUser!=null) {
                     isConnected = true;
+                    courses=new ArrayList<>();
+                    courses.add("electric_guitar");
+                    courses.add("acoustic_guitar");
+                    courses.add("bass_guitar");
+                    courses.add("eran_homo");
+                    chats=new HashMap<String, List<ChatMessage>>();
+                    List<ChatMessage>messages=new ArrayList<ChatMessage>();
                     UID=firebaseUser.getUid();
-                    DatabaseProxy.getInstance().setUser(User.this);
+                    messages.add(new ChatMessage("hello",UID,1, Uri.parse("android.resource://com.hit.maestro/drawable/electric_guitar").toString()));
+                    chats.put(UID,messages);
+                    messaging.subscribeToTopic(UID);
+
                 }
                 else
                     isConnected=false;

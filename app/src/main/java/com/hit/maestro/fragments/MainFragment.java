@@ -82,6 +82,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                         registerFragment.show(getChildFragmentManager(),REGISTER_TAG);
                         break;
                     case R.id.item_sign_out:
+                        user.setUserData();
                         user.SignOut();
                         setNavigationViewSituation(false);
                         break;

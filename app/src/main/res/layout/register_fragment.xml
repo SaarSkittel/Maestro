@@ -30,6 +30,7 @@
                 android:textColor="@color/black"
                 android:layout_marginTop="20dp"/>
             <EditText
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_name"
@@ -45,6 +46,7 @@
                 android:textColor="@color/black"
                 android:layout_marginTop="20dp"/>
             <EditText
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_email"
@@ -59,6 +61,7 @@
                 android:textColor="@color/black"
                 android:layout_marginTop="20dp"/>
             <EditText
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_password"
@@ -73,6 +76,7 @@
                 android:textColor="@color/black"
                 android:layout_marginTop="20dp"/>
             <EditText
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password_again"

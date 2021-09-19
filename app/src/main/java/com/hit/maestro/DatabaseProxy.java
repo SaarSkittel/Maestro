@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hit.maestro.fragments.ChatMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,13 +51,28 @@ public class DatabaseProxy {
         return databaseProxy;
     }
 
-    public void setUser(User user){ //Hash<String,User>
-        database.getReference().child("users").child(user.getUID()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+    public void setUser(User user){ //Hash<String,Hash<String,List<ChatMessage>>,List<String>>
+        DatabaseReference ref=FirebaseDatabase.getInstance().getReference().child("users").child(user.getUID()).child("courses");
+        DatabaseReference ref1=FirebaseDatabase.getInstance().getReference().child("users").child(user.getUID()).child("chats");
+        ref.setValue(user.getCourses()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
 
-                    Log.e(TAG,"success!");
+                    Log.e(TAG,"success export courses!");
+                }
+                else {
+                    Log.e(TAG,task.getException().getMessage());
+                }
+            }
+        });
+
+        ref1.setValue(user.getChats()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+
+                    Log.e(TAG,"success export chats!");
                 }
                 else {
                     Log.e(TAG,task.getException().getMessage());
@@ -65,14 +81,38 @@ public class DatabaseProxy {
         });
     }
 
-    public User getUser(String UID){
-        final User[] user = new User[1];
-        database.getReference().child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+    public List<String> getCourses(String UID){
+        final List<String>[] courses = new List[]{new ArrayList<>()};
+        database.getReference().child("users/"+UID+"/courses").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 if(snapshot.exists()){
-                    user[0] =snapshot.child(UID).getValue(User.class);
+                    courses[0] =(List<String>)snapshot.child(UID).getValue();
+                   /* for (DataSnapshot dataSnapshot:snapshot.getChildren(UID)){
+                        Course course= dataSnapshot.getValue(Course.class);
+                        courseList.add(course);
+                    }*/
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        return courses[0];
+    }
+    public HashMap<String,List<ChatMessage>> getChats(String UID){
+        final HashMap<String, List<ChatMessage>>[] chats = new HashMap[]{new HashMap<String, List<ChatMessage>>()};
+        database.getReference().child("users/"+UID+"/chats").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.exists()){
+                     chats[0] =(HashMap<String,List<ChatMessage>>)snapshot.child(UID).getValue();
                    /* for (DataSnapshot dataSnapshot:snapshot.getChildren(UID)){
                         Course course= dataSnapshot.getValue(Course.class);
                         courseList.add(course);
@@ -86,7 +126,7 @@ public class DatabaseProxy {
             }
         });
 
-        return user[0];
+        return chats[0];
     }
 
    /* public List<Course> getCourses(){

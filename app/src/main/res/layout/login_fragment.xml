@@ -35,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_email"
                 android:textSize="15sp"
+                android:textColor="@color/black"
                 android:background="@drawable/edittextshape"
                 android:id="@+id/email_login"/>
 
@@ -45,6 +46,7 @@
                 android:textColor="@color/black"
                 android:layout_marginTop="20dp"/>
             <EditText
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_password"

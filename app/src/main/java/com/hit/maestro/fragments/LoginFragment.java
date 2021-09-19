@@ -16,6 +16,11 @@ import com.hit.maestro.User;
 public class LoginFragment extends DialogFragment {
 
     User user;
+    RegisterFragment.OnCompletedFragmentListener callback;
+
+    public LoginFragment(RegisterFragment.OnCompletedFragmentListener callback) {
+        this.callback = callback;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,6 +43,7 @@ public class LoginFragment extends DialogFragment {
                     user.SignIn(email,password);
                     if(user.isConnected()){
                         LoginFragment.this.dismiss();
+                        callback.onCompleted();
                     }
                     else{
                         note.setText("The username or password is incorrect");

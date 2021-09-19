@@ -42,7 +42,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 
-public class MainFragment extends Fragment implements RegisterFragment.OnRegisterFragmentListener, RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener {
+public class MainFragment extends Fragment implements RegisterFragment.OnCompletedFragmentListener, RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener {
     View view;
     final String REGISTER_TAG="1";
     final String REGISTER_OR_LOGIN_TAG="2";
@@ -74,11 +74,11 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
                 drawerLayout.closeDrawers();
                 switch (item.getItemId()){
                     case R.id.item_sign_in:
-                        loginFragment = new LoginFragment();
+                        loginFragment = new LoginFragment((RegisterFragment.OnCompletedFragmentListener)MainFragment.this);
                         loginFragment.show(getChildFragmentManager(),LOGIN_TAG);
                         break;
                     case R.id.item_sign_up:
-                        registerFragment=new RegisterFragment((RegisterFragment.OnRegisterFragmentListener)MainFragment.this);
+                        registerFragment=new RegisterFragment((RegisterFragment.OnCompletedFragmentListener)MainFragment.this);
                         registerFragment.show(getChildFragmentManager(),REGISTER_TAG);
                         break;
                     case R.id.item_sign_out:
@@ -183,14 +183,14 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
 */
 
     @Override
-    public void onRegister(String fullname, String email, String password) {
-        registerFragment.dismiss();
+    public void onCompleted() {
+        setNavigationViewSituation(user.isConnected());
     }
 
     @Override
     public void onSignInFromRegisterFragment() {
         registerFragment.dismiss();
-        loginFragment = new LoginFragment();
+        loginFragment = new LoginFragment((RegisterFragment.OnCompletedFragmentListener)this);
         loginFragment.show(getChildFragmentManager(),LOGIN_TAG);
     }
 
@@ -199,12 +199,8 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
         //Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(REGISTER_OR_LOGIN_TAG);
         //getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         registerOrLoginFragment.dismiss();
-        loginFragment = new LoginFragment();
+        loginFragment = new LoginFragment((RegisterFragment.OnCompletedFragmentListener)this);
         loginFragment.show(getChildFragmentManager(),LOGIN_TAG);
-        if(user.isConnected()) {
-            setNavigationViewSituation(true);
-            helloTv.setText("hello" + user.getFullName());
-        }
     }
 
     @Override
@@ -212,12 +208,9 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
         //Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(REGISTER_OR_LOGIN_TAG);
         //getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         registerOrLoginFragment.dismiss();
-        registerFragment=new RegisterFragment((RegisterFragment.OnRegisterFragmentListener)this);
+        registerFragment=new RegisterFragment((RegisterFragment.OnCompletedFragmentListener)this);
         registerFragment.show(getChildFragmentManager(),REGISTER_TAG);
-        if(user.isConnected()) {
-            setNavigationViewSituation(true);
-            helloTv.setText("hello" + user.getFullName());
-        }
+        //setNavigationViewSituation(user.isConnected());
     }
 
     @Override
@@ -236,5 +229,11 @@ public class MainFragment extends Fragment implements RegisterFragment.OnRegiste
         navigationView.getMenu().findItem(R.id.item_sign_in).setVisible(!signOutStatus);
         navigationView.getMenu().findItem(R.id.item_sign_up).setVisible(!signOutStatus);
         navigationView.getMenu().findItem(R.id.item_sign_out).setVisible(signOutStatus);
+        if(signOutStatus){
+            helloTv.setText("hello " + user.getFullName());
+        }
+        else{
+            helloTv.setText("hello");
+        }
     }
 }

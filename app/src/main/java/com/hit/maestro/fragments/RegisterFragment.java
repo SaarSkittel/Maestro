@@ -24,15 +24,15 @@ import com.hit.maestro.User;
 
 public class RegisterFragment extends DialogFragment {
 
-    interface OnRegisterFragmentListener{
-        void onRegister(String fullname,String email, String password);
+    interface OnCompletedFragmentListener{
+        void onCompleted();
         void onSignInFromRegisterFragment();
     }
 
     User user;
-    OnRegisterFragmentListener callBack;
+    OnCompletedFragmentListener callBack;
 
-    public RegisterFragment(OnRegisterFragmentListener callBack) {
+    public RegisterFragment(OnCompletedFragmentListener callBack) {
         this.callBack = callBack;
     }
 
@@ -79,7 +79,8 @@ public class RegisterFragment extends DialogFragment {
                         }
                     });*/
                      user.CreateUser(fullnameET.getText().toString(),emailET.getText().toString(),passwordET.getText().toString());
-                    callBack.onRegister(fullnameET.getText().toString(),emailET.getText().toString(),passwordET.getText().toString());
+                     callBack.onCompleted();
+                     RegisterFragment.this.dismiss();
                 }
             }
         });

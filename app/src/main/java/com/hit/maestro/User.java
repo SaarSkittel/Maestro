@@ -1,5 +1,7 @@
 package com.hit.maestro;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,6 +20,7 @@ public class User {
     private String fullName;
     private String password;
     private boolean isConnected;
+    final String TAG = "Connected";
 
     public boolean isConnected() {
         return isConnected;
@@ -132,11 +135,13 @@ public class User {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    user.getFirebaseUser().updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(i_fullName).build());
                     isConnected=true;
+                    user.getFirebaseUser().updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(i_fullName).build());
+                    Log.d(TAG,"Sign up successful");
                 }
                 else {
                     isConnected=false;
+                    Log.d(TAG,task.getException().getMessage());
                 }
             }
         });
@@ -148,12 +153,14 @@ public class User {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     isConnected=true;
+                    Log.d(TAG,"Sign in successful");
                     fullName = firebaseUser.getDisplayName();
                     email = i_email;
                     password = i_password;
                 }
                 else{
                     isConnected=false;
+                    Log.d(TAG,task.getException().getMessage());
                 }
             }
         });

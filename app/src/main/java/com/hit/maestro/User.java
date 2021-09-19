@@ -10,6 +10,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.hit.maestro.fragments.ChatMessage;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class User {
     private FirebaseUser firebaseUser;
@@ -19,7 +23,33 @@ public class User {
     private String email;
     private String fullName;
     private String password;
+    private String UID;
+
+    public List<String> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<String> courses) {
+        this.courses = courses;
+    }
+
+    public HashMap<String, List<ChatMessage>> getChats() {
+        return chats;
+    }
+
+    public void setChats(HashMap<String, List<ChatMessage>> chats) {
+        this.chats = chats;
+    }
+
+    private List<String> courses;
+    private HashMap<String, List<ChatMessage>>chats;
+
+    public String getUID() {
+        return UID;
+    }
+
     private boolean isConnected;
+
     final String TAG = "Connected";
 
     public boolean isConnected() {
@@ -76,6 +106,14 @@ public class User {
         this.authStateListener = authStateListener;
     }
 
+    public void getUserData(){
+        User user = DatabaseProxy.getInstance().getUser(UID);
+        this.chats= user.chats;
+        this.courses= user.courses;
+    }
+    public void setUserData(){
+        DatabaseProxy.getInstance().setUser(this);
+    }
     private User(){
 
         firebaseAuth=FirebaseAuth.getInstance();
@@ -83,8 +121,11 @@ public class User {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 firebaseUser = firebaseAuth.getCurrentUser();
-                if(firebaseUser!=null)
-                    isConnected=true;
+                if(firebaseUser!=null) {
+                    isConnected = true;
+                    UID=firebaseUser.getUid();
+                    DatabaseProxy.getInstance().setUser(User.this);
+                }
                 else
                     isConnected=false;
             }

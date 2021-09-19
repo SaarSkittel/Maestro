@@ -51,10 +51,12 @@ public class MessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
+
+        //sender==>UID==>client==>sender?
         if (remoteMessage.getData().size() > 0) {//from: /topics/A ==>/topics/UID, /topics/guitar
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             Intent intent= new Intent("message_received");
-            intent.putExtra("message",remoteMessage.getSenderId()+ ":" + remoteMessage.getData().get("message"));
+            intent.putExtra("message",remoteMessage.getSenderId() + ":" + remoteMessage.getData().get("message"));
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
         }

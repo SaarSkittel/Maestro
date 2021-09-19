@@ -165,7 +165,8 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
 
 
         return view;
-    }/*
+    }
+    /*
     @Override
     public void onSignInFromRegisterFragment(){
         Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(REGISTER_TAG);//ליצור תג במיין

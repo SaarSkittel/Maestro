@@ -16,13 +16,13 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public  class MessagingProxy {
+public class MessagingProxy {
     final String APP_KEY="AAAAiElpjxU:APA91bG3BKh_XjVfcxfGQS8BNHPsH00gveXrxPrrBSn23AuRyw0l-dNqL0wkuW8gU3N-A5ro-9Reanf2pED2JQYlnWl9fXjfC6yT6GJKeXKFa-ZiQYFYd34uan6do614a6yUf-nGJ2mi";
     public void SendMessage(String to, String message, Context context){
         JSONObject jsonObject= new JSONObject();
 
         try {
-            jsonObject.put("to","/topics/"+to);
+            jsonObject.put("to","/topics/" + to);
             jsonObject.put("data",new JSONObject().put("message",message));
             String url="https://fcm.googleapis.com/fcm/send";
             RequestQueue queue= Volley.newRequestQueue(context);

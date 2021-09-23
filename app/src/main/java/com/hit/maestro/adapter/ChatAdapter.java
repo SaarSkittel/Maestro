@@ -23,7 +23,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        if(viewType==1){
+        if(viewType==2){
             view= LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_sender_cell,parent,false);
         }
         else{
@@ -35,7 +35,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        return chatMessages.get(position).getViewType();
+        return (int)chatMessages.get(position).getViewType();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         ShapeableImageView image;
         public ChatViewHolder(@NonNull View itemView,int viewType) {
             super(itemView);
-            if(viewType==1){
+            if(viewType==2){
                 text =(MaterialTextView) itemView.findViewById(R.id.sender_text);
                 image= itemView.findViewById(R.id.sender_image);
 

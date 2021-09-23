@@ -84,7 +84,7 @@ public class DatabaseProxy {
         });
     }
 
-    public List<String> getCourses(String UID){
+   public List<String> getCourses(String UID){
         final List<String>[] courses = new List[]{new ArrayList<>()};
         database.getReference().child("users/"+UID+"/courses").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

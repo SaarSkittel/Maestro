@@ -1,12 +1,14 @@
 package com.hit.maestro.proxy;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,19 +34,29 @@ public class MessagingProxy {
         try {
             User user=User.getInstance();
             jsonObject.put("to","/topics/" + to);
-            jsonObject.put("data",new JSONObject().put("message",message));
+            jsonObject.put("data",new JSONObject().put("message",message).put("UID",user.getUID()));
             String url="https://fcm.googleapis.com/fcm/send";
             RequestQueue queue= Volley.newRequestQueue(context);
             StringRequest request=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-
+                    ChatMessage chatMessage=new ChatMessage(message,user.getFullName(),user.getUID(),"");
+                    //ChatMessage chatMessage=new ChatMessage(user.getFirebaseUser().getPhotoUrl().toString(),user.getFullName(),user.g
+                    DatabaseReference reference;
+                    if (isUser){
+                        //DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to).setValue(I);
+                        //reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to);
+                        reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to);
+                    }else {
+                        reference=DatabaseProxy.getInstance().getDatabase().getReference("/chats/").child(to);
+                    }
+                    reference.push().setValue(chatMessage);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-
+                    Log.d("VOLLEY_IS_SHIT",error.toString());
                     //Send message when something goes wrong
 
                 }
@@ -64,18 +76,6 @@ public class MessagingProxy {
             };
             queue.add(request);
             queue.start();
-
-            ChatMessage chatMessage=new ChatMessage(message,user.getEmail(),user.getUID(),"");
-            //ChatMessage chatMessage=new ChatMessage(user.getFirebaseUser().getPhotoUrl().toString(),user.getFullName(),user.g
-            DatabaseReference reference;
-            if (isUser){
-
-                //DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to).setValue(I);
-                reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to);
-            }else {
-                reference=DatabaseProxy.getInstance().getDatabase().getReference("/chats/").child(to);
-            }
-            reference.push().setValue(chatMessage);
 
         } catch (JSONException e) {
             e.printStackTrace();

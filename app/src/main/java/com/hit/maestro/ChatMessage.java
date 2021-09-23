@@ -6,26 +6,26 @@ import java.util.Map;
 public class ChatMessage  {
     private String message;
     private String sender;
-    private Integer viewType;
+    private long viewType;
     private String image;
 
     public ChatMessage(){}
     public ChatMessage(Map<String,Object> map){
         this.message = (String)map.get("message");
         this.sender = (String)map.get("sender");
-        this.viewType=(Integer)map.get("viewType");
+        this.viewType=(long)map.get("viewType");
         this.image = (String)map.get("image");
     }
     public ChatMessage(String message, String sender, String UID, String image) {
         this.message = message;
-        if(sender.matches(User.getInstance().getFullName())){
+        if(UID.matches(User.getInstance().getUID())){
             this.sender="Me";
         }
         else this.sender = sender;
         if(UID.matches(User.getInstance().getUID())) {
-            this.viewType = 0;
+            this.viewType = 1;
         }
-        else this.viewType=1;
+        else this.viewType=2;
         this.image = image;
     }
 
@@ -45,11 +45,11 @@ public class ChatMessage  {
         this.sender = sender;
     }
 
-    public Integer getViewType() {
+    public long getViewType() {
         return viewType;
     }
 
-    public void setViewType(int viewType) {
+    public void setViewType(long viewType) {
         this.viewType = viewType;
     }
 

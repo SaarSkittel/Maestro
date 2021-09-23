@@ -1,5 +1,6 @@
 package com.hit.maestro.fragments;
 
+import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,14 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hit.maestro.User;
 import com.hit.maestro.adapter.ChatAdapter;
@@ -24,9 +33,13 @@ import com.hit.maestro.ChatMessage;
 import com.hit.maestro.R;
 import com.hit.maestro.proxy.MessagingProxy;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChatFragment extends Fragment {
 
@@ -43,13 +56,16 @@ public class ChatFragment extends Fragment {
         view=inflater.inflate(R.layout.chat_fragment,container,false);
         message=view.findViewById(R.id.chat_et);
         sendButton=view.findViewById(R.id.chat_btn);
-
-        String UID="PvDzqcHS5HcXNTGFtyJLQO6uPN02";
+        String UID;
+        if(User.getInstance().getUID().matches("eJgWfwkxGUZws5wwQujsy5lAXzX2")){
+            UID="AxF0O2nYNcfq8Fr8LHvqajWmmOV2";
+        }
+        else UID="eJgWfwkxGUZws5wwQujsy5lAXzX2";
         //if( User.getInstance().getChats()==null) User.getInstance().getChats().put(UID,new ArrayList<ChatMessage>());
         if(User.getInstance().getChats().containsKey(UID)==false)
             User.getInstance().getChats().put(UID,new  HashMap<String, HashMap<String, Object>>());
 
-        //chatMessages=User.getInstance().getChatById(UID);
+        chatMessages=User.getInstance().getChatById(UID);
         adapter=new ChatAdapter(User.getInstance().getChatById(UID));
 
         recyclerView=view.findViewById(R.id.chat_rv);
@@ -60,7 +76,7 @@ public class ChatFragment extends Fragment {
         newMessageReceived=new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                //chatMessages=User.getInstance().getChatById(UID);
+                chatMessages=User.getInstance().getChatById(UID);
                 adapter.notifyDataSetChanged();
             }
         };
@@ -72,6 +88,5 @@ public class ChatFragment extends Fragment {
             }
         });
         return view;
-
+        }
     }
-}

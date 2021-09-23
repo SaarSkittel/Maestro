@@ -6,6 +6,7 @@ import android.os.IBinder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,6 +41,8 @@ public class ChatService extends Service {
                 if(snapshot.exists()){
                     chats[0] =(HashMap<String, HashMap<String, HashMap<String, Object>>>)snapshot.getValue();
                     user.setChats(chats[0]);
+                    Intent intent= new Intent("message_received");
+                    LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
                 }
 
             }

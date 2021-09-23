@@ -10,6 +10,9 @@
         <action
             android:id="@+id/action_mainFragment_to_courseFragment"
             app:destination="@id/courseFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
     <fragment
         android:id="@+id/courseFragment"
@@ -23,4 +26,8 @@
         android:id="@+id/lessonFragment"
         android:name="com.hit.maestro.fragments.LessonFragment"
         android:label="LessonFragment" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.hit.maestro.fragments.ChatFragment"
+        android:label="ChatFragment" />
 </navigation>

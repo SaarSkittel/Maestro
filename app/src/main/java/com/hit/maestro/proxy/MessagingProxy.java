@@ -9,19 +9,28 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.hit.maestro.ChatMessage;
+import com.hit.maestro.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.annotation.Documented;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MessagingProxy {
-    final String APP_KEY="AAAAiElpjxU:APA91bG3BKh_XjVfcxfGQS8BNHPsH00gveXrxPrrBSn23AuRyw0l-dNqL0wkuW8gU3N-A5ro-9Reanf2pED2JQYlnWl9fXjfC6yT6GJKeXKFa-ZiQYFYd34uan6do614a6yUf-nGJ2mi";
-    public void SendMessage(String to, String message, Context context){
-        JSONObject jsonObject= new JSONObject();
 
+    public static void SendMessageTo(String to, String message,Boolean isUser, Context context){
+        JSONObject jsonObject= new JSONObject();
+        final String APP_KEY="AAAAiElpjxU:APA91bG3BKh_XjVfcxfGQS8BNHPsH00gveXrxPrrBSn23AuRyw0l-dNqL0wkuW8gU3N-A5ro-9Reanf2pED2JQYlnWl9fXjfC6yT6GJKeXKFa-ZiQYFYd34uan6do614a6yUf-nGJ2mi";
         try {
+            User user=User.getInstance();
             jsonObject.put("to","/topics/" + to);
             jsonObject.put("data",new JSONObject().put("message",message));
             String url="https://fcm.googleapis.com/fcm/send";
@@ -55,6 +64,18 @@ public class MessagingProxy {
             };
             queue.add(request);
             queue.start();
+
+            ChatMessage chatMessage=new ChatMessage(message,user.getEmail(),user.getUID(),"");
+            //ChatMessage chatMessage=new ChatMessage(user.getFirebaseUser().getPhotoUrl().toString(),user.getFullName(),user.g
+            DatabaseReference reference;
+            if (isUser){
+
+                //DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to).setValue(I);
+                reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to);
+            }else {
+                reference=DatabaseProxy.getInstance().getDatabase().getReference("/chats/").child(to);
+            }
+            reference.push().setValue(chatMessage);
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -1,4 +1,4 @@
-package com.hit.maestro;
+package com.hit.maestro.adapter;
 
 import android.content.Context;
 import android.os.Bundle;

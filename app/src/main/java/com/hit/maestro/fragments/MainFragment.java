@@ -1,8 +1,6 @@
 package com.hit.maestro.fragments;
 
-import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -13,34 +11,25 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.hit.maestro.Course;
-import com.hit.maestro.DatabaseProxy;
-import com.hit.maestro.Lesson;
+import com.hit.maestro.adapter.CourseAdapter;
+import com.hit.maestro.proxy.DatabaseProxy;
 import com.hit.maestro.R;
-import com.hit.maestro.Subject;
 import com.hit.maestro.User;
+import com.hit.maestro.services.ChatService;
 
-import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Observable;
 
 public class MainFragment extends Fragment implements RegisterFragment.OnCompletedFragmentListener, RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener {
     View view;
@@ -58,6 +47,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     DatabaseProxy proxy;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+    Button test;
     User user;
     @Nullable
     @Override
@@ -65,6 +55,13 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         view=inflater.inflate(R.layout.main_fragment,container,false);
 
         user = User.getInstance();
+        test=view.findViewById(R.id.test);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_chatFragment);
+            }
+        });
         helloTv = view.findViewById(R.id.hello_tv);
         drawerLayout=view.findViewById(R.id.drawer_Layout);
         navigationView=view.findViewById(R.id.navigation_view);
@@ -232,7 +229,9 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         navigationView.getMenu().findItem(R.id.item_sign_up).setVisible(!signOutStatus);
         navigationView.getMenu().findItem(R.id.item_sign_out).setVisible(signOutStatus);
         if(signOutStatus){
+            Intent intent=new Intent(getActivity(), ChatService.class);
             helloTv.setText("hello " + user.getFullName());
+            getActivity().startService(intent);
         }
         else{
             helloTv.setText("hello");

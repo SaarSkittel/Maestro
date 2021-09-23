@@ -1,12 +1,8 @@
-package com.hit.maestro;
+package com.hit.maestro.proxy;
 
-import android.app.PendingIntent;
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -15,7 +11,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hit.maestro.fragments.ChatMessage;
+import com.hit.maestro.ChatMessage;
+import com.hit.maestro.Course;
+import com.hit.maestro.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +21,11 @@ import java.util.List;
 
 public class DatabaseProxy {
     private static DatabaseProxy databaseProxy=null;
+
+    public FirebaseDatabase getDatabase() {
+        return database;
+    }
+
     private FirebaseDatabase database;
     private DatabaseReference courses;
     private List<Course> courseList;
@@ -105,6 +108,7 @@ public class DatabaseProxy {
 
         return courses[0];
     }
+    /*
     public HashMap<String,List<ChatMessage>> getChats(String UID){
         final HashMap<String, List<ChatMessage>>[] chats = new HashMap[]{new HashMap<String, List<ChatMessage>>()};
         database.getReference().child("users/"+UID+"/chats").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -112,11 +116,11 @@ public class DatabaseProxy {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 if(snapshot.exists()){
-                     chats[0] =(HashMap<String,List<ChatMessage>>)snapshot.child(UID).getValue();
-                   /* for (DataSnapshot dataSnapshot:snapshot.getChildren(UID)){
+                     chats[0] =(HashMap<String,List<ChatMessage>>)snapshot.getValue();
+                    for (DataSnapshot dataSnapshot:snapshot.getChildren(UID)){
                         Course course= dataSnapshot.getValue(Course.class);
                         courseList.add(course);
-                    }*/
+                    }
                 }
             }
 
@@ -127,7 +131,7 @@ public class DatabaseProxy {
         });
 
         return chats[0];
-    }
+    }*/
 
    /* public List<Course> getCourses(){
 

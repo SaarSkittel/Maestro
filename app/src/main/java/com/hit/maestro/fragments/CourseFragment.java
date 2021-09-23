@@ -13,7 +13,7 @@ import androidx.navigation.Navigation;
 
 import com.hit.maestro.Course;
 import com.hit.maestro.R;
-import com.hit.maestro.SubjectAdapter;
+import com.hit.maestro.adapter.SubjectAdapter;
 
 public class CourseFragment extends Fragment {
     View view;

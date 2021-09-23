@@ -3,9 +3,7 @@ package com.hit.maestro.fragments;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -19,12 +17,12 @@ import android.widget.TextView;
 import com.hit.maestro.Course;
 import com.hit.maestro.R;
 import com.hit.maestro.Reaction;
-import com.hit.maestro.ReactionAdapter;
+import com.hit.maestro.adapter.ReactionAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AboutCourse extends Fragment {
+public class AboutCourseFragment extends Fragment {
 
     View view;
     TextView CourseNameTv,LecturerNameTv,DescriptionTv;

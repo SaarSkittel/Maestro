@@ -1,4 +1,4 @@
-package com.hit.maestro;
+package com.hit.maestro.adapter;
 
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
-import com.hit.maestro.fragments.ChatMessage;
+import com.hit.maestro.ChatMessage;
+import com.hit.maestro.R;
 
 import java.util.List;
 

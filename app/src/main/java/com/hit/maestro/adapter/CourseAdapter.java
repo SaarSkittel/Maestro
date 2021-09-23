@@ -1,9 +1,8 @@
-package com.hit.maestro.fragments;
+package com.hit.maestro.adapter;
 
 
 import android.net.Uri;
 
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     public List<Course> course;
     private myCourseListener listener;
 
-    interface myCourseListener {
+     public interface myCourseListener {
         void onCourseClicked(int position, View view);
     }
 

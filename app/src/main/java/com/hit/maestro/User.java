@@ -1,6 +1,5 @@
 package com.hit.maestro;
 
-import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,13 +10,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.hit.maestro.fragments.ChatMessage;
+import com.hit.maestro.proxy.DatabaseProxy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class User {
     private FirebaseUser firebaseUser;
@@ -38,16 +37,19 @@ public class User {
         this.courses = courses;
     }
 
-    public HashMap<String, List<ChatMessage>> getChats() {
+    public HashMap<String, HashMap<String, HashMap<String, Object>>> getChats() {
         return chats;
     }
+    public List<ChatMessage> getChatById(String UID){
+        return ChatRoom.ParseMap(user.getChats().get(UID));
+    }
 
-    public void setChats(HashMap<String, List<ChatMessage>> chats) {
+    public void setChats(HashMap<String, HashMap<String, HashMap<String, Object>>> chats) {
         this.chats = chats;
     }
 
     private List<String> courses;
-    private HashMap<String, List<ChatMessage>>chats;
+    private HashMap<String, HashMap<String, HashMap<String, Object>>> chats;
 
     public String getUID() {
         return UID;
@@ -113,7 +115,7 @@ public class User {
 
     public void getUserData(){
         //User user = DatabaseProxy.getInstance().getUser(UID);
-       this.chats= DatabaseProxy.getInstance().getChats(getUID());
+       //this.chats= DatabaseProxy.getInstance().getChats(getUID());
        this.courses= DatabaseProxy.getInstance().getCourses(getUID());
     }
     public void setUserData(){
@@ -133,11 +135,10 @@ public class User {
                     courses.add("acoustic_guitar");
                     courses.add("bass_guitar");
                     courses.add("eran_homo");
-                    chats=new HashMap<String, List<ChatMessage>>();
+                    chats= new HashMap<String, HashMap<String, HashMap<String, Object>>>();
                     List<ChatMessage>messages=new ArrayList<ChatMessage>();
                     UID=firebaseUser.getUid();
-                    messages.add(new ChatMessage("hello",UID,1, Uri.parse("android.resource://com.hit.maestro/drawable/electric_guitar").toString()));
-                    chats.put(UID,messages);
+                    //chats.put(UID,messages);
                     messaging.subscribeToTopic(UID);
 
                 }

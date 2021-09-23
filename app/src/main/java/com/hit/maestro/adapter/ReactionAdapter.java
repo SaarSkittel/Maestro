@@ -1,4 +1,4 @@
-package com.hit.maestro;
+package com.hit.maestro.adapter;
 
 
 import android.graphics.Bitmap;
@@ -13,6 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.hit.maestro.R;
+import com.hit.maestro.Reaction;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

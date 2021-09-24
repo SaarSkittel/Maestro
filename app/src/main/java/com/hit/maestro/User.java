@@ -37,19 +37,28 @@ public class User {
         this.courses = courses;
     }
 
-    public HashMap<String, HashMap<String, HashMap<String, Object>>> getChats() {
+    public HashMap<String, List<ChatMessage>> getChats() {
         return chats;
     }
-    public List<ChatMessage> getChatById(String UID){
-        return ChatRoom.ParseMap(user.getChats().get(UID));
-    }
 
-    public void setChats(HashMap<String, HashMap<String, HashMap<String, Object>>> chats) {
+    public void setChats(HashMap<String, List<ChatMessage>> chats) {
         this.chats = chats;
     }
+/* public HashMap<String, HashMap<String, HashMap<String, Object>>> getChats() {
+        return chats;
+    }*/
+    public List<ChatMessage> getChatById(String UID){
+        //return ChatRoom.ParseMap(user.getChats().get(UID));
+        return chats.get(UID);
+    }
+
+   /* public void setChats(HashMap<String, HashMap<String, HashMap<String, Object>>> chats) {
+        this.chats = chats;
+    }*/
 
     private List<String> courses;
-    private HashMap<String, HashMap<String, HashMap<String, Object>>> chats;
+    //private HashMap<String, HashMap<String, HashMap<String, Object>>> chats;
+    private HashMap<String,List<ChatMessage>> chats;
 
     public String getUID() {
         return UID;
@@ -139,7 +148,8 @@ public class User {
                     courses.add("acoustic_guitar");
                     courses.add("bass_guitar");
                     courses.add("eran_homo");
-                    chats= new HashMap<String, HashMap<String, HashMap<String, Object>>>();
+                    chats=new HashMap<String,List<ChatMessage>>(0);
+                    //chats= new HashMap<String, HashMap<String, HashMap<String, Object>>>();
                     List<ChatMessage>messages=new ArrayList<ChatMessage>();
                     UID=firebaseUser.getUid();
                     //chats.put(UID,messages);
@@ -237,6 +247,7 @@ public class User {
     public void SignOut(){
         firebaseAuth.signOut();
         isConnected=false;
+        messaging.subscribeToTopic(UID);
     }
 
     public boolean CheckStatus(){

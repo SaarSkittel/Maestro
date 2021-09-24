@@ -3,7 +3,7 @@ package com.hit.maestro;
 import java.io.Serializable;
 import java.util.Map;
 
-public class ChatMessage  {
+public class ChatMessage implements Serializable {
     private String message;
     private String sender;
     private long viewType;

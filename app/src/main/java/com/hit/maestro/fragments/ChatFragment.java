@@ -63,7 +63,8 @@ public class ChatFragment extends Fragment {
         else UID="eJgWfwkxGUZws5wwQujsy5lAXzX2";
         //if( User.getInstance().getChats()==null) User.getInstance().getChats().put(UID,new ArrayList<ChatMessage>());
         if(User.getInstance().getChats().containsKey(UID)==false)
-            User.getInstance().getChats().put(UID,new  HashMap<String, HashMap<String, Object>>());
+            //User.getInstance().getChats().put(UID,new  HashMap<String, HashMap<String, Object>>());
+            User.getInstance().getChats().put(UID,new ArrayList<ChatMessage>());
 
         chatMessages=User.getInstance().getChatById(UID);
         adapter=new ChatAdapter(User.getInstance().getChatById(UID));

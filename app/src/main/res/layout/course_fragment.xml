@@ -5,11 +5,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:id="@+id/course_nsv">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/course_title"
+        android:text="ddddddddddddddd"
+        android:textSize="20sp"/>
+
     <ExpandableListView
         android:id="@+id/subject_elv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="0.5dp"
+        android:layout_below="@+id/course_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

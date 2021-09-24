@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.hit.maestro.R;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 public class LessonFragment extends Fragment {
     View view;
@@ -19,6 +20,8 @@ public class LessonFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.lesson_fragment,container,false);
 
+        YouTubePlayerView youTubePlayer = view.findViewById(R.id.youtube_player_view);
+        String videoId; //from bundle
         return view;
     }
 }

@@ -51,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_email"
                 android:background="@drawable/edittextshape"
+                android:inputType="textEmailAddress"
                 android:textSize="13sp"
                 android:id="@+id/email_input"/>
 
@@ -67,6 +68,7 @@
                 android:hint="@string/enter_password"
                 android:background="@drawable/edittextshape"
                 android:textSize="13sp"
+                android:inputType="textPassword"
                 android:id="@+id/password_input"/>
 
             <TextView
@@ -81,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/password_again"
                 android:background="@drawable/edittextshape"
-
+                android:inputType="textPassword"
                 android:textSize="13sp"
                 android:id="@+id/confirmPassword_input"/>
         </LinearLayout>

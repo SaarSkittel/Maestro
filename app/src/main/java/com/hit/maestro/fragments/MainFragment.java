@@ -1,7 +1,9 @@
 package com.hit.maestro.fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +33,8 @@ import com.hit.maestro.services.ChatService;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class MainFragment extends Fragment implements RegisterFragment.OnCompletedFragmentListener, RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener {
     View view;
     final String REGISTER_TAG="1";
@@ -49,11 +53,13 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     NavigationView navigationView;
     Button test;
     User user;
+    SharedPreferences sp;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.main_fragment,container,false);
 
+        sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
         user = User.getInstance();
         test=view.findViewById(R.id.test);
         test.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +94,8 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                 return false;
             }
         });
-        setNavigationViewSituation(false);
+        //boolean connected = sp.getBoolean("status",false);
+        setNavigationViewSituation(user.isConnected()?true:false);
         proxy= DatabaseProxy.getInstance();
 /*
         List<Lesson> lessons =new ArrayList<Lesson>();
@@ -139,6 +146,9 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         adapter.setListener(new CourseAdapter.myCourseListener() {
             @Override
             public void onCourseClicked(int position, View view) {
+                /*SharedPreferences.Editor editor = sp.edit();
+                editor.putBoolean("status", user.isConnected());
+                editor.commit();*/
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("Course", courseList.get(position));
                 Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_courseFragment,bundle);
@@ -224,17 +234,27 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         user.RemoveListener();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     private void setNavigationViewSituation(boolean signOutStatus){
         navigationView.getMenu().findItem(R.id.item_sign_in).setVisible(!signOutStatus);
         navigationView.getMenu().findItem(R.id.item_sign_up).setVisible(!signOutStatus);
         navigationView.getMenu().findItem(R.id.item_sign_out).setVisible(signOutStatus);
         if(signOutStatus){
             Intent intent=new Intent(getActivity(), ChatService.class);
-            helloTv.setText("hello " + user.getFullName());
+            helloTv.setText("hello " + user.getEmail());
             getActivity().startService(intent);
         }
         else{
-            helloTv.setText("hello");
+            helloTv.setText("Guest mode");
         }
     }
 }

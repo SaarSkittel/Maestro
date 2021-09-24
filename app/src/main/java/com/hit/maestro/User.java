@@ -55,6 +55,10 @@ public class User {
         return UID;
     }
 
+    public void setConnected(boolean connected) {
+        isConnected = connected;
+    }
+
     private boolean isConnected;
 
     final String TAG = "Connected";
@@ -195,10 +199,16 @@ public class User {
                 if(task.isSuccessful()){
                     isConnected=true;
                     user.getFirebaseUser().updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(i_fullName).build());
+                    fullName = i_fullName;
+                    email = i_email;
+                    password = i_password;
                     Log.d(TAG,"Sign up successful");
                 }
                 else {
                     isConnected=false;
+                    fullName = "";
+                    email = "";
+                    password = "";
                     Log.d(TAG,task.getException().getMessage());
                 }
             }
@@ -227,5 +237,14 @@ public class User {
     public void SignOut(){
         firebaseAuth.signOut();
         isConnected=false;
+    }
+
+    public boolean CheckStatus(){
+        boolean status;
+        if(firebaseUser!=null && !firebaseUser.isAnonymous())
+            status=true;
+        else
+            status=false;
+        return status;
     }
 }

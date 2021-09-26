@@ -63,10 +63,7 @@ public class ChatService extends Service {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 if(snapshot.exists()){
-                  /*  chats[0] =(ChatRoom) snapshot.getValue();
-                    user.setChats(chats[0].getMessages());
-                    Intent intent= new Intent("message_received");
-                    LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);*/
+
                     GenericTypeIndicator<HashMap<String, HashMap<String,HashMap<String,Object>>>> genericTypeIndicator;
                     genericTypeIndicator = new GenericTypeIndicator<HashMap<String,HashMap<String,HashMap<String,Object>>>>(){};
 
@@ -96,18 +93,49 @@ public class ChatService extends Service {
 
             }
         });
-        /*
-        databaseProxy.getDatabase().getReference().child("users/"+user.getUID()+"/chats").addChildEventListener(new ChildEventListener() {
 
+        databaseProxy.getDatabase().getReference().child("users/"+user.getUID()+"/chats").addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                ChatMessage chatMessage=snapshot.getValue(ChatMessage.class);
+                if(snapshot.exists()) {
+                    HashMap<String, HashMap<String, Object>> item = (HashMap<String, HashMap<String, Object>>) snapshot.getValue();
+                    Collection<HashMap<String, Object>> values = item.values();
+                    List<HashMap<String, Object>> messageListHash=new ArrayList<HashMap<String, Object>>(values);
+                    List<ChatMessage> messageList= new ArrayList<ChatMessage>();
+                    Log.d("KEY",snapshot.getKey());
+                    for(int i =0; i<values.size() ;i++){
+                        ChatMessage message=new ChatMessage(messageListHash.get(i));
+                        if(user.getChatById(snapshot.getKey())==null){
+                            user.getChats().put(snapshot.getKey(),new ArrayList<ChatMessage>());
+                        }
+                        user.getChatById(snapshot.getKey()).add(message);
+                        //messageList.add(new ChatMessage(messageListHash.get(i)));
+                    }
+
+
+                    Intent intent = new Intent("message_received");
+                    LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
+                }
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                if(snapshot.exists()) {
+                    HashMap<String, HashMap<String, Object>> item = (HashMap<String, HashMap<String, Object>>) snapshot.getValue();
+                    Collection<HashMap<String, Object>> values = item.values();
+                    List<HashMap<String, Object>> messageListHash=new ArrayList<HashMap<String, Object>>(values);
+                    List<ChatMessage> messageList= new ArrayList<ChatMessage>();
+                    Log.d("KEY",snapshot.getKey());
+                    for(int i =0; i<values.size() ;i++){
+                        ChatMessage message=new ChatMessage(messageListHash.get(i));
+                        user.getChatById(snapshot.getKey()).add(message);
+                        //messageList.add(new ChatMessage(messageListHash.get(i)));
+                    }
+                    
+                    Intent intent = new Intent("message_received");
+                    LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
+                }
             }
 
             @Override
@@ -124,7 +152,7 @@ public class ChatService extends Service {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });*/
+        });
 
         /*final HashMap<String, List<ChatMessage>>[] lessonChats = new HashMap[]{new HashMap<String, List<ChatMessage>>()};
         databaseProxy.getDatabase().getReference().child("lesson_chat").addListenerForSingleValueEvent(new ValueEventListener() {

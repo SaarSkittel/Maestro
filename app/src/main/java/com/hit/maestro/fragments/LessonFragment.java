@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.hit.maestro.R;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 public class LessonFragment extends Fragment {
@@ -21,7 +23,15 @@ public class LessonFragment extends Fragment {
         view=inflater.inflate(R.layout.lesson_fragment,container,false);
 
         YouTubePlayerView youTubePlayer = view.findViewById(R.id.youtube_player_view);
-        String videoId; //from bundle
+        String videoId = "827jmswqnEA";
+        youTubePlayer.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+            @Override
+            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                youTubePlayer.loadVideo(videoId, 0);
+            }
+        });
+
+
         return view;
     }
 }

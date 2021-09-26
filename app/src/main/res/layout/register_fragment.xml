@@ -6,6 +6,10 @@
     android:orientation="vertical"
     android:background="#F8E008"
     android:padding="40dp">
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/register_iv"/>
 
     <TextView
         android:layout_width="200dp"
@@ -86,6 +90,48 @@
                 android:inputType="textPassword"
                 android:textSize="13sp"
                 android:id="@+id/confirmPassword_input"/>
+
+            <LinearLayout
+                android:id="@+id/buttons_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:paddingTop="5dp">
+                <Button
+                    android:id="@+id/gallery"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/white"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:paddingRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="4dp"
+                    android:drawablePadding="5dp"
+                    android:paddingLeft="10dp"
+                    android:layout_margin="5dp"
+                    android:text="Open Gallery"/>
+                <Button
+                    android:id="@+id/camera"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingRight="10dp"
+                    android:drawablePadding="3dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:paddingLeft="10dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="5dp"
+                    android:backgroundTint="@color/white"
+                    android:layout_margin="5dp"
+                    android:text="Open Camera"/>
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

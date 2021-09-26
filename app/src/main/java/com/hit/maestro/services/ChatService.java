@@ -43,11 +43,11 @@ public class ChatService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        /*
         NotificationManager manager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         String channelId="channel_id";
         String channelName="Music Channel";
-
+/*
         if(Build.VERSION.SDK_INT>=26) {
             NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
             manager.createNotificationChannel(channel);
@@ -55,10 +55,10 @@ public class ChatService extends Service {
         NotificationCompat.Builder builder= new NotificationCompat.Builder(this,channelId);
         builder.setSmallIcon(android.R.drawable.star_on).setContentText("Maestro").setContentTitle("start");
 
-        startForeground(1,builder.build());
-        final ChatRoom[] chats = new ChatRoom[1];
+        startForeground(1,builder.build());*/
+        //final ChatRoom[] chats = new ChatRoom[1];
        // final HashMap<String, HashMap<String, HashMap<String, Object>>>[] chats = new HashMap[]{new HashMap<String,  HashMap<String,Object>>()};
-        databaseProxy.getDatabase().getReference().child("users/"+user.getUID()+"/chats").addListenerForSingleValueEvent(new ValueEventListener() {
+       /* databaseProxy.getDatabase().getReference().child("users/"+user.getUID()+"/chats").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -92,19 +92,20 @@ public class ChatService extends Service {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        });*/
 
         databaseProxy.getDatabase().getReference().child("users/"+user.getUID()+"/chats").addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if(snapshot.exists()) {
-                    HashMap<String, HashMap<String, Object>> item = (HashMap<String, HashMap<String, Object>>) snapshot.getValue();
-                    Collection<HashMap<String, Object>> values = item.values();
-                    List<HashMap<String, Object>> messageListHash=new ArrayList<HashMap<String, Object>>(values);
+                    //HashMap<String, HashMap<String, Object>> item = (HashMap<String, HashMap<String, Object>>) snapshot.getValue();
+                    //Collection<HashMap<String, Object>> values = item.values();
+                    //List<HashMap<String, Object>> messageListHash=new ArrayList<HashMap<String, Object>>(values);
+                    List<HashMap<String, Object>> messageListHash=(List<HashMap<String, Object>>) snapshot.getValue();
                     List<ChatMessage> messageList= new ArrayList<ChatMessage>();
                     Log.d("KEY",snapshot.getKey());
-                    for(int i =0; i<values.size() ;i++){
+                    for(int i =0; i<messageListHash.size() ;i++){
                         ChatMessage message=new ChatMessage(messageListHash.get(i));
                         if(user.getChatById(snapshot.getKey())==null){
                             user.getChats().put(snapshot.getKey(),new ArrayList<ChatMessage>());
@@ -112,7 +113,6 @@ public class ChatService extends Service {
                         user.getChatById(snapshot.getKey()).add(message);
                         //messageList.add(new ChatMessage(messageListHash.get(i)));
                     }
-
 
                     Intent intent = new Intent("message_received");
                     LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
@@ -122,16 +122,16 @@ public class ChatService extends Service {
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if(snapshot.exists()) {
-                    HashMap<String, HashMap<String, Object>> item = (HashMap<String, HashMap<String, Object>>) snapshot.getValue();
-                    Collection<HashMap<String, Object>> values = item.values();
-                    List<HashMap<String, Object>> messageListHash=new ArrayList<HashMap<String, Object>>(values);
-                    List<ChatMessage> messageList= new ArrayList<ChatMessage>();
+                    //HashMap<String, HashMap<String, Object>> item = (HashMap<String, HashMap<String, Object>>) snapshot.getValue();
+                    //Collection<HashMap<String, Object>> values = item.values();
+                    //List<HashMap<String, Object>> messageListHash=new ArrayList<HashMap<String, Object>>();
                     Log.d("KEY",snapshot.getKey());
-                    for(int i =0; i<values.size() ;i++){
-                        ChatMessage message=new ChatMessage(messageListHash.get(i));
-                        user.getChatById(snapshot.getKey()).add(message);
-                        //messageList.add(new ChatMessage(messageListHash.get(i)));
-                    }
+                    //for(int i =0; i<values.size() ;i++){
+                    List<HashMap<String, Object>> messageListHash=(List<HashMap<String, Object>>) snapshot.getValue();
+                    ChatMessage message=new ChatMessage(messageListHash.get(messageListHash.size()-1));
+                    user.getChatById(snapshot.getKey()).add(message);
+                    //messageList.add(new ChatMessage(messageListHash.get(i)));
+                   // }
                     
                     Intent intent = new Intent("message_received");
                     LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);

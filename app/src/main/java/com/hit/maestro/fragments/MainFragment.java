@@ -24,6 +24,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.hit.maestro.Course;
+import com.hit.maestro.MainActivity;
 import com.hit.maestro.adapter.CourseAdapter;
 import com.hit.maestro.proxy.DatabaseProxy;
 import com.hit.maestro.R;
@@ -249,7 +250,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         navigationView.getMenu().findItem(R.id.item_sign_up).setVisible(!signOutStatus);
         navigationView.getMenu().findItem(R.id.item_sign_out).setVisible(signOutStatus);
         if(signOutStatus){
-            Intent intent=new Intent(getActivity(), ChatService.class);
+            Intent intent=new Intent(getContext() , ChatService.class);
             helloTv.setText("hello " + user.getEmail());
             getActivity().startService(intent);
         }

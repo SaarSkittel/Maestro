@@ -59,12 +59,12 @@ public class MessagingService extends FirebaseMessagingService {
         //sender==>UID==>client==>sender?
         if (remoteMessage.getData().size() > 0) {//from: /topics/A ==>/topics/UID, /topics/guitar
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-            User user=User.getInstance();
+           /* User user=User.getInstance();
             ChatMessage chatMessage=new ChatMessage(remoteMessage.getData().get("message"),remoteMessage.getData().get("UID"),remoteMessage.getData().get("UID"),"android.resource://com.hit.maestro/drawable/acoustic_guitar");
             DatabaseReference reference=DatabaseProxy.getInstance().getDatabase().getReference().child("/users/"+user.getUID()+"/chats/").child(remoteMessage.getData().get("UID"));
             if (remoteMessage.getFrom().matches("/topics/"+user.getUID())){
                 reference.push().setValue(chatMessage);
-            }
+            }*/
             /*Intent intent= new Intent("message_received");
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);*/
         }

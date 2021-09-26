@@ -66,19 +66,23 @@ public class ChatFragment extends Fragment {
             //User.getInstance().getChats().put(UID,new  HashMap<String, HashMap<String, Object>>());
             User.getInstance().getChats().put(UID,new ArrayList<ChatMessage>());
 
-        chatMessages=User.getInstance().getChatById(UID);
+        chatMessages=new ArrayList<ChatMessage>(User.getInstance().getChatById(UID));
         adapter=new ChatAdapter(User.getInstance().getChatById(UID));
 
         recyclerView=view.findViewById(R.id.chat_rv);
         recyclerView.setHasFixedSize(true);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(adapter);
+        recyclerView.scrollToPosition(adapter.getItemCount()-1);
         IntentFilter filter=new IntentFilter("message_received");
         newMessageReceived=new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                chatMessages=User.getInstance().getChatById(UID);
+                chatMessages.clear();
+                chatMessages=new ArrayList<ChatMessage>(User.getInstance().getChatById(UID));
                 adapter.notifyDataSetChanged();
+                recyclerView.scrollToPosition(adapter.getItemCount()-1);
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);

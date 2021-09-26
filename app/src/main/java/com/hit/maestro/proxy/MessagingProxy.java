@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.lang.annotation.Documented;
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,16 +44,38 @@ public class MessagingProxy {
                     ChatMessage chatMessage=new ChatMessage(message,user.getFullName(),user.getUID(),"");
                     //ChatMessage chatMessage=new ChatMessage(user.getFirebaseUser().getPhotoUrl().toString(),user.getFullName(),user.g
                     DatabaseReference reference;
-
+                    List<ChatMessage>chatMessages=new ArrayList<>(user.getChatById(to));
                     //temp.add(chatMessage);
                     if (isUser){
-                        //DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to).setValue(I);
-                        //reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to);
+                        chatMessages.add(chatMessage);
                         reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to);
+                        reference.setValue(chatMessages);
+                        reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+to+"/chats/").child(user.getUID());
+                        reference.setValue(chatMessages);
+
+                        /*
+                        if(!user.getChatById(to).isEmpty()){
+                            chatMessages.add(chatMessage);
+                            //DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to).setValue(I);
+                            //reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to);
+                            reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to);
+                            reference.setValue(Arrays.asList(chatMessage));
+                            reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+to+"/chats/").child(user.getUID());
+                            reference.setValue(Arrays.asList(chatMessage));
+                            //user.getChats().put(to,new ArrayList<ChatMessage>());
+                        }
+                        else{
+                            List<ChatMessage>chatMessages=new ArrayList<>();
+                            chatMessages.add(chatMessage);
+                            reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to);
+                            reference.setValue(Arrays.asList(chatMessage));
+                            reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+to+"/chats/").child(user.getUID());
+                            reference.setValue(Arrays.asList(chatMessage));
+                        }*/
                     }else {
                         reference=DatabaseProxy.getInstance().getDatabase().getReference("/chats/").child(to);
+                        reference.setValue(chatMessage);
                     }
-                    reference.push().setValue(chatMessage);
                 }
             }, new Response.ErrorListener() {
                 @Override

@@ -21,4 +21,9 @@
     <string name="already_have">"יש לך כבר חשבון?   "</string>
     <string name="remember_me">זכור אותי</string>
     <string name="submit">כניסה</string>
+    <string name="select_pic">בחר תמונת פרופיל</string>
+    <string name="forgot">שכחת את הסיסמה?</string>
+    <string name="reset_password">אפס סיסמה</string>
+    <string name="reset_password_note">ברגע שתלחץ על \'אפס סיסמה\', אתה תקבל מייל על מנת לאפס את הסיסמה</string>
+    <string name="check_email">בדוק את המייל שלך לאיפוס הסיסמא</string>
 </resources>

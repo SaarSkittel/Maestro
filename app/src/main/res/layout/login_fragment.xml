@@ -37,6 +37,7 @@
                 android:textSize="15sp"
                 android:textColor="@color/black"
                 android:background="@drawable/edittextshape"
+                android:inputType="textEmailAddress"
                 android:id="@+id/email_login"/>
 
             <TextView
@@ -52,6 +53,7 @@
                 android:hint="@string/enter_password"
                 android:background="@drawable/edittextshape"
                 android:textSize="15sp"
+                android:inputType="textPassword"
                 android:id="@+id/password_login"/>
         </LinearLayout>
     </ScrollView>
@@ -77,7 +79,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="10sp"
         android:id="@+id/note_login"
         android:textColor="#C11313"
         android:text=""/>
@@ -95,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="10sp"
-        android:text="forgot"
+        android:text="@string/forgot"
         android:textColor="#04198A"
         android:id="@+id/forgot_btn"
         android:textStyle="bold"

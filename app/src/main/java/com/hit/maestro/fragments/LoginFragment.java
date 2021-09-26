@@ -26,6 +26,7 @@ public class LoginFragment extends DialogFragment {
 
     RegisterFragment.OnCompletedFragmentListener callback;
     SharedPreferences sp;
+    final String RESET_TAG = "4";
 
     public LoginFragment(RegisterFragment.OnCompletedFragmentListener callback) {
         this.callback = callback;
@@ -33,14 +34,14 @@ public class LoginFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.login_fragment,container,false);
-        EditText emailET = rootView.findViewById(R.id.email_login);
-        EditText passwordET = rootView.findViewById(R.id.password_login);
-        TextView note = rootView.findViewById(R.id.note_login);
-        CheckBox rememberCheckBox = rootView.findViewById(R.id.remember_me);
+        View view = inflater.inflate(R.layout.login_fragment,container,false);
+        EditText emailET = view.findViewById(R.id.email_login);
+        EditText passwordET = view.findViewById(R.id.password_login);
+        TextView note = view.findViewById(R.id.note_login);
+        CheckBox rememberCheckBox = view.findViewById(R.id.remember_me);
         sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
 
-        Button submitBtn = rootView.findViewById(R.id.submit_btn);
+        Button submitBtn = view.findViewById(R.id.submit_btn);
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +91,15 @@ public class LoginFragment extends DialogFragment {
             }
         });
 
-        return rootView;
+        TextView forgotBtn = view.findViewById(R.id.forgot_btn);
+        forgotBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ResetPasswordFragment resetPasswordFragment = new ResetPasswordFragment();
+                resetPasswordFragment.show(getChildFragmentManager(),RESET_TAG);
+            }
+        });
+
+        return view;
     }
 }

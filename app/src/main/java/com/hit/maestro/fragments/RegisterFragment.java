@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -33,9 +34,12 @@ import androidx.fragment.app.DialogFragment;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.hit.maestro.R;
@@ -54,19 +58,15 @@ public class RegisterFragment extends DialogFragment {
 
     User user;
     OnCompletedFragmentListener callBack;
-    final int WRITE_PERMISSION_REQUEST = 1;
-    final int PICK_FROM_GALLERY = 2;
-    final int CAMERA_REQUEST = 3;
-    Button m_Take_Pic_Btn,m_Pick_Photo_From_Gallery_Btn;
-    File m_File;
-    String m_PhotoPath;
-    Boolean isPhoto = false ;
-    Bitmap bitmap;
-    //File file;
-    ActivityResultLauncher<Intent> cameraLauncher;
-    ActivityResultLauncher<Intent> picFromAlbumLauncher;
+    //ImageView picture;
+    File file;
     Uri pic;
-    ImageView image;
+    boolean exit=false;
+    final int write_permission_request_camera = 1;
+    final int write_permission_request_album = 2;
+    Button camera, album;
+    ActivityResultLauncher<Intent> takePictureActivityResultLauncher;
+    ActivityResultLauncher<Intent> picFromAlbumActivityResultLauncher;
     View view;
 
     public RegisterFragment(OnCompletedFragmentListener callBack) {
@@ -87,7 +87,7 @@ public class RegisterFragment extends DialogFragment {
         EditText passwordET = view.findViewById(R.id.password_input);
         EditText passwordConfET = view.findViewById(R.id.confirmPassword_input);
         TextView note = view.findViewById(R.id.note);
-        image=view.findViewById(R.id.register_iv);
+        //picture=view.findViewById(R.id.register_iv);
         user=User.getInstance();
         Button registerBtn = view.findViewById(R.id.register_btn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +98,9 @@ public class RegisterFragment extends DialogFragment {
                 }
                 else if(!passwordET.getText().toString().equals(passwordConfET.getText().toString())){
                     note.setText("Make sure the password is correct");
+                }
+                else if(!exit){
+                    note.setText("Please select a profile picture");
                 }
                 else{
                    /* user.getFirebaseAuth().createUserWithEmailAndPassword(emailET.getText().toString(),passwordET.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -114,7 +117,7 @@ public class RegisterFragment extends DialogFragment {
                     });*/
                     note.setText("Sign up successful, please wait");
                     user.CreateUser(fullnameET.getText().toString(),emailET.getText().toString(),passwordET.getText().toString());
-                    user.setUserData();
+                    //user.setUserData();
                     callBack.onCompleted();
                     RegisterFragment.this.dismiss();
                 }
@@ -129,105 +132,111 @@ public class RegisterFragment extends DialogFragment {
             }
         });
 
-        if (Build.VERSION.SDK_INT >= 23) {
-            int hasWritePermission = getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_REQUEST);
+        /*pic = Uri.parse(sp.getString("path_pic",null));
+        Glide.with(this)
+                .load(pic)
+                .apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .into(picture);*/
+
+        file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES),new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+".jpg");
+        takePictureActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    exit=true;
+                    //Glide.with(RegisterFragment.this).load(pic).into(picture);
+                }
             }
-        }
-        setChoosePicBtn();
-        setPickSongBtn();
-        cameraLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            // There are no request codes
-                            //Intent data = result.getData();
-                            //bitmap = (Bitmap)data.getExtras().get("data");
-                            //imageView.setImageBitmap(bitmap);
+        });
 
-                            Glide.with(RegisterFragment.this).load(pic).into(image);
-                            // bitmap = BitmapFactory.decodeFile(m_File.getAbsolutePath());
-                            // imageView.setImageBitmap(bitmap);
-                            isPhoto = true;
-                        }
-                    }
-                });
-        picFromAlbumLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if(result.getResultCode() == AppCompatActivity.RESULT_OK) {
-                            //m_Song_Photo.setImageURI(selectedImageUri);
-                            pic=result.getData().getData();
-                            getActivity().getBaseContext().getContentResolver().takePersistableUriPermission(pic
-                                    , result.getData().getFlags()
-                                            & ( Intent.FLAG_GRANT_READ_URI_PERMISSION
-                                            + Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                                    )
-                            );
-                            //Glide.with(getActivity().getBaseContext()).load(pic).into(image);
-                            Glide.with(RegisterFragment.this).load(pic).into(image);
-                            isPhoto = true;
-                        }
-                    }
-                });
-        m_File = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES),new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+".jpg");
+        picFromAlbumActivityResultLauncher =registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    //Glide.with(RegisterFragment.this).load(result.getData().getData()).into(picture);
+                    pic=result.getData().getData();
+                    view.getContext().getContentResolver().takePersistableUriPermission(pic
+                            , result.getData().getFlags()
+                                    & ( Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                    + Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                            )
+                    );
+                    exit=true;
+                }
+            }
+        });
 
+
+        camera = view.findViewById(R.id.camera);
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= 23) {
+                    int hasWritePermission = getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    if (hasWritePermission == PackageManager.PERMISSION_GRANTED) {
+                        takePicture();
+                    } else {
+
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, write_permission_request_camera);
+                    }
+                } else {
+                    takePicture();
+                }
+
+            }
+        });
+
+        album = view.findViewById(R.id.gallery);
+        album.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= 23) {
+                    int hasWritePermission = getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    if (hasWritePermission == PackageManager.PERMISSION_GRANTED) {
+                        picFromMemory();
+                    } else {
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, write_permission_request_album);
+                    }
+                } else {
+                    picFromMemory();
+                }
+            }
+        });
         return view;
     }
 
-    private void setChoosePicBtn() {
+    private void picFromMemory(){
+        exit=false;
+        //Intent intent= new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        Intent intent= new Intent(Intent.ACTION_OPEN_DOCUMENT,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+        picFromAlbumActivityResultLauncher.launch(intent);
+    }
 
-        m_Take_Pic_Btn = view.findViewById(R.id.camera);
-        m_Take_Pic_Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    private void takePicture() {
+        exit=false;
+        Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        pic= FileProvider.getUriForFile(view.getContext(),getActivity().getPackageName()+".provider",file);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,pic);
+        takePictureActivityResultLauncher.launch(intent);
+    }
 
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                pic = FileProvider.getUriForFile(getActivity(),getActivity().getPackageName()+".provider",m_File);//Uri.fromFile(file);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,pic);
-                Log.d("File",pic.toString());
-                cameraLauncher.launch(intent);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (requestCode == write_permission_request_camera){
+                takePicture();
             }
-        });
-
-    }
-
-
-
-    private void setPickSongBtn() {
-        m_Pick_Photo_From_Gallery_Btn = view.findViewById(R.id.gallery);
-        m_Pick_Photo_From_Gallery_Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (Build.VERSION.SDK_INT >= 23) {
-                    int hasWritePermission = getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                    if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_REQUEST);
-                    }
-                    else
-                    {
-                        choosePic();
-                    }
-                }
-                else
-                {
-                    choosePic();
-                }
+            else if(requestCode == write_permission_request_album){
+                picFromMemory();
             }
-        });
+            else {
+                Toast.makeText(view.getContext(),"Can't work without permissions go to setting to grant access.",Toast.LENGTH_LONG).show();
+            }
+        }
     }
-    private void choosePic() {
-        Intent galleryIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        galleryIntent.setType("image/*");
-        galleryIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        galleryIntent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-        picFromAlbumLauncher.launch(galleryIntent);
-    }
-
 }

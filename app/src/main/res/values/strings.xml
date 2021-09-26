@@ -20,4 +20,9 @@
     <string name="already_have">Already have an account?</string>
     <string name="remember_me">Remember me</string>
     <string name="submit">Submit</string>
+    <string name="select_pic">Select a profile picture</string>
+    <string name="forgot">Forgot password?</string>
+    <string name="reset_password">Reset password</string>
+    <string name="reset_password_note">By clicking RESET, you will receive an email to reset you password</string>
+    <string name="check_email">Please check your email to reset the password</string>
 </resources>

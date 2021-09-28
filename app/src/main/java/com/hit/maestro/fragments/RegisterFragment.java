@@ -60,7 +60,7 @@ public class RegisterFragment extends DialogFragment {
     OnCompletedFragmentListener callBack;
     //ImageView picture;
     File file;
-    Uri pic;
+    Uri pic=Uri.parse("android.resource://com.hit.maestro/drawable/default_profile_picture");
     boolean exit=false;
     final int write_permission_request_camera = 1;
     final int write_permission_request_album = 2;
@@ -87,7 +87,7 @@ public class RegisterFragment extends DialogFragment {
         EditText passwordET = view.findViewById(R.id.password_input);
         EditText passwordConfET = view.findViewById(R.id.confirmPassword_input);
         TextView note = view.findViewById(R.id.note);
-        //picture=view.findViewById(R.id.register_iv);
+
         user=User.getInstance();
         Button registerBtn = view.findViewById(R.id.register_btn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -99,9 +99,9 @@ public class RegisterFragment extends DialogFragment {
                 else if(!passwordET.getText().toString().equals(passwordConfET.getText().toString())){
                     note.setText("Make sure the password is correct");
                 }
-                else if(!exit){
+                /*else if(!exit){
                     note.setText("Please select a profile picture");
-                }
+                }*/
                 else{
                    /* user.getFirebaseAuth().createUserWithEmailAndPassword(emailET.getText().toString(),passwordET.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -116,7 +116,7 @@ public class RegisterFragment extends DialogFragment {
                         }
                     });*/
                     note.setText("Sign up successful, please wait");
-                    user.CreateUser(fullnameET.getText().toString(),emailET.getText().toString(),passwordET.getText().toString());
+                    user.CreateUser(fullnameET.getText().toString(),emailET.getText().toString(),passwordET.getText().toString(),pic.toString());
                     //user.setUserData();
                     callBack.onCompleted();
                     RegisterFragment.this.dismiss();
@@ -208,8 +208,8 @@ public class RegisterFragment extends DialogFragment {
 
     private void picFromMemory(){
         exit=false;
-        //Intent intent= new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        Intent intent= new Intent(Intent.ACTION_OPEN_DOCUMENT,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent= new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        //Intent intent= new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);

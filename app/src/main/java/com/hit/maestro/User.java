@@ -1,5 +1,6 @@
 package com.hit.maestro;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -44,11 +45,10 @@ public class User {
     public void setChats(HashMap<String, List<ChatMessage>> chats) {
         this.chats = chats;
     }
-/* public HashMap<String, HashMap<String, HashMap<String, Object>>> getChats() {
-        return chats;
-    }*/
+
+
     public List<ChatMessage> getChatById(String UID){
-        //return ChatRoom.ParseMap(user.getChats().get(UID));
+
         return chats.get(UID);
     }
 
@@ -57,7 +57,6 @@ public class User {
     }*/
 
     private List<String> courses;
-    //private HashMap<String, HashMap<String, HashMap<String, Object>>> chats;
     private HashMap<String,List<ChatMessage>> chats;
 
     public String getUID() {
@@ -144,6 +143,7 @@ public class User {
                 if(firebaseUser!=null) {
                     isConnected = true;
                     courses=new ArrayList<>();
+
                     courses.add("electric_guitar");
                     courses.add("acoustic_guitar");
                     courses.add("bass_guitar");
@@ -176,33 +176,7 @@ public class User {
         firebaseAuth.removeAuthStateListener(authStateListener);
     }
 
-    public void CreateUser(String i_fullName,String i_email,String i_password){
-        /*firebaseAuth.createUserWithEmailAndPassword(i_email,i_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    isConnected=true;
-                    fullName = i_fullName;
-                    email = i_email;
-                    password = i_password;
-                    firebaseUser.updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(i_fullName).build()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-
-                            }
-                        }
-                    });
-
-                }
-                else{
-                    isConnected=false;
-                    fullName = "";
-                    email = "";
-                    password = "";
-                }
-            }
-        });*/
+    public void CreateUser(String i_fullName, String i_email, String i_password, String image){
         user.getFirebaseAuth().createUserWithEmailAndPassword(i_email,i_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -212,6 +186,10 @@ public class User {
                     fullName = i_fullName;
                     email = i_email;
                     password = i_password;
+                    DatabaseProxy.getInstance().setUserImageUri(image);
+                    DatabaseProxy.getInstance().setUserName(i_fullName);
+                    UserProfileChangeRequest request=new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(image)).build();
+                    //user.getFirebaseAuth().getCurrentUser().updateProfile(request);
                     Log.d(TAG,"Sign up successful");
                 }
                 else {

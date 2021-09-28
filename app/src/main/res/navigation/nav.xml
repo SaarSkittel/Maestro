@@ -2,18 +2,24 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav"
     app:startDestination="@id/mainFragment">
-
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.hit.maestro.fragments.MainFragment"
         android:label="MainFragment" >
         <action
+            android:id="@+id/action_mainFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+        <action
             android:id="@+id/action_mainFragment_to_courseFragment"
             app:destination="@id/courseFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_chatFragment"
-            app:destination="@id/chatFragment" />
+            android:id="@+id/action_mainFragment_to_aboutCourseFragment"
+            app:destination="@id/aboutCourseFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.hit.maestro.fragments.ChatFragment"
+        android:label="ChatFragment" />
     <fragment
         android:id="@+id/courseFragment"
         android:name="com.hit.maestro.fragments.CourseFragment"
@@ -23,11 +29,35 @@
             app:destination="@id/lessonFragment" />
     </fragment>
     <fragment
+        android:id="@+id/aboutCourseFragment"
+        android:name="com.hit.maestro.fragments.AboutCourseFragment"
+        android:label="AboutCourseFragment" >
+        <action
+            android:id="@+id/action_aboutCourseFragment_to_courseFragment"
+            app:destination="@id/courseFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/lessonFragment"
         android:name="com.hit.maestro.fragments.LessonFragment"
         android:label="LessonFragment" />
     <fragment
-        android:id="@+id/chatFragment"
-        android:name="com.hit.maestro.fragments.ChatFragment"
-        android:label="ChatFragment" />
+        android:id="@+id/userListFragment"
+        android:name="com.hit.maestro.fragments.UserListFragment"
+        android:label="UserListFragment" >
+        <action
+            android:id="@+id/action_userListFragment_to_conversationFragment"
+            app:destination="@id/conversationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatListFragment"
+        android:name="com.hit.maestro.fragments.ChatListFragment"
+        android:label="ChatListFragment" >
+        <action
+            android:id="@+id/action_chatListFragment_to_conversationFragment"
+            app:destination="@id/conversationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/conversationFragment"
+        android:name="com.hit.maestro.fragments.ConversationFragment"
+        android:label="ConversationFragment" />
 </navigation>

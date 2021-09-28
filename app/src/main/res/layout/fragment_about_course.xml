@@ -97,7 +97,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/chat_btn"
+                android:layout_toLeftOf="@+id/conv_btn"
                 android:id="@+id/chat_et"/>
 
 

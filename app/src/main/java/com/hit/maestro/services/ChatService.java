@@ -21,7 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.hit.maestro.ChatMessage;
-import com.hit.maestro.ChatRoom;
+
 import com.hit.maestro.User;
 import com.hit.maestro.proxy.DatabaseProxy;
 

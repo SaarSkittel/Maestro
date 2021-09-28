@@ -1,36 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <androidx.recyclerview.widget.RecyclerView
+    <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
-        android:id="@+id/chat_rv"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        >
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/chat_btn"
-            android:id="@+id/chat_et"/>
+        android:layout_height="wrap_content"
+        android:background="@color/purple_500"
+        android:id="@+id/chat_tl"
+        app:tabSelectedTextColor="@color/purple_500"
+        app:tabIndicatorColor="@color/purple_500"
+        app:tabTextColor="@color/white"/>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="10dp"
-            android:id="@+id/chat_btn"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_baseline_send_24"
-            />
-
-    </RelativeLayout>
-
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chat_vp"
+        android:layout_centerInParent="true"
+        />
 </LinearLayout>

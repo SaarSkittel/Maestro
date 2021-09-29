@@ -26,4 +26,5 @@
     <string name="reset_password">אפס סיסמה</string>
     <string name="reset_password_note">ברגע שתלחץ על \'אפס סיסמה\', אתה תקבל מייל על מנת לאפס את הסיסמה</string>
     <string name="check_email">בדוק את המייל שלך לאיפוס הסיסמא</string>
+    <string name="save_pic">שמור תמונה</string>
 </resources>

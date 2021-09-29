@@ -251,7 +251,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         navigationView.getMenu().findItem(R.id.item_sign_out).setVisible(signOutStatus);
         if(signOutStatus){
             Intent intent=new Intent(getContext() , ChatService.class);
-            helloTv.setText("hello " + user.getEmail());
+            helloTv.setText("hello " + user.getFullName());
             getActivity().startService(intent);
         }
         else{

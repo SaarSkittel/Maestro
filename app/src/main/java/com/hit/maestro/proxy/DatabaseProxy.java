@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -14,6 +15,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.hit.maestro.ChatMessage;
 import com.hit.maestro.Course;
 import com.hit.maestro.User;
@@ -35,6 +39,7 @@ public class DatabaseProxy {
     private DatabaseReference courses;
     private List<Course> courseList;
     final String TAG= "USER_SETTINGS_IMPORT";
+    private StorageReference storageReference= FirebaseStorage.getInstance().getReference().child("ImageFolder");
     public DatabaseReference getCourses() {
         return courses;
     }
@@ -120,9 +125,24 @@ public class DatabaseProxy {
         return name;
     }
 
-    public void setUserImageUri(String image){
-        DatabaseReference reference = database.getReference("/users/"+User.getInstance().getUID()).child("image");
-        reference.setValue(image);
+    public void setUserImageUri(Uri image, String UID){
+        //DatabaseReference reference = database.getReference("/users/"+User.getInstance().getUID()).child("images");
+        //reference.setValue(image);
+
+        StorageReference fileReference = storageReference.child(UID);
+        fileReference.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d("setImage","Uploaded");
+                fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        DatabaseReference reference = database.getReference("/users/"+User.getInstance().getUID()).child("images");
+                        reference.setValue(uri.toString());
+                    }
+                });
+            }
+        });
     }
 
     public String getUserImageUri(String UID){

@@ -176,7 +176,7 @@ public class User {
         firebaseAuth.removeAuthStateListener(authStateListener);
     }
 
-    public void CreateUser(String i_fullName, String i_email, String i_password, String image){
+    public void CreateUser(String i_fullName, String i_email, String i_password, Uri image){
         user.getFirebaseAuth().createUserWithEmailAndPassword(i_email,i_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -186,9 +186,9 @@ public class User {
                     fullName = i_fullName;
                     email = i_email;
                     password = i_password;
-                    DatabaseProxy.getInstance().setUserImageUri(image);
+                    DatabaseProxy.getInstance().setUserImageUri(image,UID);
                     DatabaseProxy.getInstance().setUserName(i_fullName);
-                    UserProfileChangeRequest request=new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(image)).build();
+                  //  UserProfileChangeRequest request=new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(image)).build();
                     //user.getFirebaseAuth().getCurrentUser().updateProfile(request);
                     Log.d(TAG,"Sign up successful");
                 }

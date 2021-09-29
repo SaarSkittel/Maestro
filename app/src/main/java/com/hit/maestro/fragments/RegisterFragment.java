@@ -119,7 +119,7 @@ public class RegisterFragment extends DialogFragment {
                         }
                     });*/
                     note.setText("Sign up successful, please wait");
-                    user.CreateUser(fullnameET.getText().toString(),emailET.getText().toString(),passwordET.getText().toString(),pic.toString());
+                    user.CreateUser(fullnameET.getText().toString(),emailET.getText().toString(),passwordET.getText().toString(),pic);
                     //user.setUserData();
                     callBack.onCompleted();
                     RegisterFragment.this.dismiss();

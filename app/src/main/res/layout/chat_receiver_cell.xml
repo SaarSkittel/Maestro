@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/receiver_text"
-        android:layout_toLeftOf="@+id/receiver_image"
+        android:layout_toStartOf="@+id/receiver_image"
+        android:textColor="@color/black"
 
         />
 

@@ -75,7 +75,7 @@ public class MessagingProxy {
                         }*/
                     }
                     else {
-                        List<ChatMessage>chatMessages=new ArrayList<>(DatabaseProxy.getInstance().getLessonChats().get(to));
+                        List<ChatMessage>chatMessages=new ArrayList<>(DatabaseProxy.getInstance().getLessonChatById(to));
                         chatMessages.add(chatMessage);
                         reference=DatabaseProxy.getInstance().getDatabase().getReference("chats").child(to);
                         reference.setValue(chatMessages);

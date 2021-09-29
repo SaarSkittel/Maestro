@@ -23,6 +23,7 @@
         android:layout_height="match_parent"
         android:id="@+id/sender_text"
         android:background="@color/purple_500"
-        android:layout_toRightOf="@+id/sender_image"/>
+        android:textColor="@color/black"
+        android:layout_toEndOf="@+id/sender_image"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

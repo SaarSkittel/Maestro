@@ -63,7 +63,7 @@ public class DatabaseProxy {
         courses=database.getReference().child("courses");
         courseList=new ArrayList<Course>();
         userList= new ArrayList<HashMap<String,String>>();
-        lessonChats=new HashMap<>();
+        lessonChats=new HashMap<String, List<ChatMessage>>();
     }
     public static DatabaseProxy getInstance(){
         if(databaseProxy==null){
@@ -178,6 +178,13 @@ public class DatabaseProxy {
         });
 
         return courses[0];
+    }
+
+    public List<ChatMessage> getLessonChatById(String to){
+        if(lessonChats.containsKey(to))
+            return lessonChats.get(to);
+        else
+            return new ArrayList<ChatMessage>();
     }
 
     /*

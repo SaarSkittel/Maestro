@@ -1,36 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <EditText
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:id="@+id/top_et"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_height="match_parent"
+        android:layout_below="@id/top_et"
+        android:layout_above="@id/conv_rl"
         android:id="@+id/conv_rv"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        >
+        android:layout_alignParentBottom="true"
+        android:id="@+id/conv_rl">
         <EditText
+            android:id="@+id/chat_et"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/conv_btn"
-            android:id="@+id/chat_et"/>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:background="@android:color/transparent"
+            android:hint="Type message"
+            android:layout_toStartOf="@id/conv_btn"
+            android:layout_centerVertical="true"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_margin="10dp"
             android:id="@+id/conv_btn"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_baseline_send_24"
-            />
+            android:src="@drawable/ic_baseline_send_24" />
 
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

@@ -30,6 +30,11 @@ public class User {
     private String UID;
     private FirebaseMessaging messaging=FirebaseMessaging.getInstance();
 
+    public void subscribeToTopic(String topic){
+
+        messaging.subscribeToTopic(topic);
+    }
+
     public List<String> getCourses() {
         return courses;
     }

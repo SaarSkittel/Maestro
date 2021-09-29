@@ -54,11 +54,12 @@ public class LessonFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 MessagingProxy.SendMessageTo(lesson.getChatTitle(),text.getText().toString(),false,getContext());
+                User.getInstance().subscribeToTopic(lesson.getChatTitle());
             }
         });
         youTubePlayer = view.findViewById(R.id.youtube_player_view);
         if(DatabaseProxy.getInstance().getLessonChats().containsKey(lesson.getChatTitle())) {
-            chatMessages = new ArrayList<>(DatabaseProxy.getInstance().getLessonChats().get(lesson.getChatTitle()));
+            chatMessages = new ArrayList<>(DatabaseProxy.getInstance().getLessonChatById(lesson.getChatTitle()));
         }
         else {
             chatMessages = new ArrayList<>();

@@ -126,13 +126,12 @@ public class ChatService extends Service {
                         List<ChatMessage> messageList = new ArrayList<ChatMessage>();
                         for (int i = 0; i < messageListHash.size(); i++) {
                             ChatMessage message = new ChatMessage(messageListHash.get(i));
-                            if (user.getChatById(dataSnapshot.getKey()) == null) {
-                                user.getChats().put(dataSnapshot.getKey(), new ArrayList<ChatMessage>());
+                            if (!lessonChats.containsKey(dataSnapshot.getKey())) {
+                                lessonChats.put(dataSnapshot.getKey(), new ArrayList<ChatMessage>());
                             }
-                            user.getChatById(dataSnapshot.getKey()).add(message);
+                            lessonChats.get(dataSnapshot.getKey()).add(message);
                             //messageList.add(new ChatMessage(messageListHash.get(i)));
                         }
-                        lessonChats.put(dataSnapshot.getKey(),messageList);
                     }
                     databaseProxy.setLessonChats(lessonChats);
                     Intent intent = new Intent("lesson_message_received");

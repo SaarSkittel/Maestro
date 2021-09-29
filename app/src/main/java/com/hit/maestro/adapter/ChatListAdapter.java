@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.hit.maestro.ChatMessage;
 import com.hit.maestro.R;
+import com.hit.maestro.User;
 import com.hit.maestro.proxy.DatabaseProxy;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import java.util.List;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListViewHolder> {
 
-    LinkedHashMap<String,List<ChatMessage>> conversations;
+    //List<List<ChatMessage>> conversations;
     List<String> keys;
     private myChatListener listener;
 
@@ -34,9 +35,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         this.listener=listener;
     }
 
-    public ChatListAdapter(LinkedHashMap<String, List<ChatMessage>> conversations,List<String> keys) {
-        this.conversations = conversations;
-        this.keys=new ArrayList<String>(conversations.keySet());
+    public ChatListAdapter(List<String> keys) {
+        this.keys=keys;
         Collections.reverse(this.keys);
     }
 
@@ -50,7 +50,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
     @Override
     public void onBindViewHolder(@NonNull ChatListViewHolder holder, int position) {
-        List<ChatMessage>chatMessages=conversations.get(keys.get(position));
+        List<ChatMessage>chatMessages= User.getInstance().getChatById(keys.get(position));
         holder.userName.setText(DatabaseProxy.getInstance().getUserName(keys.get(position)));
         Glide.with(holder.itemView).load(DatabaseProxy.getInstance().getUserImageUri(keys.get(position))).into(holder.imageView);
         holder.latestMessage.setText(chatMessages.get(chatMessages.size()-1).getMessage());
@@ -59,7 +59,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
     @Override
     public int getItemCount() {
-        return conversations.size();
+        return keys.size();
     }
 
 

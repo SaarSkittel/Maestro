@@ -33,6 +33,7 @@ public class ChatListFragment extends Fragment {
     LinkedHashMap<String, List<ChatMessage>>map;
     BroadcastReceiver newMessageReceived;
     List<String> keys;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class ChatListFragment extends Fragment {
         recyclerView=view.findViewById(R.id.list_chat_rv);
         map=new LinkedHashMap<>( User.getInstance().getChats());
         keys=new ArrayList<String>(map.keySet());
-        adapter=new ChatListAdapter(map,keys);
+        adapter=new ChatListAdapter(keys);
         adapter.setListener(new ChatListAdapter.myChatListener() {
             @Override
             public void onChatClicked(String UID, View view) {
@@ -55,14 +56,16 @@ public class ChatListFragment extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 map.clear();
                 map=new LinkedHashMap<>( User.getInstance().getChats());
+                keys=new ArrayList<String>(map.keySet());
                 keys.clear();
                 keys.addAll(map.keySet());
                 adapter.notifyDataSetChanged();
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);
+
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         recyclerView.setAdapter(adapter);
 
         return view;

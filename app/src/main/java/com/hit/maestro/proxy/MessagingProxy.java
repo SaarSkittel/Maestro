@@ -44,9 +44,10 @@ public class MessagingProxy {
                     ChatMessage chatMessage=new ChatMessage(message,user.getFullName(),user.getUID(),"");
                     //ChatMessage chatMessage=new ChatMessage(user.getFirebaseUser().getPhotoUrl().toString(),user.getFullName(),user.g
                     DatabaseReference reference;
-                    List<ChatMessage>chatMessages=new ArrayList<>(user.getChatById(to));
+
                     //temp.add(chatMessage);
                     if (isUser){
+                        List<ChatMessage>chatMessages=new ArrayList<>(user.getChatById(to));
                         chatMessages.add(chatMessage);
                         reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to);
                         reference.setValue(chatMessages);
@@ -72,9 +73,12 @@ public class MessagingProxy {
                             reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+to+"/chats/").child(user.getUID());
                             reference.setValue(Arrays.asList(chatMessage));
                         }*/
-                    }else {
-                        reference=DatabaseProxy.getInstance().getDatabase().getReference("/chats/").child(to);
-                        reference.setValue(chatMessage);
+                    }
+                    else {
+                        List<ChatMessage>chatMessages=new ArrayList<>(DatabaseProxy.getInstance().getLessonChats().get(to));
+                        chatMessages.add(chatMessage);
+                        reference=DatabaseProxy.getInstance().getDatabase().getReference("chats").child(to);
+                        reference.setValue(chatMessages);
                     }
                 }
             }, new Response.ErrorListener() {

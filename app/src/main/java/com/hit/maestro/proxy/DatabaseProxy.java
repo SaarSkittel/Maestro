@@ -38,17 +38,27 @@ public class DatabaseProxy {
     public DatabaseReference getCourses() {
         return courses;
     }
+    HashMap<String,List<ChatMessage>> lessonChats;
 
     public void setCourses(DatabaseReference courses) {
         this.courses = courses;
     }
 
 
+    public HashMap<String, List<ChatMessage>> getLessonChats() {
+        return lessonChats;
+    }
+
+    public void setLessonChats(HashMap<String, List<ChatMessage>> lessonChats) {
+        this.lessonChats = lessonChats;
+    }
+
     private DatabaseProxy() {
         database=FirebaseDatabase.getInstance();
         courses=database.getReference().child("courses");
         courseList=new ArrayList<Course>();
         userList= new ArrayList<HashMap<String,String>>();
+        lessonChats=new HashMap<>();
     }
     public static DatabaseProxy getInstance(){
         if(databaseProxy==null){

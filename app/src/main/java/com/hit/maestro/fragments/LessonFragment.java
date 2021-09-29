@@ -1,31 +1,91 @@
 package com.hit.maestro.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.hit.maestro.ChatMessage;
 import com.hit.maestro.Course;
 import com.hit.maestro.Lesson;
 import com.hit.maestro.R;
+import com.hit.maestro.User;
+import com.hit.maestro.adapter.ChatAdapter;
+import com.hit.maestro.proxy.DatabaseProxy;
+import com.hit.maestro.proxy.MessagingProxy;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LessonFragment extends Fragment {
     View view;
+    YouTubePlayerView youTubePlayer;
+    RecyclerView recyclerView;
+    ChatAdapter adapter;
+    BroadcastReceiver newMessageReceived;
+    List<ChatMessage> chatMessages;
+    ImageButton button;
+    EditText text;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.lesson_fragment,container,false);
-
         Lesson lesson =(Lesson) getArguments().getSerializable("Lesson");
-        YouTubePlayerView youTubePlayer = view.findViewById(R.id.youtube_player_view);
+        text=view.findViewById(R.id.text_send);
+        button=view.findViewById(R.id.btn_send);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MessagingProxy.SendMessageTo(lesson.getChatTitle(),text.getText().toString(),false,getContext());
+            }
+        });
+        youTubePlayer = view.findViewById(R.id.youtube_player_view);
+        if(DatabaseProxy.getInstance().getLessonChats().containsKey(lesson.getChatTitle())) {
+            chatMessages = new ArrayList<>(DatabaseProxy.getInstance().getLessonChats().get(lesson.getChatTitle()));
+        }
+        else {
+            chatMessages = new ArrayList<>();
+        }
+
+        adapter=new ChatAdapter(chatMessages);
+
+        recyclerView=view.findViewById(R.id.lesson_chat_rv);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.scrollToPosition(adapter.getItemCount()-1);
+        recyclerView.setAdapter(adapter);
+
+        IntentFilter filter=new IntentFilter("lesson_message_received");
+        newMessageReceived=new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                chatMessages.clear();
+                chatMessages.addAll(DatabaseProxy.getInstance().getLessonChats().get(lesson.getChatTitle()));
+                adapter.notifyDataSetChanged();
+                recyclerView.scrollToPosition(adapter.getItemCount()-1);
+
+            }
+        };
+        LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);
+
+
         String videoId = lesson.getUrl();
         youTubePlayer.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
             @Override
@@ -33,7 +93,6 @@ public class LessonFragment extends Fragment {
                 youTubePlayer.loadVideo(videoId, 0);
             }
         });
-
 
         return view;
     }

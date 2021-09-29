@@ -22,6 +22,8 @@ public class ChatFragment extends androidx.fragment.app.Fragment {
     ViewPagerAdapter adapter;
     ViewPager viewPager;
     TabLayout tabLayout;
+    ViewPagerAdapter viewPagerAdapter;
+
     private String[] titles=new String[]{"Chats","Contacts"};
     @Nullable
     @Override
@@ -29,7 +31,7 @@ public class ChatFragment extends androidx.fragment.app.Fragment {
         view=inflater.inflate(R.layout.chat_fragment,container,false);
         viewPager=view.findViewById(R.id.chat_vp);
         tabLayout=view.findViewById(R.id.chat_tl);
-        ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getActivity().getSupportFragmentManager());
+        viewPagerAdapter=new ViewPagerAdapter(getActivity().getSupportFragmentManager());
         viewPagerAdapter.addFragment(new ChatListFragment(),"Chats");
         viewPagerAdapter.addFragment(new UserListFragment(),"Contacts");
         viewPager.setAdapter(viewPagerAdapter);

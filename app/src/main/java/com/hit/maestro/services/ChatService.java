@@ -61,7 +61,7 @@ public class ChatService extends Service {
        // final HashMap<String, HashMap<String, HashMap<String, Object>>>[] chats = new HashMap[]{new HashMap<String,  HashMap<String,Object>>()};
 
 
-        databaseProxy.getDatabase().getReference().child("users").addValueEventListener(new ValueEventListener() {
+        databaseProxy.getDatabase().getReference().child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -115,14 +115,86 @@ public class ChatService extends Service {
             }
         });
 
+        databaseProxy.getDatabase().getReference().child("chats").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.exists()){
+                    HashMap<String,List<ChatMessage>> lessonChats=new HashMap<>();
+                    for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
+                        List<HashMap<String, Object>> messageListHash = (List<HashMap<String, Object>>) dataSnapshot.getValue();
+                        List<ChatMessage> messageList = new ArrayList<ChatMessage>();
+                        for (int i = 0; i < messageListHash.size(); i++) {
+                            ChatMessage message = new ChatMessage(messageListHash.get(i));
+                            if (user.getChatById(dataSnapshot.getKey()) == null) {
+                                user.getChats().put(dataSnapshot.getKey(), new ArrayList<ChatMessage>());
+                            }
+                            user.getChatById(dataSnapshot.getKey()).add(message);
+                            //messageList.add(new ChatMessage(messageListHash.get(i)));
+                        }
+                        lessonChats.put(dataSnapshot.getKey(),messageList);
+                    }
+                    databaseProxy.setLessonChats(lessonChats);
+                    Intent intent = new Intent("lesson_message_received");
+                    LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
+                }
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        databaseProxy.getDatabase().getReference().child("chats").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                List<HashMap<String, Object>> messageListHash=(List<HashMap<String, Object>>) snapshot.getValue();
+                List<ChatMessage> messageList= new ArrayList<ChatMessage>();
+
+                for(int i =0; i<messageListHash.size() ;i++){
+                    ChatMessage message=new ChatMessage(messageListHash.get(i));
+                    if(user.getChatById(snapshot.getKey())==null){
+                        databaseProxy.getLessonChats().put(snapshot.getKey(),new ArrayList<ChatMessage>());
+                    }
+                    databaseProxy.getLessonChats().get(snapshot.getKey()).add(message);
+                }
+
+                Intent intent = new Intent("Lesson_message_received");
+                LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                List<HashMap<String, Object>> messageListHash=(List<HashMap<String, Object>>) snapshot.getValue();
+                ChatMessage message=new ChatMessage(messageListHash.get(messageListHash.size()-1));
+                databaseProxy.getLessonChats().get(snapshot.getKey()).add(message);
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         databaseProxy.getDatabase().getReference().child("users/"+user.getUID()+"/chats").addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if(snapshot.exists()) {
-                    //HashMap<String, HashMap<String, Object>> item = (HashMap<String, HashMap<String, Object>>) snapshot.getValue();
-                    //Collection<HashMap<String, Object>> values = item.values();
-                    //List<HashMap<String, Object>> messageListHash=new ArrayList<HashMap<String, Object>>(values);
+
                     List<HashMap<String, Object>> messageListHash=(List<HashMap<String, Object>>) snapshot.getValue();
                     List<ChatMessage> messageList= new ArrayList<ChatMessage>();
                     Log.d("KEY",snapshot.getKey());

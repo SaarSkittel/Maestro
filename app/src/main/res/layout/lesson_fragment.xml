@@ -17,7 +17,7 @@
         android:layout_below="@id/youtube_player_view"
         android:layout_above="@id/send_line"
         android:background="#C7CF74"
-        android:id="@+id/conv_rv"/>
+        android:id="@+id/lesson_chat_rv"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,14 +26,6 @@
         android:id="@+id/send_line"
         android:background="#fff"
         android:layout_alignParentBottom="true">
-
-        <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:id="@+id/btn_attach"
-            android:background="#ffff"
-            android:src="@drawable/attach_file"
-            />
 
         <EditText
             android:layout_width="match_parent"

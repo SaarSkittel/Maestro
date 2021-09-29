@@ -34,7 +34,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         this.listener=listener;
     }
 
-    public ChatListAdapter(LinkedHashMap<String, List<ChatMessage>> conversations) {
+    public ChatListAdapter(LinkedHashMap<String, List<ChatMessage>> conversations,List<String> keys) {
         this.conversations = conversations;
         this.keys=new ArrayList<String>(conversations.keySet());
         Collections.reverse(this.keys);
@@ -62,10 +62,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         return conversations.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return super.getItemViewType(position);
-    }
+
 
 
     public class ChatListViewHolder extends RecyclerView.ViewHolder{

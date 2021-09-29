@@ -33,6 +33,7 @@ public class UserListFragment extends Fragment {
     RecyclerView recyclerView;
     UserListAdapter adapter;
     List<HashMap<String,String>>userList;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,20 +42,7 @@ public class UserListFragment extends Fragment {
         userList=new ArrayList<>();
 
         DatabaseReference reference=DatabaseProxy.getInstance().getDatabase().getReference();
-        /*
-        Task<DataSnapshot> reference = database.getReference().child("users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                DataSnapshot snapshot=task.getResult();
-                for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    HashMap<String,Object> temp=new HashMap<>();
-                    temp.put("name",snapshot.child("name").getValue(String.class));
-                    temp.put("image",snapshot.child("image").getValue(Uri.class));
-                    temp.put("UID",dataSnapshot.getKey());
-                    userList.add(temp);
-                }
-            }
-        });*/
+
         userList=new ArrayList<>();
         adapter=new UserListAdapter(userList);
         reference.child("users").addValueEventListener(new ValueEventListener() {
@@ -86,8 +74,8 @@ public class UserListFragment extends Fragment {
             @Override
             public void onChatClicked(int position, View view) {
                 Bundle bundle=new Bundle();
-                bundle.putString("UID",userList.get(position).get("UID").toString());
-                Navigation.findNavController(view).navigate(R.id.action_userListFragment_to_conversationFragment);
+                bundle.putString("UID",userList.get(position).get("UID"));
+                Navigation.findNavController(view).navigate(R.id.action_chatFragment_to_conversationFragment,bundle);
             }
         });
 
@@ -97,5 +85,11 @@ public class UserListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }

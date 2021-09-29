@@ -32,19 +32,21 @@ public class ChatListFragment extends Fragment {
     ChatListAdapter adapter;
     LinkedHashMap<String, List<ChatMessage>>map;
     BroadcastReceiver newMessageReceived;
+    List<String> keys;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.chat_list_fragment,container,false);
         recyclerView=view.findViewById(R.id.list_chat_rv);
         map=new LinkedHashMap<>( User.getInstance().getChats());
-        adapter=new ChatListAdapter(map);
+        keys=new ArrayList<String>(map.keySet());
+        adapter=new ChatListAdapter(map,keys);
         adapter.setListener(new ChatListAdapter.myChatListener() {
             @Override
             public void onChatClicked(String UID, View view) {
                 Bundle bundle=new Bundle();
                 bundle.putString("UID",UID);
-                Navigation.findNavController(view).navigate(R.id.action_chatListFragment_to_conversationFragment);
+                Navigation.findNavController(view).navigate(R.id.action_chatFragment_to_conversationFragment,bundle);
             }
         });
         IntentFilter filter=new IntentFilter("message_received");
@@ -53,14 +55,26 @@ public class ChatListFragment extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 map.clear();
                 map=new LinkedHashMap<>( User.getInstance().getChats());
+                keys.clear();
+                keys.addAll(map.keySet());
                 adapter.notifyDataSetChanged();
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        map.clear();
+        map=new LinkedHashMap<>( User.getInstance().getChats());
+        keys.clear();
+        keys.addAll(map.keySet());
+        adapter.notifyDataSetChanged();
     }
 }

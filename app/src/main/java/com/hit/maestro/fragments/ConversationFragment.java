@@ -39,7 +39,7 @@ public class ConversationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.chat_fragment,container,false);
+        view=inflater.inflate(R.layout.conversation_fragment,container,false);
         message=view.findViewById(R.id.chat_et);
         sendButton=view.findViewById(R.id.conv_btn);
         String UID=getArguments().getString("UID");
@@ -53,10 +53,9 @@ public class ConversationFragment extends Fragment {
         adapter=new ChatAdapter(User.getInstance().getChatById(UID));
 
         recyclerView=view.findViewById(R.id.conv_rv);
-        recyclerView.setHasFixedSize(true);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
         recyclerView.scrollToPosition(adapter.getItemCount()-1);
         IntentFilter filter=new IntentFilter("message_received");
         newMessageReceived=new BroadcastReceiver() {

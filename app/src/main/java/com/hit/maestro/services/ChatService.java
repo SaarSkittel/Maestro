@@ -58,30 +58,25 @@ public class ChatService extends Service {
         startForeground(1,builder.build());*/
         //final ChatRoom[] chats = new ChatRoom[1];
        // final HashMap<String, HashMap<String, HashMap<String, Object>>>[] chats = new HashMap[]{new HashMap<String,  HashMap<String,Object>>()};
-       /* databaseProxy.getDatabase().getReference().child("users/"+user.getUID()+"/chats").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseProxy.getDatabase().getReference().child("users/"+user.getUID()+"/chats").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 if(snapshot.exists()){
+                    for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
+                        List<HashMap<String, Object>> messageListHash = (List<HashMap<String, Object>>) dataSnapshot.getValue();
+                        List<ChatMessage> messageList = new ArrayList<ChatMessage>();
 
-                    GenericTypeIndicator<HashMap<String, HashMap<String,HashMap<String,Object>>>> genericTypeIndicator;
-                    genericTypeIndicator = new GenericTypeIndicator<HashMap<String,HashMap<String,HashMap<String,Object>>>>(){};
-
-                    HashMap<String, HashMap<String,HashMap<String,Object>>> hashMap = snapshot.getValue(genericTypeIndicator);
-                    HashMap<String,List<ChatMessage>> chats= new HashMap<>();
-
-                    for (HashMap.Entry<String, HashMap<String, HashMap<String, Object>>> entry : hashMap.entrySet()) {
-                        HashMap<String, HashMap<String, Object>>temp = entry.getValue();
-                        Collection<HashMap<String, Object>> values = temp.values();
-                        List<HashMap<String, Object>> messageListHash=new ArrayList<HashMap<String, Object>>(values);
-                        List<ChatMessage> messageList= new ArrayList<ChatMessage>();
-                        for(int i =0; i<values.size() ;i++){
-                            messageList.add(new ChatMessage(messageListHash.get(i)));
+                        for (int i = 0; i < messageListHash.size(); i++) {
+                            ChatMessage message = new ChatMessage(messageListHash.get(i));
+                            if (user.getChatById(dataSnapshot.getKey()) == null) {
+                                user.getChats().put(dataSnapshot.getKey(), new ArrayList<ChatMessage>());
+                            }
+                            user.getChatById(dataSnapshot.getKey()).add(message);
+                            //messageList.add(new ChatMessage(messageListHash.get(i)));
                         }
-                        chats.put(entry.getKey(),messageList);
                     }
-                    user.setChats(chats);
-                    Intent intent= new Intent("message_received");
+                    Intent intent = new Intent("message_received");
                     LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
                 }
 
@@ -92,7 +87,7 @@ public class ChatService extends Service {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });*/
+        });
 
         databaseProxy.getDatabase().getReference().child("users/"+user.getUID()+"/chats").addChildEventListener(new ChildEventListener() {
 

@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.nfc.cardemulation.HostApduService;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
@@ -58,6 +59,31 @@ public class ChatService extends Service {
         startForeground(1,builder.build());*/
         //final ChatRoom[] chats = new ChatRoom[1];
        // final HashMap<String, HashMap<String, HashMap<String, Object>>>[] chats = new HashMap[]{new HashMap<String,  HashMap<String,Object>>()};
+
+
+        databaseProxy.getDatabase().getReference().child("users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if (snapshot.exists()) {
+                  List<HashMap<String,String>>userList=new ArrayList<>();
+                    for (DataSnapshot dataSnapshot:snapshot.getChildren()){
+                        HashMap<String,String> temp=new HashMap<>();
+                        temp.put("name",dataSnapshot.child("name").getValue(String.class));
+                        temp.put("image",dataSnapshot.child("image").getValue(String.class));
+                        temp.put("UID",dataSnapshot.getKey());
+                        userList.add(temp);
+                    }
+                    DatabaseProxy.getInstance().setAllUsers(userList);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         databaseProxy.getDatabase().getReference().child("users/"+user.getUID()+"/chats").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -43,32 +43,8 @@ public class UserListFragment extends Fragment {
 
         DatabaseReference reference=DatabaseProxy.getInstance().getDatabase().getReference();
 
-        userList=new ArrayList<>();
+        userList=new ArrayList<>(DatabaseProxy.getInstance().getAllUsers());
         adapter=new UserListAdapter(userList);
-        reference.child("users").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                if (snapshot.exists()) {
-                    userList.clear();
-                    for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                        HashMap<String,String> temp=new HashMap<>();
-                        temp.put("name",dataSnapshot.child("name").getValue(String.class));
-                        temp.put("image",dataSnapshot.child("image").getValue(String.class));
-                        temp.put("UID",dataSnapshot.getKey());
-                        userList.add(temp);
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
 
         adapter.setListener(new UserListAdapter.myUserListener() {
             @Override

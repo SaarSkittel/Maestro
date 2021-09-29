@@ -153,7 +153,6 @@ public class User {
                     List<ChatMessage>messages=new ArrayList<ChatMessage>();
                     UID=firebaseUser.getUid();
                     //chats.put(UID,messages);
-
                     messaging.unsubscribeFromTopic(UID);
                     messaging.subscribeToTopic(UID);
 

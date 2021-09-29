@@ -1,5 +1,6 @@
 package com.hit.maestro.adapter;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     public void onBindViewHolder(@NonNull ChatListViewHolder holder, int position) {
         List<ChatMessage>chatMessages= User.getInstance().getChatById(keys.get(position));
         holder.userName.setText(DatabaseProxy.getInstance().getUserName(keys.get(position)));
-        Glide.with(holder.itemView).load(DatabaseProxy.getInstance().getUserImageUri(keys.get(position))).into(holder.imageView);
+        Glide.with(holder.itemView).load(Uri.parse(DatabaseProxy.getInstance().getUserImageUri(keys.get(position)))).into(holder.imageView);
         holder.latestMessage.setText(chatMessages.get(chatMessages.size()-1).getMessage());
     }
 

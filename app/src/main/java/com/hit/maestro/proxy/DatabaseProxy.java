@@ -18,6 +18,7 @@ import com.hit.maestro.ChatMessage;
 import com.hit.maestro.Course;
 import com.hit.maestro.User;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +30,7 @@ public class DatabaseProxy {
     public FirebaseDatabase getDatabase() {
         return database;
     }
-
+    List<HashMap<String,String>> userList;
     private FirebaseDatabase database;
     private DatabaseReference courses;
     private List<Course> courseList;
@@ -47,7 +48,7 @@ public class DatabaseProxy {
         database=FirebaseDatabase.getInstance();
         courses=database.getReference().child("courses");
         courseList=new ArrayList<Course>();
-
+        userList= new ArrayList<HashMap<String,String>>();
     }
     public static DatabaseProxy getInstance(){
         if(databaseProxy==null){
@@ -92,59 +93,21 @@ public class DatabaseProxy {
         reference.setValue(name);
     }
     public List<HashMap<String,String>> getAllUsers(){
-        final List<HashMap<String,String>> userList=new ArrayList<>();
-        DatabaseReference reference=database.getReference();
-        /*
-        Task<DataSnapshot> reference = database.getReference().child("users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                DataSnapshot snapshot=task.getResult();
-                for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    HashMap<String,Object> temp=new HashMap<>();
-                    temp.put("name",snapshot.child("name").getValue(String.class));
-                    temp.put("image",snapshot.child("image").getValue(Uri.class));
-                    temp.put("UID",dataSnapshot.getKey());
-                    userList.add(temp);
-                }
-            }
-        });*/
-        reference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                        HashMap<String,String> temp=new HashMap<>();
-                        temp.put("name",snapshot.child("name").getValue(String.class));
-                        temp.put("image",snapshot.child("image").getValue(String.class));
-                        temp.put("UID",dataSnapshot.getKey());
-                        userList.add(temp);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                    Log.d(TAG,error.getMessage());
-            }
-        });
         return userList;
+    }
+    public void setAllUsers(List<HashMap<String,String>> allUsers){
+        this.userList=allUsers;
     }
 
     public String getUserName(String UID){
-        final String[] name = new String[1];
-        DatabaseReference reference = database.getReference("/users/"+UID).child("name");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                name[0] =snapshot.getValue(String.class);
+        String name=new String();
+        for(int i=0;i<userList.size();++i){
+            if(userList.get(i).get("UID").matches(UID)){
+                name=userList.get(i).get("name");
+                break;
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return name[0];
+        }
+        return name;
     }
 
     public void setUserImageUri(String image){
@@ -152,21 +115,15 @@ public class DatabaseProxy {
         reference.setValue(image);
     }
 
-    public Uri getUserImageUri(String UID){
-        final String[] image = new String[1];
-        DatabaseReference reference = database.getReference("/users/"+UID).child("image");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                image[0] =snapshot.getValue(Uri.class).toString();
+    public String getUserImageUri(String UID){
+        String image=new String();
+        for(int i=0;i<userList.size();++i){
+            if(userList.get(i).get("UID").matches(UID)){
+                image=userList.get(i).get("image");
+                break;
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return Uri.parse(image[0]);
+        }
+        return image;
     }
    public List<String> getCourses(String UID){
         final List<String>[] courses = new List[]{new ArrayList<>()};

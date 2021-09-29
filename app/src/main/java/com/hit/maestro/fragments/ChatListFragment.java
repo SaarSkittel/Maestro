@@ -65,7 +65,7 @@ public class ChatListFragment extends Fragment {
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);
 
         recyclerView.setHasFixedSize(true);
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(adapter);
 
         return view;

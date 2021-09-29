@@ -137,7 +137,7 @@ public class DatabaseProxy {
                 fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        DatabaseReference reference = database.getReference("/users/"+User.getInstance().getUID()).child("images");
+                        DatabaseReference reference = database.getReference("/users/"+User.getInstance().getUID()).child("image");
                         reference.setValue(uri.toString());
                     }
                 });

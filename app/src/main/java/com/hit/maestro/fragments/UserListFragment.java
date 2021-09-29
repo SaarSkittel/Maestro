@@ -39,7 +39,6 @@ public class UserListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.user_list_fragment,container,false);
         recyclerView=view.findViewById(R.id.user_list_rv);
-        userList=new ArrayList<>();
 
         DatabaseReference reference=DatabaseProxy.getInstance().getDatabase().getReference();
 

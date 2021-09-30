@@ -61,15 +61,7 @@ public class RegisterFragment extends DialogFragment {
     final String PICTURE_TAG="6";
     OnCompletedFragmentListener callBack;
     ShapeableImageView picture;
-    //ImageView picture;
-    File file;
     Uri pic=Uri.parse("android.resource://com.hit.maestro/drawable/default_profile_picture");
-    boolean exit=false;
-    final int write_permission_request_camera = 1;
-    final int write_permission_request_album = 2;
-    Button camera, album;
-    ActivityResultLauncher<Intent> takePictureActivityResultLauncher;
-    ActivityResultLauncher<Intent> picFromAlbumActivityResultLauncher;
     View view;
 
     public RegisterFragment(OnCompletedFragmentListener callBack) {

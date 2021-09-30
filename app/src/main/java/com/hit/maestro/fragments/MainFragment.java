@@ -2,23 +2,36 @@ package com.hit.maestro.fragments;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -55,10 +68,22 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     Button test;
     User user;
     SharedPreferences sp;
+    ProgressBar progressBar;
+    View headerLayout;
+    TextView navTitle;
+    ShapeableImageView navImage;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.main_fragment,container,false);
+
+        progressBar=view.findViewById(R.id.progress_bar);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.menu);
 
         sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
         user = User.getInstance();
@@ -72,6 +97,9 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         helloTv = view.findViewById(R.id.hello_tv);
         drawerLayout=view.findViewById(R.id.drawer_Layout);
         navigationView=view.findViewById(R.id.navigation_view);
+        headerLayout = navigationView.getHeaderView(0);
+        navImage=headerLayout.findViewById(R.id.nav_user_image);
+        navTitle=headerLayout.findViewById(R.id.nav_header_tv);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -89,6 +117,9 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                         user.setUserData();
                         user.SignOut();
                         setNavigationViewSituation(false);
+                        break;
+                    case R.id.item_chat:
+                        Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_chatFragment);
                         break;
                 }
 
@@ -134,6 +165,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                         courseList.add(course);
                     }
                     adapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
                 }
             }
             @Override
@@ -246,16 +278,39 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     }
 
     private void setNavigationViewSituation(boolean signOutStatus){
+        Uri pic;
         navigationView.getMenu().findItem(R.id.item_sign_in).setVisible(!signOutStatus);
         navigationView.getMenu().findItem(R.id.item_sign_up).setVisible(!signOutStatus);
         navigationView.getMenu().findItem(R.id.item_sign_out).setVisible(signOutStatus);
+        navigationView.getMenu().findItem(R.id.item_chat).setVisible(signOutStatus);
         if(signOutStatus){
             Intent intent=new Intent(getContext() , ChatService.class);
-            helloTv.setText("hello " + user.getFullName());
+            String title = getResources().getString(R.string.hello) +" "+ user.getFullName();
+            helloTv.setText(title);
+            navTitle.setText(title);
+            pic=Uri.parse(DatabaseProxy.getInstance().getUserImageUri(User.getInstance().getUID()));
             getActivity().startService(intent);
         }
         else{
             helloTv.setText("Guest mode");
+            pic=Uri.parse("android.resource://com.hit.maestro/drawable/default_profile_picture");
         }
+        Glide.with(this)
+                .load(pic)
+                .into(navImage);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            drawerLayout.openDrawer(Gravity.RIGHT);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -12,6 +12,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:background="@color/black"
+            app:titleTextColor="@color/white"
+            app:title="@string/app_name"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -26,6 +35,12 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/main_title"/>
+
+        <ProgressBar
+            android:layout_width="200sp"
+            android:layout_height="200sp"
+            android:layout_gravity="center"
+            android:id="@+id/progress_bar"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"

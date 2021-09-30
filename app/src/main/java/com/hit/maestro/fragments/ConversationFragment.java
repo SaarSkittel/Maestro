@@ -71,7 +71,10 @@ public class ConversationFragment extends Fragment {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MessagingProxy.SendMessageTo(UID,message.getText().toString(),true,getContext());
+                if (!message.getText().toString().isEmpty()) {
+                    MessagingProxy.SendMessageTo(UID, message.getText().toString(), true, getContext());
+                    message.setText("");
+                }
             }
         });
         return view;

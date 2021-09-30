@@ -53,8 +53,11 @@ public class LessonFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MessagingProxy.SendMessageTo(lesson.getChatTitle(),text.getText().toString(),false,getContext());
-                User.getInstance().subscribeToTopic(lesson.getChatTitle());
+                if(!text.getText().toString().isEmpty()) {
+                    MessagingProxy.SendMessageTo(lesson.getChatTitle(), text.getText().toString(), false, getContext());
+                    User.getInstance().subscribeToTopic(lesson.getChatTitle());
+                    text.setText("");
+                }
             }
         });
         youTubePlayer = view.findViewById(R.id.youtube_player_view);
@@ -81,7 +84,6 @@ public class LessonFragment extends Fragment {
                 chatMessages.addAll(DatabaseProxy.getInstance().getLessonChats().get(lesson.getChatTitle()));
                 adapter.notifyDataSetChanged();
                 recyclerView.scrollToPosition(adapter.getItemCount()-1);
-
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);

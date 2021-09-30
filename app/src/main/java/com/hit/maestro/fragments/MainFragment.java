@@ -309,7 +309,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==android.R.id.home){
-            drawerLayout.openDrawer(Gravity.RIGHT);
+            drawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
     }

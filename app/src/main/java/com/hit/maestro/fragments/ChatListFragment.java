@@ -48,10 +48,10 @@ public class ChatListFragment extends Fragment {
         view=inflater.inflate(R.layout.chat_list_fragment,container,false);
         recyclerView=view.findViewById(R.id.list_chat_rv);
         map=new HashMap<>( User.getInstance().getChats());
-        keys = new ArrayList<String>();
-        if(!map.isEmpty()) {
+        keys = new ArrayList<String>( map.keySet());
+       /* if(!map.isEmpty()) {
             keys = sortHashMapByValues(User.getInstance().getChats());
-        }
+        }*/
         adapter=new ChatListAdapter(keys);
         adapter.setListener(new ChatListAdapter.myChatListener() {
             @Override
@@ -67,12 +67,13 @@ public class ChatListFragment extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 map.clear();
                 map=new HashMap<>(User.getInstance().getChats());
-                if(!map.isEmpty()){
+                //if(!map.isEmpty()){
                     //keys=new ArrayList<String>(map.keySet());
                     keys.clear();
-                    keys=new ArrayList<String>(sortHashMapByValues(User.getInstance().getChats()));
+                    keys = new ArrayList<String>( map.keySet());
+                    //keys=sortHashMapByValues(User.getInstance().getChats());
                     adapter.notifyDataSetChanged();
-                }
+                //}
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);
@@ -83,17 +84,24 @@ public class ChatListFragment extends Fragment {
 
         return view;
     }
-    public List<String> sortHashMapByValues(HashMap<String, List<ChatMessage>> passedMap) {
-        Map<LocalDateTime,String> hashMap=new TreeMap<LocalDateTime,String>();
+   /* public List<String> sortHashMapByValues(HashMap<String, List<ChatMessage>> passedMap) {
+        Map<LocalDateTime,String> hashMap=new HashMap<>();
+        List<LocalDateTime>dateTimes=new ArrayList<>();
         for (Map.Entry entry: passedMap.entrySet()){
             List<ChatMessage> list=passedMap.get(entry.getKey());
             hashMap.put(LocalDateTime.parse(list.get(list.size()-1).getTime()),entry.getKey().toString());
+            dateTimes.add(LocalDateTime.parse(list.get(list.size()-1).getTime()));
         }
-        Map<LocalDateTime,String> send=new TreeMap<LocalDateTime,String>(hashMap);
 
-        return new ArrayList<String>(send.values());
+        Collections.sort(dateTimes);
+        List<String>sortedKeys=new ArrayList<>();
+        for (int i= 0;i<dateTimes.size();++i){
+            sortedKeys.add(hashMap.get(dateTimes.get(i)));
+        }
+
+        return sortedKeys;
     }
-
+*/
 
     @Override
     public void onResume() {

@@ -61,7 +61,7 @@ public class ChatService extends Service {
        // final HashMap<String, HashMap<String, HashMap<String, Object>>>[] chats = new HashMap[]{new HashMap<String,  HashMap<String,Object>>()};
 
 
-        databaseProxy.getDatabase().getReference().child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseProxy.getDatabase().getReference().child("users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -84,24 +84,28 @@ public class ChatService extends Service {
             }
         });
 
-        databaseProxy.getDatabase().getReference().child("users/"+user.getUID()+"/chats").addListenerForSingleValueEvent(new ValueEventListener() {
+/*
+        databaseProxy.getDatabase().getReference().child("users/"+user.getUID()+"/chats").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 if(snapshot.exists()){
+                    HashMap<String,List<ChatMessage>>userChats=new HashMap<>();
                     for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
                         List<HashMap<String, Object>> messageListHash = (List<HashMap<String, Object>>) dataSnapshot.getValue();
                         List<ChatMessage> messageList = new ArrayList<ChatMessage>();
 
                         for (int i = 0; i < messageListHash.size(); i++) {
                             ChatMessage message = new ChatMessage(messageListHash.get(i));
-                            if (user.getChatById(dataSnapshot.getKey()) == null) {
-                                user.getChats().put(dataSnapshot.getKey(), new ArrayList<ChatMessage>());
+                            if (!userChats.containsKey(dataSnapshot.getKey())) {
+                                userChats.put(dataSnapshot.getKey(), new ArrayList<ChatMessage>());
                             }
-                            user.getChatById(dataSnapshot.getKey()).add(message);
+                            userChats.get(dataSnapshot.getKey()).add(message);
                             //messageList.add(new ChatMessage(messageListHash.get(i)));
                         }
                     }
+
+                    user.setChats(userChats);
                     Intent intent = new Intent("message_received");
                     LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
                 }
@@ -114,8 +118,9 @@ public class ChatService extends Service {
 
             }
         });
+*/
 
-        databaseProxy.getDatabase().getReference().child("chats").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseProxy.getDatabase().getReference().child("chats").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -146,6 +151,9 @@ public class ChatService extends Service {
 
             }
         });
+
+
+        /*
 
         databaseProxy.getDatabase().getReference().child("chats").addChildEventListener(new ChildEventListener() {
             @Override
@@ -187,6 +195,8 @@ public class ChatService extends Service {
 
             }
         });
+       */
+
 
         databaseProxy.getDatabase().getReference().child("users/"+user.getUID()+"/chats").addChildEventListener(new ChildEventListener() {
 

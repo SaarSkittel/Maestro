@@ -1,6 +1,7 @@
 package com.hit.maestro;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class ChatMessage implements Serializable {
@@ -9,6 +10,7 @@ public class ChatMessage implements Serializable {
     //private long viewType;
     private String image;
     private String UID;
+    private String time;
 
     public ChatMessage(){}
 
@@ -25,12 +27,14 @@ public class ChatMessage implements Serializable {
         this.sender = (String)map.get("sender");
         this.UID=(String)map.get("uid");
         this.image = (String)map.get("image");
+        this.time=(String)map.get("time");
     }
     public ChatMessage(String message, String sender, String UID, String image) {
         this.message = message;
         this.UID=UID;
         this.sender = sender;
         this.image = image;
+        this.time=LocalDateTime.now().toString();
     }
 
     public String getMessage() {
@@ -49,6 +53,13 @@ public class ChatMessage implements Serializable {
         this.sender = sender;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getImage() {
         return image;

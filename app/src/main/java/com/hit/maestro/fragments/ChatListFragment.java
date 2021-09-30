@@ -22,15 +22,23 @@ import com.hit.maestro.R;
 import com.hit.maestro.User;
 import com.hit.maestro.adapter.ChatListAdapter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class ChatListFragment extends Fragment {
     View view;
     RecyclerView recyclerView;
     ChatListAdapter adapter;
-    LinkedHashMap<String, List<ChatMessage>>map;
+    HashMap<String, List<ChatMessage>>map;
     BroadcastReceiver newMessageReceived;
     List<String> keys;
 
@@ -39,8 +47,11 @@ public class ChatListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.chat_list_fragment,container,false);
         recyclerView=view.findViewById(R.id.list_chat_rv);
-        map=new LinkedHashMap<>( User.getInstance().getChats());
-        keys=new ArrayList<String>(map.keySet());
+        map=new HashMap<>( User.getInstance().getChats());
+        keys = new ArrayList<String>();
+        if(!map.isEmpty()) {
+            keys = sortHashMapByValues(User.getInstance().getChats());
+        }
         adapter=new ChatListAdapter(keys);
         adapter.setListener(new ChatListAdapter.myChatListener() {
             @Override
@@ -55,11 +66,13 @@ public class ChatListFragment extends Fragment {
             @Override
             public void onReceive(Context context, Intent intent) {
                 map.clear();
-                map=new LinkedHashMap<>( User.getInstance().getChats());
-                keys=new ArrayList<String>(map.keySet());
-                keys.clear();
-                keys.addAll(map.keySet());
-                adapter.notifyDataSetChanged();
+                map=new HashMap<>(User.getInstance().getChats());
+                if(!map.isEmpty()){
+                    //keys=new ArrayList<String>(map.keySet());
+                    keys.clear();
+                    keys=new ArrayList<String>(sortHashMapByValues(User.getInstance().getChats()));
+                    adapter.notifyDataSetChanged();
+                }
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);
@@ -70,6 +83,17 @@ public class ChatListFragment extends Fragment {
 
         return view;
     }
+    public List<String> sortHashMapByValues(HashMap<String, List<ChatMessage>> passedMap) {
+        Map<LocalDateTime,String> hashMap=new TreeMap<LocalDateTime,String>();
+        for (Map.Entry entry: passedMap.entrySet()){
+            List<ChatMessage> list=passedMap.get(entry.getKey());
+            hashMap.put(LocalDateTime.parse(list.get(list.size()-1).getTime()),entry.getKey().toString());
+        }
+        Map<LocalDateTime,String> send=new TreeMap<LocalDateTime,String>(hashMap);
+
+        return new ArrayList<String>(send.values());
+    }
+
 
     @Override
     public void onResume() {

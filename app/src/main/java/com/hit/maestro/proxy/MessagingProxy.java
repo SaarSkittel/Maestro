@@ -41,7 +41,8 @@ public class MessagingProxy {
             StringRequest request=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    ChatMessage chatMessage=new ChatMessage(message,user.getFullName(),user.getUID(),"");
+
+                    ChatMessage chatMessage=new ChatMessage(message,user.getFullName(),user.getUID(),DatabaseProxy.getInstance().getUserImageUri(user.getUID()));
                     //ChatMessage chatMessage=new ChatMessage(user.getFirebaseUser().getPhotoUrl().toString(),user.getFullName(),user.g
                     DatabaseReference reference;
 

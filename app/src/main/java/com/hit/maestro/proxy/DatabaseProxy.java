@@ -110,6 +110,7 @@ public class DatabaseProxy {
     public List<HashMap<String,String>> getAllUsers(){
         return userList;
     }
+
     public void setAllUsers(List<HashMap<String,String>> allUsers){
         this.userList=allUsers;
     }
@@ -126,8 +127,6 @@ public class DatabaseProxy {
     }
 
     public void setUserImageUri(Uri image, String UID){
-        //DatabaseReference reference = database.getReference("/users/"+User.getInstance().getUID()).child("images");
-        //reference.setValue(image);
 
         StorageReference fileReference = storageReference.child(UID);
         fileReference.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

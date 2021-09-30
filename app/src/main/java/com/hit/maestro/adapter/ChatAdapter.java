@@ -13,6 +13,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 import com.hit.maestro.ChatMessage;
 import com.hit.maestro.R;
+import com.hit.maestro.User;
 
 import java.util.List;
 
@@ -35,7 +36,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        return (int)chatMessages.get(position).getViewType();
+        Integer viewType;
+        if(chatMessages.get(position).getUID().matches(User.getInstance().getUID())) {
+            viewType = 1;
+        }
+        else viewType=2;
+        return viewType;
     }
 
     @Override

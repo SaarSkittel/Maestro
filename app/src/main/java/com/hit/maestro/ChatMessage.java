@@ -6,26 +6,30 @@ import java.util.Map;
 public class ChatMessage implements Serializable {
     private String message;
     private String sender;
-    private long viewType;
+    //private long viewType;
     private String image;
+    private String UID;
 
     public ChatMessage(){}
+
+    public String getUID() {
+        return UID;
+    }
+
+    public void setUID(String UID) {
+        this.UID = UID;
+    }
+
     public ChatMessage(Map<String,Object> map){
         this.message = (String)map.get("message");
         this.sender = (String)map.get("sender");
-        this.viewType=(long)map.get("viewType");
+        this.UID=(String)map.get("uid");
         this.image = (String)map.get("image");
     }
     public ChatMessage(String message, String sender, String UID, String image) {
         this.message = message;
-        if(UID.matches(User.getInstance().getUID())){
-            this.sender="Me";
-        }
-        else this.sender = sender;
-        if(UID.matches(User.getInstance().getUID())) {
-            this.viewType = 1;
-        }
-        else this.viewType=2;
+        this.UID=UID;
+        this.sender = sender;
         this.image = image;
     }
 
@@ -45,13 +49,6 @@ public class ChatMessage implements Serializable {
         this.sender = sender;
     }
 
-    public long getViewType() {
-        return viewType;
-    }
-
-    public void setViewType(long viewType) {
-        this.viewType = viewType;
-    }
 
     public String getImage() {
         return image;

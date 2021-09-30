@@ -9,8 +9,8 @@
         android:layout_height="wrap_content"
         android:background="@color/purple_500"
         android:id="@+id/chat_tl"
-        app:tabSelectedTextColor="@color/purple_500"
-        app:tabIndicatorColor="@color/purple_500"
+        app:tabSelectedTextColor="@color/white"
+        app:tabIndicatorColor="@color/white"
         app:tabTextColor="@color/white"/>
 
     <androidx.viewpager.widget.ViewPager

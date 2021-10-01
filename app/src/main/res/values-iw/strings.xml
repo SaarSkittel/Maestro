@@ -29,4 +29,5 @@
     <string name="save_pic">שמור תמונה</string>
     <string name="hello">שלום</string>
     <string name="chat">צ\'אט</string>
+    <string name="edit_pic">החלף תמונה</string>
 </resources>

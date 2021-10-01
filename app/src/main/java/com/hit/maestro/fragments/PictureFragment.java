@@ -33,6 +33,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hit.maestro.R;
+import com.hit.maestro.User;
+import com.hit.maestro.proxy.DatabaseProxy;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -67,7 +69,7 @@ public class PictureFragment extends DialogFragment {
         picture=view.findViewById(R.id.song_iv);
         save=view.findViewById(R.id.save_pic_btn);
         //pic =Uri.parse(requireArguments().getString("image"));
-        pic = registerFragment.getPic();
+        //pic = registerFragment.getPic();
         Glide.with(this)
                 .load(pic)
                 .apply(RequestOptions.skipMemoryCacheOf(true))
@@ -105,7 +107,11 @@ public class PictureFragment extends DialogFragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registerFragment.setPic(pic);
+                if(registerFragment!=null)
+                    registerFragment.setPic(pic);
+                else{
+                    DatabaseProxy.getInstance().setUserImageUri(pic, User.getInstance().getUID());
+                }
                 PictureFragment.this.dismiss();
             }
         });
@@ -180,7 +186,12 @@ public class PictureFragment extends DialogFragment {
         }
     }
 
-    public PictureFragment(RegisterFragment registerFragment) {
+    public PictureFragment(RegisterFragment registerFragment, Uri pic) {
         this.registerFragment = registerFragment;
+        this.pic=pic;
+    }
+
+    public PictureFragment(Uri pic) {
+        this.pic=pic;
     }
 }

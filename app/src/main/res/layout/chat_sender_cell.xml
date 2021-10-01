@@ -5,24 +5,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="8dp">
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:id="@+id/sender_image"
+        app:srcCompat="@mipmap/ic_launcher"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@mipmap/ic_launcher"
         android:layout_margin="10dp"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
-        android:id="@+id/sender_image"
-        />
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/sender_text"
-        android:background="@color/purple_500"
+        android:background="@drawable/chat_sender"
         android:textColor="@color/black"
         android:layout_toEndOf="@+id/sender_image"/>
     </RelativeLayout>

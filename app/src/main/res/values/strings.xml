@@ -28,4 +28,5 @@
     <string name="save_pic">Save Picture</string>
     <string name="hello">hello</string>
     <string name="chat">Chat</string>
+    <string name="edit_pic">Edit image</string>
 </resources>

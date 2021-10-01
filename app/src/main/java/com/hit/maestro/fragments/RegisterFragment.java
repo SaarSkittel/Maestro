@@ -131,7 +131,7 @@ public class RegisterFragment extends DialogFragment {
         selectPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PictureFragment pictureFragment=new PictureFragment(RegisterFragment.this);
+                PictureFragment pictureFragment=new PictureFragment(RegisterFragment.this,pic);
                 pictureFragment.show(getChildFragmentManager(),PICTURE_TAG);
             }
         });

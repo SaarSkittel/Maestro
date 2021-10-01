@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -47,6 +48,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     final String REGISTER_TAG="1";
     final String REGISTER_OR_LOGIN_TAG="2";
     final String LOGIN_TAG = "3";
+    final String PICTURE_TAG="6";
     RecyclerView recyclerView;
     CourseAdapter adapter;
     Button registerBtn;
@@ -64,6 +66,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     ProgressBar progressBar;
     View headerLayout;
     TextView navTitle;
+    LinearLayout editPic;
     ShapeableImageView navImage;
 
     @Nullable
@@ -93,6 +96,14 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         headerLayout = navigationView.getHeaderView(0);
         navImage=headerLayout.findViewById(R.id.nav_user_image);
         navTitle=headerLayout.findViewById(R.id.nav_header_tv);
+        editPic=headerLayout.findViewById(R.id.edit_pic);
+        editPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PictureFragment pictureFragment=new PictureFragment(Uri.parse(DatabaseProxy.getInstance().getUserImageUri(User.getInstance().getUID())));
+                pictureFragment.show(getChildFragmentManager(),PICTURE_TAG);
+            }
+        });
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -277,7 +288,11 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         navigationView.getMenu().findItem(R.id.item_sign_out).setVisible(signOutStatus);
         navigationView.getMenu().findItem(R.id.item_chat).setVisible(signOutStatus);
         if(signOutStatus){
+
+
+            editPic.setVisibility(View.VISIBLE);
             Intent intent=new Intent(getContext() , DatabaseService.class);
+
             String title = getResources().getString(R.string.hello) +" "+ user.getFullName();
             helloTv.setText(title);
             navTitle.setText(title);
@@ -285,6 +300,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             getActivity().startService(intent);
         }
         else{
+            editPic.setVisibility(View.INVISIBLE);
             helloTv.setText("Guest mode");
             pic=Uri.parse("android.resource://com.hit.maestro/drawable/default_profile_picture");
         }

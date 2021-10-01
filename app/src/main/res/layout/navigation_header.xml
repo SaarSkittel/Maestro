@@ -13,7 +13,8 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         app:srcCompat="@drawable/default_profile_picture"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
         android:id="@+id/nav_user_image"
         />
@@ -28,5 +29,26 @@
         android:textColor="@color/white"
         android:text="@string/hello"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nav_user_image"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        android:layout_marginTop="5dp"
+        android:id="@+id/edit_pic"
+        android:clickable="true">
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:src="@drawable/edit"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_pic"
+            android:textSize="10sp"
+            android:textColor="@color/white"/>
+    </LinearLayout>
 
 </RelativeLayout>

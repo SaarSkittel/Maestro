@@ -68,10 +68,6 @@ public class DatabaseService extends Service {
                 if (snapshot.exists()) {
                   List<HashMap<String,String>>userList=new ArrayList<>();
                     for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                        if(dataSnapshot.getKey()==user.getUID()){
-                            List<String> list=new ArrayList<String>((List<String>)dataSnapshot.child("co").getValue());
-                            user.setTopicList(list);
-                        }
                         HashMap<String,String> temp=new HashMap<>();
                         temp.put("name",dataSnapshot.child("name").getValue(String.class));
                         temp.put("image",dataSnapshot.child("image").getValue(String.class));

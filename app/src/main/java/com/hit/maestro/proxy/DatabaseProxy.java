@@ -79,8 +79,7 @@ public class DatabaseProxy {
         ref.setValue(user.getCourses());
         //DatabaseReference ref1=FirebaseDatabase.getInstance().getReference().child("users").child(user.getUID()).child("chats");
         //ref1.setValue(user.getChats());
-        DatabaseReference reference=database.getReference("/users/"+User.getInstance().getUID()).child("topics");
-        reference.setValue(user.getTopicList());
+
 
     }
 

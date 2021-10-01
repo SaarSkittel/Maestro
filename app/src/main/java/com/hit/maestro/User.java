@@ -111,14 +111,6 @@ public class User {
         return password;
     }
 
-    public List<String> getTopicList() {
-        return topicList;
-    }
-
-    public void setTopicList(List<String> topicList) {
-        this.topicList = topicList;
-    }
-
 
     public void setPassword(String i_password) {
         password = i_password;

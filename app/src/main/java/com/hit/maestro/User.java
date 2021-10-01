@@ -51,6 +51,7 @@ public class User {
 
     public void addCourseToUser(String courseName){
         courses.add(courseName);
+        DatabaseProxy.getInstance().setCourses(courses);
     }
 
     public boolean isUserRegisteredToCourse(String courseName){
@@ -249,7 +250,6 @@ public class User {
         firebaseAuth.signOut();
         isConnected = false;
         messaging.unsubscribeFromTopic(UID);
-        DatabaseProxy.getInstance().setCourses(courses);
     }
     public boolean CheckStatus(){
         boolean status;

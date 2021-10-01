@@ -133,30 +133,6 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         //boolean connected = sp.getBoolean("status",false);
         setNavigationViewSituation(user.isConnected()?true:false);
         proxy= DatabaseProxy.getInstance();
-/*
-        List<Lesson> lessons =new ArrayList<Lesson>();
-        lessons.add(new Lesson("lesson1","123",""));
-        lessons.add(new Lesson("lesson2","123",""));
-        lessons.add(new Lesson("lesson3","123",""));
-        lessons.add(new Lesson("lesson4","123",""));
-
-        List<Subject>subjects= new ArrayList<Subject>();
-        subjects.add(new Subject("subject1",lessons));
-        subjects.add(new Subject("subject2",lessons));
-        subjects.add(new Subject("subject3",lessons));
-        subjects.add(new Subject("subject4",lessons));
-
-        List<Course> courseList=new ArrayList<Course>();
-        courseList.add(new Course("Electric Guitar","marty","android.resource://com.hit.maestro/drawable/electric_guitar","123",subjects));
-        courseList.add(new Course("Acoustic Guitar","marty","android.resource://com.hit.maestro/drawable/acoustic_guitar","123",subjects));
-        courseList.add(new Course("Bass Guitar","marty","android.resource://com.hit.maestro/drawable/bass","123",subjects));
-        courseList.add(new Course("Piano","marty","android.resource://com.hit.maestro/drawable/piano","123",subjects));
-        courseList.add(new Course("Drum","marty","android.resource://com.hit.maestro/drawable/drums","123",subjects));
-
-        //proxy.setCourses(courseList, getContext());
-
-
-*/
 
         adapter=new CourseAdapter(courseList);
         proxy.getCourses().addListenerForSingleValueEvent(new ValueEventListener() {

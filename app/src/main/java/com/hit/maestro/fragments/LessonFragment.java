@@ -55,7 +55,6 @@ public class LessonFragment extends Fragment {
             public void onClick(View v) {
                 if(!text.getText().toString().isEmpty()) {
                     MessagingProxy.SendMessageTo(lesson.getChatTitle(), text.getText().toString(), false, getContext());
-                    User.getInstance().subscribeToTopic(lesson.getChatTitle());
                     text.setText("");
                 }
             }

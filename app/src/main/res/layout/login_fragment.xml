@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#F8E008"
-    android:padding="40dp">
+    android:background="@drawable/dialog_shape"
+    android:padding="15dp">
 
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="-5dp"
+        android:layout_marginEnd="-5dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/close_login"
+        android:clickable="true"
+        android:src="@drawable/close"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        android:orientation="vertical">
     <TextView
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -102,5 +116,5 @@
         android:id="@+id/forgot_btn"
         android:textStyle="bold"
         android:clickable="true"/>
-
-</LinearLayout>
+    </LinearLayout>
+</FrameLayout>

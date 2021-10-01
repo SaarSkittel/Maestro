@@ -3,13 +3,19 @@ package com.hit.maestro.fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -26,31 +32,50 @@ public class CourseFragment extends Fragment {
     SubjectAdapter adapter;
     TextView title;
     SharedPreferences sp;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.course_fragment,container,false);
+        view = inflater.inflate(R.layout.course_fragment, container, false);
         sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
+        Toolbar toolbar = view.findViewById(R.id.curse_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         title = view.findViewById(R.id.course_title);
         //Boolean connectedStatus = sp.getBoolean("status",false);
-        title.setText(User.getInstance().isConnected()?"hello " + User.getInstance().getFullName():"Guest mode");
-        Course course =(Course) getArguments().getSerializable("Course");
-        adapter=new SubjectAdapter(getContext(),course.getSubjects());
+        title.setText(User.getInstance().isConnected() ? "hello " + User.getInstance().getFullName() : "Guest mode");
+        Course course = (Course) getArguments().getSerializable("Course");
+        adapter = new SubjectAdapter(getContext(), course.getSubjects());
         adapter.setListener(new SubjectAdapter.MyLessonListener() {
             @Override
             public void onLessonClicked(int childPosition, int groupPosition, View view) {
-                if(User.getInstance().isConnected()) {
+                if (User.getInstance().isConnected()) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("Lesson", course.getSubjects().get(groupPosition).getLessons().get(childPosition));
                     Navigation.findNavController(view).navigate(R.id.action_courseFragment_to_lessonFragment, bundle);
-                }
-                else{
+                } else {
 
                 }
             }
         });
-        expandableListView=view.findViewById(R.id.subject_elv);
+        expandableListView = view.findViewById(R.id.subject_elv);
         expandableListView.setAdapter(adapter);
         return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            //getParentFragmentManager().popBackStack();
+            getActivity().onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

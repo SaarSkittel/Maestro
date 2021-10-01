@@ -123,6 +123,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                         setNavigationViewSituation(false);
                         break;
                     case R.id.item_chat:
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_chatFragment);
                         break;
                 }

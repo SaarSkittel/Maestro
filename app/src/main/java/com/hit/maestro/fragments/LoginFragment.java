@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -97,6 +98,14 @@ public class LoginFragment extends DialogFragment {
             public void onClick(View v) {
                 ResetPasswordFragment resetPasswordFragment = new ResetPasswordFragment();
                 resetPasswordFragment.show(getChildFragmentManager(),RESET_TAG);
+            }
+        });
+
+        ImageView close = view.findViewById(R.id.close_login);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginFragment.this.dismiss();
             }
         });
 

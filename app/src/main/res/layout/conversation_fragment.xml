@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <EditText
-        android:layout_width="10dp"
-        android:layout_height="10dp"
-        android:id="@+id/top_et"/>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/conv_toolbar"
+        android:background="@color/black"
+        app:titleTextColor="@color/white"
+        app:title="@string/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/top_et"
+        android:layout_below="@id/conv_toolbar"
         android:layout_above="@id/conv_rl"
         android:id="@+id/conv_rv"/>
 

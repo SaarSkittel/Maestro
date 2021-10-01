@@ -4,11 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,20 +25,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.hit.maestro.Course;
-import com.hit.maestro.MainActivity;
 import com.hit.maestro.adapter.CourseAdapter;
 import com.hit.maestro.proxy.DatabaseProxy;
 import com.hit.maestro.R;
 import com.hit.maestro.User;
-import com.hit.maestro.services.ChatService;
+import com.hit.maestro.services.DatabaseService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -284,7 +277,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         navigationView.getMenu().findItem(R.id.item_sign_out).setVisible(signOutStatus);
         navigationView.getMenu().findItem(R.id.item_chat).setVisible(signOutStatus);
         if(signOutStatus){
-            Intent intent=new Intent(getContext() , ChatService.class);
+            Intent intent=new Intent(getContext() , DatabaseService.class);
             String title = getResources().getString(R.string.hello) +" "+ user.getFullName();
             helloTv.setText(title);
             navTitle.setText(title);

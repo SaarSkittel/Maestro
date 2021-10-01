@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Maestro">
         <service
-            android:name=".services.ChatService">
+            android:name=".services.DatabaseService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>

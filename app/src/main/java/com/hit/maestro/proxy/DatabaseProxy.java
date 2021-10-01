@@ -76,33 +76,14 @@ public class DatabaseProxy {
 
     public void setUser(User user){ //Hash<String,Hash<String,List<ChatMessage>>,List<String>>
         DatabaseReference ref=FirebaseDatabase.getInstance().getReference().child("users").child(user.getUID()).child("courses");
-        DatabaseReference ref1=FirebaseDatabase.getInstance().getReference().child("users").child(user.getUID()).child("chats");
-        ref.setValue(user.getCourses()).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
+        ref.setValue(user.getCourses());
+        //DatabaseReference ref1=FirebaseDatabase.getInstance().getReference().child("users").child(user.getUID()).child("chats");
+        //ref1.setValue(user.getChats());
+        DatabaseReference reference=database.getReference("/users/"+User.getInstance().getUID()).child("topics");
+        reference.setValue(user.getTopicList());
 
-                    Log.e(TAG,"success export courses!");
-                }
-                else {
-                    Log.e(TAG,task.getException().getMessage());
-                }
-            }
-        });
-
-        ref1.setValue(user.getChats()).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-
-                    Log.e(TAG,"success export chats!");
-                }
-                else {
-                    Log.e(TAG,task.getException().getMessage());
-                }
-            }
-        });
     }
+
     public void setUserName(String name){
         DatabaseReference reference = database.getReference("/users/"+User.getInstance().getUID()).child("name");
         reference.setValue(name);
@@ -144,6 +125,7 @@ public class DatabaseProxy {
         });
     }
 
+
     public String getUserImageUri(String UID){
         String image=new String();
         for(int i=0;i<userList.size();++i){
@@ -162,10 +144,7 @@ public class DatabaseProxy {
 
                 if(snapshot.exists()){
                     courses[0] =(List<String>)snapshot.child(UID).getValue();
-                   /* for (DataSnapshot dataSnapshot:snapshot.getChildren(UID)){
-                        Course course= dataSnapshot.getValue(Course.class);
-                        courseList.add(course);
-                    }*/
+
                 }
             }
 
@@ -233,20 +212,11 @@ public class DatabaseProxy {
 
         return courseList;
     }
+*/
 
 
-
-    public void setCourses(List<Course> courses, Context context){
-        this.courses.setValue(courses).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(context,"success!",Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Toast.makeText(context,task.getException().getMessage(),Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }*/
+    public void setCourses(List<String> courses){
+       DatabaseReference reference = database.getReference().child("users").child(User.getInstance().getUID()).child("courses");
+       reference.setValue(courses);
+    }
 }

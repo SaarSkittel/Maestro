@@ -28,12 +28,10 @@ public class User {
     private String fullName;
     private String password;
     private String UID;
+    private List<String>topicList;
     private FirebaseMessaging messaging=FirebaseMessaging.getInstance();
 
-    public void subscribeToTopic(String topic){
 
-        messaging.subscribeToTopic(topic);
-    }
 
     public List<String> getCourses() {
         return courses;
@@ -51,15 +49,27 @@ public class User {
         this.chats = chats;
     }
 
+    public void addCourseToUser(String courseName){
+        courses.add(courseName);
+    }
 
+    public boolean isUserRegisteredToCourse(String courseName){
+        boolean isRegistered=false;
+        if(!courses.isEmpty()){
+            for (int i=0;i<courses.size();++i){
+                if(courseName.matches(courses.get(i))){
+                    isRegistered=true;
+                }
+            }
+        }
+        return isRegistered;
+    }
     public List<ChatMessage> getChatById(String UID){
 
         return chats.get(UID);
     }
 
-   /* public void setChats(HashMap<String, HashMap<String, HashMap<String, Object>>> chats) {
-        this.chats = chats;
-    }*/
+
 
     private List<String> courses;
     private HashMap<String,List<ChatMessage>> chats;
@@ -99,6 +109,15 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    public List<String> getTopicList() {
+        return topicList;
+    }
+
+    public void setTopicList(List<String> topicList) {
+        this.topicList = topicList;
+    }
+
 
     public void setPassword(String i_password) {
         password = i_password;
@@ -149,13 +168,8 @@ public class User {
                     isConnected = true;
                     courses=new ArrayList<>();
 
-                    courses.add("electric_guitar");
-                    courses.add("acoustic_guitar");
-                    courses.add("bass_guitar");
-                    courses.add("eran_homo");
                     chats=new HashMap<String,List<ChatMessage>>(0);
-                    //chats= new HashMap<String, HashMap<String, HashMap<String, Object>>>();
-                    List<ChatMessage>messages=new ArrayList<ChatMessage>();
+
                     UID=firebaseUser.getUid();
                     //chats.put(UID,messages);
                     messaging.unsubscribeFromTopic(UID);
@@ -191,6 +205,7 @@ public class User {
                     fullName = i_fullName;
                     email = i_email;
                     password = i_password;
+                    messaging.subscribeToTopic(UID);
                     DatabaseProxy.getInstance().setUserImageUri(image,UID);
                     DatabaseProxy.getInstance().setUserName(i_fullName);
                   //  UserProfileChangeRequest request=new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(image)).build();
@@ -218,6 +233,9 @@ public class User {
                     fullName = firebaseUser.getDisplayName();
                     email = i_email;
                     password = i_password;
+                    messaging.unsubscribeFromTopic(UID);
+                    messaging.subscribeToTopic(UID);
+
                 }
                 else{
                     isConnected=false;
@@ -227,12 +245,12 @@ public class User {
         });
     }
 
-    public void SignOut(){
+    public void SignOut() {
         firebaseAuth.signOut();
-        isConnected=false;
-        messaging.subscribeToTopic(UID);
+        isConnected = false;
+        messaging.unsubscribeFromTopic(UID);
+        DatabaseProxy.getInstance().setCourses(courses);
     }
-
     public boolean CheckStatus(){
         boolean status;
         if(firebaseUser!=null && !firebaseUser.isAnonymous())

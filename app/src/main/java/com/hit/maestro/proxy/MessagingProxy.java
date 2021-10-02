@@ -12,6 +12,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.hit.maestro.ChatMessage;
 import com.hit.maestro.User;
@@ -43,7 +44,6 @@ public class MessagingProxy {
                 public void onResponse(String response) {
 
                     ChatMessage chatMessage=new ChatMessage(message,user.getFullName(),user.getUID(),DatabaseProxy.getInstance().getUserImageUri(user.getUID()));
-                    //ChatMessage chatMessage=new ChatMessage(user.getFirebaseUser().getPhotoUrl().toString(),user.getFullName(),user.g
                     DatabaseReference reference;
 
                     //temp.add(chatMessage);
@@ -54,6 +54,15 @@ public class MessagingProxy {
                         reference.setValue(chatMessages);
                         reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+to+"/chats/").child(user.getUID());
                         reference.setValue(chatMessages);
+                        reference=  reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+to).child("/notifications");
+                        List<String>notifications= DatabaseProxy.getInstance().getUserNotificationsByUID(to);
+                        for(int i=0;i<notifications.size();++i){
+                            if(user.getUID().matches(notifications.get(i))){
+                                notifications.remove(i);
+                            }
+                        }
+                        notifications.add(user.getUID());
+                        reference.setValue(notifications);
 
                         /*
                         if(!user.getChatById(to).isEmpty()){

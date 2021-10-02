@@ -70,7 +70,7 @@ public class ChatListFragment extends Fragment {
                 //if(!map.isEmpty()){
                     //keys=new ArrayList<String>(map.keySet());
                     keys.clear();
-                    keys = new ArrayList<String>( map.keySet());
+                    keys.addAll(map.keySet());
                     //keys=sortHashMapByValues(User.getInstance().getChats());
                     adapter.notifyDataSetChanged();
                 //}

@@ -28,7 +28,7 @@ public class User {
     private String fullName;
     private String password;
     private String UID;
-    private List<String>topicList;
+    private List<String>notifications;
     private FirebaseMessaging messaging=FirebaseMessaging.getInstance();
 
 
@@ -70,7 +70,13 @@ public class User {
         return chats.get(UID);
     }
 
+    public List<String> getNotifications() {
+        return notifications;
+    }
 
+    public void setNotifications(List<String> notifications) {
+        this.notifications = notifications;
+    }
 
     private List<String> courses;
     private HashMap<String,List<ChatMessage>> chats;
@@ -162,7 +168,7 @@ public class User {
                     courses=new ArrayList<>();
 
                     chats=new HashMap<String,List<ChatMessage>>(0);
-
+                    notifications=new ArrayList<String>();
                     UID=firebaseUser.getUid();
                     //chats.put(UID,messages);
                     messaging.unsubscribeFromTopic(UID);

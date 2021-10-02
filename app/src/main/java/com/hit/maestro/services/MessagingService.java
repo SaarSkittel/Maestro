@@ -1,6 +1,10 @@
 package com.hit.maestro.services;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -21,7 +25,8 @@ public class MessagingService extends FirebaseMessagingService {
     private FirebaseDatabase database;
     private DatabaseReference user;
 
-
+    NotificationManager manager;
+    final int NOTIFICATION_ID=1;
 
     @Override
     public void onNewToken(@NonNull String s) {
@@ -44,7 +49,6 @@ public class MessagingService extends FirebaseMessagingService {
 */
     }
 
-
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -57,8 +61,28 @@ public class MessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         //sender==>sender.chat.setmessage==>messageproxy==>sendmessage(uid)==>fcm==>Receiver.onmessagereceived==>setMessage==>pushnotif
         //sender==>UID==>client==>sender?
-        if (remoteMessage.getData().size() > 0) {//from: /topics/A ==>/topics/UID, /topics/guitar
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+        if (remoteMessage.getData().size() > 0) {
+            //Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            String channelID=null;
+            manager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+            if(Build.VERSION.SDK_INT>=26){
+                channelID="1";
+                CharSequence channelName="notification channel";
+                int importance=NotificationManager.IMPORTANCE_DEFAULT;
+                NotificationChannel notificationChannel=new NotificationChannel(channelID,channelName,importance);
+                manager.createNotificationChannel(notificationChannel);
+            }
+
+            Notification.Builder builder=new Notification.Builder(getBaseContext(),channelID);
+            builder.setSmallIcon(android.R.drawable.ic_dialog_email).setContentTitle("Maestro").setContentText("You Have New Messages");
+            Notification notification= builder.build();
+            /*
+            if(){
+            notification.flags=Notification.FLAG_AUTO_CANCEL;
+            }*/
+            manager.notify(NOTIFICATION_ID,notification);
+
+            //Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
            /* User user=User.getInstance();
             ChatMessage chatMessage=new ChatMessage(remoteMessage.getData().get("message"),remoteMessage.getData().get("UID"),remoteMessage.getData().get("UID"),"android.resource://com.hit.maestro/drawable/acoustic_guitar");
             DatabaseReference reference=DatabaseProxy.getInstance().getDatabase().getReference().child("/users/"+user.getUID()+"/chats/").child(remoteMessage.getData().get("UID"));
@@ -71,7 +95,7 @@ public class MessagingService extends FirebaseMessagingService {
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+
         }
     }
 }

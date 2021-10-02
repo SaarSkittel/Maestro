@@ -39,6 +39,7 @@ public class ConversationFragment extends Fragment {
     FloatingActionButton sendButton;
     RecyclerView recyclerView;
     BroadcastReceiver newMessageReceived;
+    BroadcastReceiver newNotificationReceived;
     List<ChatMessage> chatMessages;
 
     @Nullable
@@ -66,17 +67,33 @@ public class ConversationFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+
         IntentFilter filter = new IntentFilter("message_received");
         newMessageReceived = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 chatMessages.clear();
-                chatMessages = new ArrayList<ChatMessage>(User.getInstance().getChatById(UID));
+                chatMessages.addAll(User.getInstance().getChatById(UID));
                 adapter.notifyDataSetChanged();
                 recyclerView.scrollToPosition(adapter.getItemCount() - 1);
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived, filter);
+
+        IntentFilter filter2 = new IntentFilter("notification_received");
+        newNotificationReceived = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                List<String>notificationList=User.getInstance().getNotifications();
+               for(int i=0;i<notificationList.size();++i){
+                   if(notificationList.get(i)==UID) {
+                       User.getInstance().getNotifications().remove(i);
+                   }
+               }
+            }
+        };
+        LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newNotificationReceived, filter);
+
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

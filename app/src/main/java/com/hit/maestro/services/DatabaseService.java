@@ -76,6 +76,8 @@ public class DatabaseService extends Service {
                     }
                     DatabaseProxy.getInstance().setAllUsers(userList);
                 }
+                Intent intent = new Intent("user_update");
+                LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
             }
 
             @Override
@@ -84,7 +86,7 @@ public class DatabaseService extends Service {
             }
         });
 
-/*
+        /*
         databaseProxy.getDatabase().getReference().child("users/"+user.getUID()+"/chats").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -118,7 +120,7 @@ public class DatabaseService extends Service {
 
             }
         });
-*/
+        */
 
         databaseProxy.getDatabase().getReference().child("chats").addValueEventListener(new ValueEventListener() {
             @Override
@@ -273,6 +275,40 @@ public class DatabaseService extends Service {
 
             }
         });*/
+
+        databaseProxy.getDatabase().getReference().child("users/"+user.getUID()+"/notifications").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                /*for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    user.getNotifications().add(dataSnapshot.getValue(String.class));
+                }*/
+                user.getNotifications().add(snapshot.getValue(String.class));
+                databaseProxy.setUserNotifications(new ArrayList<String>());
+                Intent intent = new Intent("notification_received");
+                LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override

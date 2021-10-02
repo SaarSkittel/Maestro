@@ -49,7 +49,6 @@ public class DatabaseProxy {
         this.courses = courses;
     }
 
-
     public HashMap<String, List<ChatMessage>> getLessonChats() {
         return lessonChats;
     }
@@ -65,6 +64,7 @@ public class DatabaseProxy {
         userList= new ArrayList<HashMap<String,String>>();
         lessonChats=new HashMap<String, List<ChatMessage>>();
     }
+
     public static DatabaseProxy getInstance(){
         if(databaseProxy==null){
             synchronized (DatabaseProxy.class){
@@ -87,6 +87,7 @@ public class DatabaseProxy {
         DatabaseReference reference = database.getReference("/users/"+User.getInstance().getUID()).child("name");
         reference.setValue(name);
     }
+
     public List<HashMap<String,String>> getAllUsers(){
         return userList;
     }
@@ -104,6 +105,25 @@ public class DatabaseProxy {
             }
         }
         return name;
+    }
+
+    public List<String> getUserNotificationsByUID(String UID){
+        List<String> notifications=new ArrayList<>();
+        database.getReference().child("users/"+UID+"/notifications").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                DataSnapshot snapshot=task.getResult();
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    notifications.add(dataSnapshot.getValue(String.class));
+                }
+            }
+        });
+        return notifications;
+    }
+
+    public void setUserNotifications(List<String>notifications){
+        DatabaseReference reference = database.getReference().child("users/"+User.getInstance().getUID()+"/notifications");
+        reference.setValue(notifications);
     }
 
     public void setUserImageUri(Uri image, String UID){
@@ -124,7 +144,6 @@ public class DatabaseProxy {
         });
     }
 
-
     public String getUserImageUri(String UID){
         String image=new String();
         for(int i=0;i<userList.size();++i){
@@ -135,7 +154,8 @@ public class DatabaseProxy {
         }
         return image;
     }
-   public List<String> getCourses(String UID){
+
+    public List<String> getCourses(String UID){
         final List<String>[] courses = new List[]{new ArrayList<>()};
         database.getReference().child("users/"+UID+"/courses").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -212,7 +232,6 @@ public class DatabaseProxy {
         return courseList;
     }
 */
-
 
     public void setCourses(List<String> courses){
        DatabaseReference reference = database.getReference().child("users").child(User.getInstance().getUID()).child("courses");

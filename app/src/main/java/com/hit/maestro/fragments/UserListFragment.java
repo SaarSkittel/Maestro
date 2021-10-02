@@ -1,5 +1,9 @@
 package com.hit.maestro.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +14,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,7 +38,7 @@ public class UserListFragment extends Fragment {
     RecyclerView recyclerView;
     UserListAdapter adapter;
     List<HashMap<String,String>>userList;
-
+    BroadcastReceiver newMessageReceived;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,6 +59,16 @@ public class UserListFragment extends Fragment {
             }
         });
 
+        IntentFilter filter=new IntentFilter("user_update");
+        newMessageReceived=new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                userList.clear();
+                userList.addAll(DatabaseProxy.getInstance().getAllUsers());
+                adapter.notifyDataSetChanged();
+            }
+        };
+        LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));

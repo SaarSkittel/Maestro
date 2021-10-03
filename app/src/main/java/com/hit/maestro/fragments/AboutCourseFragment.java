@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hit.maestro.Course;
 import com.hit.maestro.R;
 import com.hit.maestro.Reaction;
@@ -82,8 +83,9 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
         setText(courseNameTv, receivedCourse.getName());
         setText(lecturerNameTv, receivedCourse.getLecturer());
         setText(descriptionTv, receivedCourse.getDescription());
-        Bitmap bitmap=ReactionAdapter.StringToBitMap(receivedCourse.getImage());
-        CoursePhoto.setImageBitmap(bitmap);
+        Glide.with(this).load(receivedCourse.getImage()).centerCrop().into(CoursePhoto);
+        //Bitmap bitmap=ReactionAdapter.StringToBitMap(receivedCourse.getImage());
+        //CoursePhoto.setImageBitmap(bitmap);
 
 
 

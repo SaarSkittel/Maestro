@@ -17,62 +17,63 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/about_toolbar">
+        android:id="@+id/about_sv"
+        android:layout_below="@+id/about_toolbar"
+        android:layout_above="@+id/registerBtn">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             tools:context=".fragments.AboutCourseFragment">
+
+            <ImageView
+                android:id="@+id/course_iv"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Course name:AAAAA"
+                android:text="AAAAA"
                 android:textColor="@color/black"
-                android:background="@drawable/tvshape"
-                android:gravity="center"
-                android:layout_margin="10dp"
-                android:textSize="30dp"
+                android:textStyle="bold"
+                android:gravity="start"
+                android:layout_margin="5dp"
+                android:textSize="30sp"
                 android:id="@+id/course_name_tv" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Lecturer name:AAAAA"
+                android:text="AAAAA"
                 android:textColor="@color/black"
-                android:layout_margin="10dp"
-                android:background="@drawable/tvshape"
-                android:gravity="center"
-                android:textSize="30dp"
+                android:layout_margin="5dp"
+                android:gravity="start"
+                android:textSize="18sp"
                 android:id="@+id/lecturer_name_tv" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Description:"
-                android:textColor="@color/black"
-                android:layout_margin="10dp"
-                android:textSize="30dp" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
                 android:textColor="@color/black"
-                android:background="@drawable/tvshape"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:id="@+id/description_tv" />
-            <ImageView
-                android:id="@+id/course_iv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/drums" />
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_margin="20dp"
+                android:layout_height="5dp"
+                android:layout_margin="10dp"
                 android:background="@color/black"/>
             <Button
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:background="@drawable/button_shape"
+                android:padding="20dp"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:text="Add comment"
                 android:id="@+id/add_comment_btn">
             </Button>
@@ -102,18 +103,21 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_margin="20dp"
+                android:layout_height="5dp"
+                android:layout_margin="10dp"
                 android:background="@color/black"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/registerBtn"
-                android:backgroundTint="#FFC107"
-                android:textColor="@color/black"
-                android:textAllCaps="false"
-                android:layout_margin="10dp" />
         </LinearLayout>
     </ScrollView>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/registerBtn"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:background="@drawable/button_shape"
+        android:padding="20dp"
+        android:textAllCaps="false"
+        android:layout_margin="10dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

@@ -98,7 +98,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         editPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PictureFragment pictureFragment=new PictureFragment(Uri.parse(DatabaseProxy.getInstance().getUserImageUri(User.getInstance().getUID())));
+                PictureFragment pictureFragment=new PictureFragment(MainFragment.this, Uri.parse(DatabaseProxy.getInstance().getUserImageUri(User.getInstance().getUID())));
                 pictureFragment.show(getChildFragmentManager(),PICTURE_TAG);
             }
         });
@@ -321,5 +321,11 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             drawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setAndLoadPic(Uri uri){
+        Glide.with(this)
+                .load(uri)
+                .into(navImage);
     }
 }

@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,7 +39,9 @@ import com.hit.maestro.R;
 import com.hit.maestro.User;
 import com.hit.maestro.proxy.DatabaseProxy;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -56,6 +61,7 @@ public class PictureFragment extends DialogFragment {
     ActivityResultLauncher<Intent> takePictureActivityResultLauncher;
     ActivityResultLauncher<Intent> picFromAlbumActivityResultLauncher;
     RegisterFragment registerFragment;
+    MainFragment mainFragment;
     View view;
 
     @Nullable
@@ -107,10 +113,12 @@ public class PictureFragment extends DialogFragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                reduce();
                 if(registerFragment!=null)
                     registerFragment.setPic(pic);
                 else{
                     DatabaseProxy.getInstance().setUserImageUri(pic, User.getInstance().getUID());
+                    mainFragment.setAndLoadPic(pic);
                 }
                 PictureFragment.this.dismiss();
             }
@@ -191,7 +199,59 @@ public class PictureFragment extends DialogFragment {
         this.pic=pic;
     }
 
-    public PictureFragment(Uri pic) {
+    public PictureFragment(MainFragment mainFragment, Uri pic) {
+        this.mainFragment = mainFragment;
         this.pic=pic;
+    }
+
+    private Bitmap decodeUri(Context c, Uri uri, final int requiredSize)
+            throws FileNotFoundException {
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inJustDecodeBounds = true;
+        BitmapFactory.decodeStream(c.getContentResolver().openInputStream(uri), null, o);
+
+        int width_tmp = o.outWidth
+                , height_tmp = o.outHeight;
+        int scale = 1;
+
+        while(true) {
+            if(width_tmp / 2 < requiredSize || height_tmp / 2 < requiredSize)
+                break;
+            width_tmp /= 2;
+            height_tmp /= 2;
+            scale *= 2;
+        }
+
+        BitmapFactory.Options o2 = new BitmapFactory.Options();
+        o2.inSampleSize = scale;
+        return BitmapFactory.decodeStream(c.getContentResolver().openInputStream(uri), null, o2);
+    }
+
+    private Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public static Bitmap rotateImage(Bitmap src, float degree)
+    {
+        // create new matrix
+        Matrix matrix = new Matrix();
+        // setup rotation degree
+        matrix.postRotate(degree);
+        Bitmap bmp = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
+        return bmp;
+    }
+
+    private void reduce(){
+        try {
+            Bitmap bitmap = decodeUri(getContext(),pic,200);
+            bitmap = rotateImage(bitmap,270);
+            pic = getImageUri(getContext(),bitmap);
+        }
+        catch (FileNotFoundException e){
+
+        }
     }
 }

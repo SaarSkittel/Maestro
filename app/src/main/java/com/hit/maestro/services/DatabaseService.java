@@ -60,6 +60,24 @@ public class DatabaseService extends Service {
         //final ChatRoom[] chats = new ChatRoom[1];
        // final HashMap<String, HashMap<String, HashMap<String, Object>>>[] chats = new HashMap[]{new HashMap<String,  HashMap<String,Object>>()};
 
+        databaseProxy.getDatabase().getReference().child("users/"+user.getUID()).child("courses").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if (snapshot.exists()) {
+                    List<String>userCourseList=new ArrayList<>();
+                    for (DataSnapshot dataSnapshot:snapshot.getChildren()){
+                        userCourseList.add(dataSnapshot.getValue(String.class));
+                    }
+                    DatabaseProxy.getInstance().setCourses(userCourseList);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         databaseProxy.getDatabase().getReference().child("users").addValueEventListener(new ValueEventListener() {
             @Override

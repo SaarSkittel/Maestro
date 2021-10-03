@@ -48,7 +48,9 @@ public class ChatListFragment extends Fragment {
         view=inflater.inflate(R.layout.chat_list_fragment,container,false);
         recyclerView=view.findViewById(R.id.list_chat_rv);
         map=new HashMap<>( User.getInstance().getChats());
-        keys = new ArrayList<String>( map.keySet());
+        //keys = new ArrayList<String>( map.keySet());
+        keys=new ArrayList<>(User.getInstance().getOrderMessages());
+        Collections.reverse(keys);
        /* if(!map.isEmpty()) {
             keys = sortHashMapByValues(User.getInstance().getChats());
         }*/
@@ -70,7 +72,8 @@ public class ChatListFragment extends Fragment {
                 //if(!map.isEmpty()){
                     //keys=new ArrayList<String>(map.keySet());
                     keys.clear();
-                    keys.addAll(map.keySet());
+                    keys.addAll(User.getInstance().getOrderMessages());
+                    Collections.reverse(keys);
                     //keys=sortHashMapByValues(User.getInstance().getChats());
                     adapter.notifyDataSetChanged();
                 //}
@@ -106,10 +109,10 @@ public class ChatListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        map.clear();
+        /*map.clear();
         map=new LinkedHashMap<>( User.getInstance().getChats());
         keys.clear();
         keys.addAll(map.keySet());
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();*/
     }
 }

@@ -83,6 +83,24 @@ public class DatabaseProxy {
 
     }
 
+    public void setOrderMessages(List<String>messages, String UID){
+        DatabaseReference reference = database.getReference("users").child(UID).child("order");
+        reference.setValue(messages);
+    }
+
+    public List<String> getOrderMessages(String UID){
+        List<String>orderMessages=new ArrayList<>();
+        database.getReference("users").child(UID).child("order").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                DataSnapshot snapshot=task.getResult();
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    orderMessages.add(dataSnapshot.getValue(String.class));
+                }
+            }
+        });
+        return orderMessages;
+    }
     public void setUserName(String name){
         DatabaseReference reference = database.getReference("/users/"+User.getInstance().getUID()).child("name");
         reference.setValue(name);

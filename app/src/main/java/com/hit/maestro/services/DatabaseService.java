@@ -213,6 +213,7 @@ public class DatabaseService extends Service {
                         ChatMessage message=new ChatMessage(messageListHash.get(i));
                         if(user.getChatById(snapshot.getKey())==null){
                             user.getChats().put(snapshot.getKey(),new ArrayList<ChatMessage>());
+                            user.getOrderMessages().add(snapshot.getKey());
                         }
                         user.getChatById(snapshot.getKey()).add(message);
                         //messageList.add(new ChatMessage(messageListHash.get(i)));
@@ -236,7 +237,12 @@ public class DatabaseService extends Service {
                     user.getChatById(snapshot.getKey()).add(message);
                     //messageList.add(new ChatMessage(messageListHash.get(i)));
                    // }
-                    
+                    for(int i=0;i<user.getOrderMessages().size();++i){
+                        if(user.getOrderMessages().get(i).matches(snapshot.getKey())){
+                            user.getOrderMessages().remove(i);
+                            user.getOrderMessages().add(snapshot.getKey());
+                        }
+                    }
                     Intent intent = new Intent("message_received");
                     LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
                 }

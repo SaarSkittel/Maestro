@@ -1,5 +1,8 @@
 package com.hit.maestro.fragments;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -8,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -60,7 +64,6 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     DatabaseProxy proxy;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    Button test;
     User user;
     SharedPreferences sp;
     ProgressBar progressBar;
@@ -68,6 +71,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     TextView navTitle;
     LinearLayout editPic;
     ShapeableImageView navImage;
+    AnimatorSet animatorSet;
 
     @Nullable
     @Override
@@ -83,13 +87,6 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
 
         sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
         user = User.getInstance();
-        test=view.findViewById(R.id.test);
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_chatFragment);
-            }
-        });
         helloTv = view.findViewById(R.id.hello_tv);
         drawerLayout=view.findViewById(R.id.drawer_Layout);
         navigationView=view.findViewById(R.id.navigation_view);
@@ -176,6 +173,13 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
 
 
         registerBtn = view.findViewById(R.id.login_btn);
+        ObjectAnimator anim1 = ObjectAnimator.ofFloat(registerBtn,"alpha",0.5f).setDuration(1000);
+        anim1.setRepeatMode(ValueAnimator.REVERSE);
+        anim1.setRepeatCount(Animation.INFINITE);
+        animatorSet=new AnimatorSet();
+        animatorSet.play(anim1);
+        animatorSet.start();
+
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,10 +188,9 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             }
         });
 
-
-
         return view;
     }
+
     /*
     @Override
     public void onSignInFromRegisterFragment(){

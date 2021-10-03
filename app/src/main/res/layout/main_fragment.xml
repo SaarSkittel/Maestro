@@ -48,10 +48,7 @@
             android:layout_weight="8"
             android:id="@+id/course_rv" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/test"/>
+
         <Button
             android:id="@+id/login_btn"
             android:layout_width="match_parent"

@@ -1,7 +1,9 @@
 package com.hit.maestro;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,14 +25,25 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             User.getInstance().setConnected(false);
-            User.getInstance().SignOut();
+            //User.getInstance().SignOut();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = new Intent("app_status");
+        intent.putExtra("status",true);
+        LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.d(TAG,"pause");
+        Intent intent = new Intent("app_status");
+        intent.putExtra("status",false);
+        LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
         SharedPreferences.Editor editor = sp.edit();
         if (sp.getBoolean("remember", false)) {
             editor.putString("email", User.getInstance().getEmail());

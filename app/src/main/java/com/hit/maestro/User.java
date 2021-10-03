@@ -11,6 +11,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.hit.maestro.proxy.DatabaseProxy;
 
@@ -30,7 +31,7 @@ public class User {
     private String UID;
     private List<String>notifications;
     private FirebaseMessaging messaging=FirebaseMessaging.getInstance();
-
+    private List<String>orderMessages;
 
 
     public List<String> getCourses() {
@@ -76,6 +77,14 @@ public class User {
 
     public void setNotifications(List<String> notifications) {
         this.notifications = notifications;
+    }
+
+    public List<String> getOrderMessages() {
+        return orderMessages;
+    }
+
+    public void setOrderMessages(List<String> orderMessages) {
+        this.orderMessages = orderMessages;
     }
 
     private List<String> courses;
@@ -166,7 +175,7 @@ public class User {
                 if(firebaseUser!=null) {
                     isConnected = true;
                     courses=new ArrayList<>();
-
+                    orderMessages=new ArrayList<>();
                     chats=new HashMap<String,List<ChatMessage>>(0);
                     notifications=new ArrayList<String>();
                     UID=firebaseUser.getUid();
@@ -234,6 +243,7 @@ public class User {
                     password = i_password;
                     messaging.unsubscribeFromTopic(UID);
                     messaging.subscribeToTopic(UID);
+                    orderMessages=DatabaseProxy.getInstance().getOrderMessages(UID);
 
                 }
                 else{
@@ -248,7 +258,10 @@ public class User {
         firebaseAuth.signOut();
         isConnected = false;
         messaging.unsubscribeFromTopic(UID);
+        DatabaseProxy.getInstance().setUserNotifications(notifications);
+        DatabaseProxy.getInstance().setOrderMessages(orderMessages,UID);
     }
+
     public boolean CheckStatus(){
         boolean status;
         if(firebaseUser!=null && !firebaseUser.isAnonymous())

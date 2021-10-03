@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -19,6 +20,8 @@ import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.hit.maestro.Course;
 import com.hit.maestro.R;
 import com.hit.maestro.User;
@@ -30,8 +33,11 @@ public class CourseFragment extends Fragment {
     View view;
     ExpandableListView expandableListView;
     SubjectAdapter adapter;
-    TextView title;
+    TextView course_tv;
+
     SharedPreferences sp;
+    ImageView courseImage;
+    CollapsingToolbarLayout collapsing;
 
     @Nullable
     @Override
@@ -42,10 +48,19 @@ public class CourseFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        title = view.findViewById(R.id.course_title);
+       //title = view.findViewById(R.id.course_title);
         //Boolean connectedStatus = sp.getBoolean("status",false);
-        title.setText(User.getInstance().isConnected() ? "hello " + User.getInstance().getFullName() : "Guest mode");
+        //title.setText(User.getInstance().isConnected() ? "hello " + User.getInstance().getFullName() : "Guest mode");
         Course course = (Course) getArguments().getSerializable("Course");
+
+        course_tv = view.findViewById(R.id.course_info_tv);
+        course_tv.setText(course.getDescription());
+        collapsing=view.findViewById(R.id.collapsing_layout);
+        collapsing.setTitle(course.getName());
+        collapsing.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
+        collapsing.setExpandedTitleColor(getResources().getColor(R.color.white));
+        courseImage = view.findViewById(R.id.course_iv);
+        Glide.with(view).load(course.getImage()).into(courseImage);
         adapter = new SubjectAdapter(getContext(), course.getSubjects());
         adapter.setListener(new SubjectAdapter.MyLessonListener() {
             @Override

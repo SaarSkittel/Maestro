@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DatabaseService extends Service {
+
     private DatabaseProxy databaseProxy= DatabaseProxy.getInstance();
     private User user=User.getInstance();
     @Nullable

@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_mainFragment_to_aboutCourseFragment"
             app:destination="@id/aboutCourseFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
@@ -56,4 +59,12 @@
         android:id="@+id/conversationFragment"
         android:name="com.hit.maestro.fragments.ConversationFragment"
         android:label="ConversationFragment" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.hit.maestro.fragments.NotificationFragment"
+        android:label="NotificationFragment" >
+        <action
+            android:id="@+id/action_notificationFragment_to_conversationFragment"
+            app:destination="@id/conversationFragment" />
+    </fragment>
 </navigation>

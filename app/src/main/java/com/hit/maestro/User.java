@@ -30,9 +30,18 @@ public class User {
     private String password;
     private String UID;
     private List<String>notifications;
+    private List<String> courses;
+    private HashMap<String,List<ChatMessage>> chats;
     private FirebaseMessaging messaging=FirebaseMessaging.getInstance();
     private List<String>orderMessages;
 
+    public FirebaseMessaging getMessaging() {
+        return messaging;
+    }
+
+    public void setMessaging(FirebaseMessaging messaging) {
+        this.messaging = messaging;
+    }
 
     public List<String> getCourses() {
         return courses;
@@ -59,7 +68,10 @@ public class User {
         boolean isRegistered=false;
         if(!courses.isEmpty()){
             for (int i=0;i<courses.size();++i){
-                if(courseName.matches(courses.get(i))){
+                /*if(courseName.matches(courses.get(i))){
+                    isRegistered=true;
+                }*/
+                if(courseName.equals(courses.get(i))){
                     isRegistered=true;
                 }
             }
@@ -87,8 +99,14 @@ public class User {
         this.orderMessages = orderMessages;
     }
 
-    private List<String> courses;
-    private HashMap<String,List<ChatMessage>> chats;
+    public void setUID(String UID) {
+        this.UID = UID;
+    }
+
+    public void setFirebaseUser(FirebaseUser firebaseUser) {
+        this.firebaseUser = firebaseUser;
+    }
+
 
     public String getUID() {
         return UID;
@@ -236,8 +254,10 @@ public class User {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    isConnected=true;
                     Log.d(TAG,"Sign in successful");
+                    firebaseUser = firebaseAuth.getCurrentUser();
+                    UID=firebaseUser.getUid();
+                    isConnected=true;
                     fullName = firebaseUser.getDisplayName();
                     email = i_email;
                     password = i_password;
@@ -260,6 +280,8 @@ public class User {
         messaging.unsubscribeFromTopic(UID);
         DatabaseProxy.getInstance().setUserNotifications(notifications);
         DatabaseProxy.getInstance().setOrderMessages(orderMessages,UID);
+
+        user=null;
     }
 
     public boolean CheckStatus(){

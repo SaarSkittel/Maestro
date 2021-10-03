@@ -8,6 +8,7 @@
     <string name="Sign_up">הרשם</string>
     <string name="Sign_out">התנתק</string>
     <string name="register_title">צור חשבון חדש</string>
+    <string name="login_or_register">הרשם או התחבר</string>
     <string name="name">שם</string>
     <string name="enter_name">הכנס את שמך המלא</string>
     <string name="username">שם משתמש</string>
@@ -30,4 +31,5 @@
     <string name="hello">שלום</string>
     <string name="chat">צ\'אט</string>
     <string name="edit_pic">החלף תמונה</string>
+    <string name="register_to_course">הרשם לקורס</string>
 </resources>

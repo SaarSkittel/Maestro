@@ -112,7 +112,7 @@
                 android:id="@+id/registerBtn"
                 android:backgroundTint="#FFC107"
                 android:textColor="@color/black"
-                android:text="Register"
+                android:textAllCaps="false"
                 android:layout_margin="10dp" />
         </LinearLayout>
     </ScrollView>

@@ -69,7 +69,7 @@ public class DatabaseService extends Service {
                     for (DataSnapshot dataSnapshot:snapshot.getChildren()){
                         userCourseList.add(dataSnapshot.getValue(String.class));
                     }
-                    DatabaseProxy.getInstance().setCourses(userCourseList);
+                    user.setCourses(userCourseList);
                 }
             }
 

@@ -72,6 +72,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     LinearLayout editPic;
     ShapeableImageView navImage;
     AnimatorSet animatorSet;
+    boolean isGuest;
 
     @Nullable
     @Override
@@ -160,9 +161,26 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                 /*SharedPreferences.Editor editor = sp.edit();
                 editor.putBoolean("status", user.isConnected());
                 editor.commit();*/
-                Bundle bundle=new Bundle();
-                bundle.putSerializable("Course", courseList.get(position));
-                Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_courseFragment,bundle);
+                String course = courseList.get(position).getName();
+                if(!isGuest && User.getInstance().isUserRegisteredToCourse(course)){
+                    Bundle bundle=new Bundle();
+                    bundle.putSerializable("Course", courseList.get(position));
+                    Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_courseFragment,bundle);
+                }
+                else{
+                    Bundle bundle=new Bundle();
+                    if(isGuest){
+                        bundle.putBoolean("guest",true);
+                    }
+                    else{
+                        bundle.putBoolean("guest",false);
+                    }
+                    bundle.putSerializable("Course", courseList.get(position));
+                    Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_aboutCourseFragment,bundle);
+                }
+                //Bundle bundle=new Bundle();
+                //bundle.putSerializable("Course", courseList.get(position));
+                //Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_courseFragment,bundle);
             }
         });
         recyclerView =view.findViewById(R.id.course_rv);
@@ -276,12 +294,14 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             String title = getResources().getString(R.string.hello) +" "+ user.getFullName();
             helloTv.setText(title);
             navTitle.setText(title);
+            isGuest = false;
             pic=Uri.parse(DatabaseProxy.getInstance().getUserImageUri(User.getInstance().getUID()));
             getActivity().startService(intent);
         }
         else{
             editPic.setVisibility(View.INVISIBLE);
             helloTv.setText("Guest mode");
+            isGuest=true;
             pic=Uri.parse("android.resource://com.hit.maestro/drawable/default_profile_picture");
         }
         Glide.with(this)

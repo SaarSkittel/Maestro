@@ -18,8 +18,13 @@ import androidx.fragment.app.DialogFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.hit.maestro.ChatMessage;
 import com.hit.maestro.R;
 import com.hit.maestro.User;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -71,6 +76,13 @@ public class LoginFragment extends DialogFragment {
                                 User.getInstance().setFullName(User.getInstance().getFirebaseUser().getDisplayName());
                                 User.getInstance().setUserName(email);
                                 User.getInstance().setPassword(password);
+                                User.getInstance().setFirebaseUser(User.getInstance().getFirebaseAuth().getCurrentUser());
+                                User.getInstance().setUID(User.getInstance().getFirebaseUser().getUid());
+                                User.getInstance().setCourses(new ArrayList<>());
+                                User.getInstance().setChats(new HashMap<String, List<ChatMessage>>(0));
+                                User.getInstance().setNotifications(new ArrayList<String>());
+                                User.getInstance().getMessaging().unsubscribeFromTopic(User.getInstance().getUID());
+                                User.getInstance().getMessaging().subscribeToTopic(User.getInstance().getUID());
                                 LoginFragment.this.dismiss();
                                 User.getInstance().getUserData();
                                 callback.onCompleted();

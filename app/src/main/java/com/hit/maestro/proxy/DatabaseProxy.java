@@ -26,6 +26,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class DatabaseProxy {
     private static DatabaseProxy databaseProxy=null;
@@ -59,7 +60,10 @@ public class DatabaseProxy {
 
     private DatabaseProxy() {
         database=FirebaseDatabase.getInstance();
-        courses=database.getReference().child("courses");
+        if(Locale.getDefault().getDisplayLanguage().equals("עברית"))
+            courses=database.getReference().child("courses_heb");
+        else
+            courses=database.getReference().child("courses");
         courseList=new ArrayList<Course>();
         userList= new ArrayList<HashMap<String,String>>();
         lessonChats=new HashMap<String, List<ChatMessage>>();
@@ -252,7 +256,9 @@ public class DatabaseProxy {
 */
 
     public void setCourses(List<String> courses){
-       DatabaseReference reference = database.getReference().child("users").child(User.getInstance().getUID()).child("courses");
-       reference.setValue(courses);
+       //DatabaseReference reference = database.getReference().child("users").child(User.getInstance().getUID()).child("courses");
+       DatabaseReference reference = database.getReference().child("users/"+User.getInstance().getUID()+"/courses");
+
+        reference.setValue(courses);
     }
 }

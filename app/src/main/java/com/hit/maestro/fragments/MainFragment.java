@@ -3,7 +3,9 @@ package com.hit.maestro.fragments;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,11 +32,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.hit.maestro.ChatMessage;
 import com.hit.maestro.Course;
 import com.hit.maestro.adapter.CourseAdapter;
 import com.hit.maestro.proxy.DatabaseProxy;
@@ -43,6 +49,7 @@ import com.hit.maestro.User;
 import com.hit.maestro.services.DatabaseService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -65,7 +72,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     User user;
-    //SharedPreferences sp;
+    SharedPreferences sp;
     ProgressBar progressBar;
     View headerLayout;
     TextView navTitle;
@@ -79,6 +86,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.main_fragment,container,false);
 
+        sp = getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
         progressBar=view.findViewById(R.id.progress_bar);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
@@ -88,6 +96,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
 
         //sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
         user = User.getInstance();
+        registerBtn = view.findViewById(R.id.login_btn);
         helloTv = view.findViewById(R.id.hello_tv);
         drawerLayout=view.findViewById(R.id.drawer_Layout);
         navigationView=view.findViewById(R.id.navigation_view);
@@ -119,10 +128,17 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                         user.setUserData();
                         user.SignOut();
                         setNavigationViewSituation(false);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putBoolean("remember", false);
+                        editor.commit();
                         break;
                     case R.id.item_chat:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_chatFragment);
+                        break;
+                    case R.id.item_notif:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_notificationFragment);
                         break;
                 }
 
@@ -190,8 +206,6 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
 
         recyclerView.setAdapter(adapter);
 
-
-        registerBtn = view.findViewById(R.id.login_btn);
         ObjectAnimator anim1 = ObjectAnimator.ofFloat(registerBtn,"alpha",0.5f).setDuration(1000);
         anim1.setRepeatMode(ValueAnimator.REVERSE);
         anim1.setRepeatCount(Animation.INFINITE);
@@ -206,6 +220,8 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                 registerOrLoginFragment.show(getChildFragmentManager(),REGISTER_OR_LOGIN_TAG);
             }
         });
+
+        RememberMe();
 
         return view;
     }
@@ -286,7 +302,9 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         navigationView.getMenu().findItem(R.id.item_sign_up).setVisible(!signOutStatus);
         navigationView.getMenu().findItem(R.id.item_sign_out).setVisible(signOutStatus);
         navigationView.getMenu().findItem(R.id.item_chat).setVisible(signOutStatus);
+        navigationView.getMenu().findItem(R.id.item_notif).setVisible(signOutStatus);
         if(signOutStatus){
+            registerBtn.setVisibility(View.GONE);
             editPic.setVisibility(View.VISIBLE);
             Intent intent=new Intent(getContext() , DatabaseService.class);
             String title = getResources().getString(R.string.hello) +" "+ user.getFullName();
@@ -297,6 +315,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             getActivity().startService(intent);
         }
         else{
+            registerBtn.setVisibility(View.VISIBLE);
             editPic.setVisibility(View.INVISIBLE);
             helloTv.setText("Guest mode");
             isGuest=true;
@@ -325,5 +344,34 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         Glide.with(this)
                 .load(uri)
                 .into(navImage);
+    }
+
+    private void RememberMe(){
+        if (sp.getBoolean("remember", false)) {
+            User.getInstance().getFirebaseAuth().signInWithEmailAndPassword(sp.getString("email", ""), sp.getString("password", "")).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        //editor.putBoolean("status", true);
+                        User.getInstance().setConnected(true);
+                        User.getInstance().setFullName(User.getInstance().getFirebaseUser().getDisplayName());
+                        User.getInstance().setUserName(sp.getString("email", ""));
+                        User.getInstance().setPassword(sp.getString("password", ""));
+                        User.getInstance().setFirebaseUser(User.getInstance().getFirebaseAuth().getCurrentUser());
+                        User.getInstance().setUID(User.getInstance().getFirebaseUser().getUid());
+                        //User.getInstance().setCourses(new ArrayList<>());
+                        User.getInstance().setChats(new HashMap<String, List<ChatMessage>>(0));
+                        User.getInstance().setNotifications(new ArrayList<String>());
+                        User.getInstance().getMessaging().unsubscribeFromTopic(User.getInstance().getUID());
+                        User.getInstance().getMessaging().subscribeToTopic(User.getInstance().getUID());
+                        User.getInstance().setOrderMessages(new ArrayList<String>());
+                        User.getInstance().getUserData();
+                        setNavigationViewSituation(true);
+                    } else {
+                        User.getInstance().setConnected(false);
+                    }
+                }
+            });
+        }
     }
 }

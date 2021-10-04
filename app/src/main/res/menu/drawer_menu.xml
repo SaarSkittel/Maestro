@@ -20,6 +20,10 @@
                 android:id="@+id/item_chat"
                 android:title="@string/chat"
                 android:icon="@drawable/chat"/>
+            <item
+                android:id="@+id/item_notif"
+                android:title="@string/notif"
+                android:icon="@drawable/notifications"/>
         </menu>
     </item>
 

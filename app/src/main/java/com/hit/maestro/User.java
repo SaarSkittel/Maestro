@@ -255,16 +255,18 @@ public class User {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Log.d(TAG,"Sign in successful");
-                    firebaseUser = firebaseAuth.getCurrentUser();
-                    UID=firebaseUser.getUid();
                     isConnected=true;
                     fullName = firebaseUser.getDisplayName();
                     email = i_email;
                     password = i_password;
+                    firebaseUser = firebaseAuth.getCurrentUser();
+                    UID=firebaseUser.getUid();
+                    chats=new HashMap<String,List<ChatMessage>>(0);
+                    notifications=new ArrayList<String>();
                     messaging.unsubscribeFromTopic(UID);
                     messaging.subscribeToTopic(UID);
-                    orderMessages=DatabaseProxy.getInstance().getOrderMessages(UID);
-
+                    orderMessages=new ArrayList<String>();
+                    getUserData();
                 }
                 else{
                     isConnected=false;

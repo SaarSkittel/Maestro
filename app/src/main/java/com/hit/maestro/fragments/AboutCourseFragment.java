@@ -109,7 +109,7 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
                 //add to my courses list
                 //get full Permissions
                 if(isGuest){
-                    
+
                     registerOrLoginFragment=new RegisterOrLoginFragment((RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener)AboutCourseFragment.this);
                     registerOrLoginFragment.show(getChildFragmentManager(),REGISTER_OR_LOGIN_TAG);
                 }

@@ -31,7 +31,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class LoginFragment extends DialogFragment {
 
     RegisterFragment.OnCompletedFragmentListener callback;
-    //SharedPreferences sp;
+    SharedPreferences sp;
     final String RESET_TAG = "4";
 
     public LoginFragment(RegisterFragment.OnCompletedFragmentListener callback) {
@@ -45,7 +45,7 @@ public class LoginFragment extends DialogFragment {
         EditText passwordET = view.findViewById(R.id.password_login);
         TextView note = view.findViewById(R.id.note_login);
         CheckBox rememberCheckBox = view.findViewById(R.id.remember_me);
-        //sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
+        sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
 
         Button submitBtn = view.findViewById(R.id.submit_btn);
         submitBtn.setOnClickListener(new View.OnClickListener() {
@@ -96,12 +96,12 @@ public class LoginFragment extends DialogFragment {
                         }
                     });
                 }
-               /* SharedPreferences.Editor editor = sp.edit();
+                SharedPreferences.Editor editor = sp.edit();
                 if(rememberCheckBox.isChecked())
                     editor.putBoolean("remember", true);
                 else
                     editor.putBoolean("remember", false);
-                editor.commit();*/
+                editor.commit();
             }
         });
 

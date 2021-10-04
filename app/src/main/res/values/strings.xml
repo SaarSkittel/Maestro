@@ -31,4 +31,5 @@
     <string name="chat">Chat</string>
     <string name="edit_pic">Edit image</string>
     <string name="register_to_course">Register to the course</string>
+    <string name="notif">notifications</string>
 </resources>

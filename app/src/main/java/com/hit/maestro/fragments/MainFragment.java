@@ -161,6 +161,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                 /*SharedPreferences.Editor editor = sp.edit();
                 editor.putBoolean("status", user.isConnected());
                 editor.commit();*/
+                isGuest=!user.isConnected();
                 String course = courseList.get(position).getName();
                 if(!isGuest && User.getInstance().isUserRegisteredToCourse(course)){
                     Bundle bundle=new Bundle();
@@ -286,11 +287,8 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         navigationView.getMenu().findItem(R.id.item_sign_out).setVisible(signOutStatus);
         navigationView.getMenu().findItem(R.id.item_chat).setVisible(signOutStatus);
         if(signOutStatus){
-
-
             editPic.setVisibility(View.VISIBLE);
             Intent intent=new Intent(getContext() , DatabaseService.class);
-
             String title = getResources().getString(R.string.hello) +" "+ user.getFullName();
             helloTv.setText(title);
             navTitle.setText(title);

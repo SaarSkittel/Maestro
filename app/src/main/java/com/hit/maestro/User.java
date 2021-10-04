@@ -68,12 +68,12 @@ public class User {
         boolean isRegistered=false;
         if(!courses.isEmpty()){
             for (int i=0;i<courses.size();++i){
-                /*if(courseName.matches(courses.get(i))){
-                    isRegistered=true;
-                }*/
-                if(courseName.equals(courses.get(i))){
+                if(courseName.matches(courses.get(i))){
                     isRegistered=true;
                 }
+                /*if(courseName.equals(courses.get(i))){
+                    isRegistered=true;
+                }*/
             }
         }
         return isRegistered;

@@ -20,10 +20,9 @@ import java.util.List;
 
 public class SubjectAdapter extends BaseExpandableListAdapter {
     List<Subject> subjects;
-    private LayoutInflater inflater;
+
     private Context context;
     private MyLessonListener listener;
-
 
     public interface MyLessonListener{
         void onLessonClicked( int childPosition,int groupPosition, View view);
@@ -33,10 +32,8 @@ public class SubjectAdapter extends BaseExpandableListAdapter {
         this.listener = listener;
     }
 
-
     public SubjectAdapter(Context context, List<Subject> subjects) {
         this.context=context;
-        this.inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.subjects = subjects;
     }
 
@@ -77,11 +74,12 @@ public class SubjectAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        Subject subject=(Subject)getGroup(groupPosition);
         if(convertView==null){
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView=inflater.inflate(R.layout.subject_item,null);
         }
         TextView subjectTV= (TextView)convertView.findViewById(R.id.subject_tv);
-        Subject subject=(Subject)getGroup(groupPosition);
         subjectTV.setText(subject.getNameSubject());
         return convertView;
     }
@@ -89,21 +87,21 @@ public class SubjectAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         Lesson lesson= (Lesson)getChild(groupPosition,childPosition);
-
         if(convertView==null){
-           convertView=inflater.inflate(R.layout.lesson_item,null);
-            View finalConvertView = convertView;
-            TextView lessonTV =(TextView)convertView.findViewById(R.id.lesson_tv);
-            lessonTV.setText(lesson.getNameLesson());
-            lessonTV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener!=null){
-                        listener.onLessonClicked(childPosition,groupPosition, finalConvertView);
-                    }
-                }
-            });
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView=inflater.inflate(R.layout.lesson_item,null);
+
         }
+        TextView lessonTV =(TextView)convertView.findViewById(R.id.lesson_tv);
+        lessonTV.setText(lesson.getNameLesson());
+        lessonTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener!=null){
+                    listener.onLessonClicked(childPosition, groupPosition, v);
+                }
+            }
+        });
         return convertView;
     }
 
@@ -111,4 +109,5 @@ public class SubjectAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
+
 }

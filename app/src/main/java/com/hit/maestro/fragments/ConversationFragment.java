@@ -98,6 +98,7 @@ public class ConversationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!message.getText().toString().isEmpty()) {
+                    User.getInstance().setUserNotification(UID);
                     MessagingProxy.SendMessageTo(UID, message.getText().toString(), true, getContext());
                     message.setText("");
                 }

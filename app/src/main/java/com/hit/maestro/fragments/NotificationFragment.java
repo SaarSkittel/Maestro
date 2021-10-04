@@ -1,8 +1,13 @@
 package com.hit.maestro.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +22,7 @@ import com.hit.maestro.adapter.ChatListAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -25,6 +31,7 @@ public class NotificationFragment extends Fragment {
     RecyclerView recyclerView;
     List<String> notifications;
     ChatListAdapter adapter;
+    BroadcastReceiver newMessageReceived;
     User user;
 
     @Override
@@ -37,6 +44,21 @@ public class NotificationFragment extends Fragment {
         notifications = new ArrayList<>(user.getNotifications());
        Collections.reverse(notifications);
        adapter = new ChatListAdapter(notifications);
+
+        IntentFilter filter=new IntentFilter("notification_received");
+        newMessageReceived=new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+               notifications.clear();
+
+                notifications.addAll(User.getInstance().getNotifications());
+                Collections.reverse(notifications);
+                //keys=sortHashMapByValues(User.getInstance().getChats());
+                adapter.notifyDataSetChanged();
+                //}
+            }
+        };
+        LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);
 
 
         recyclerView.setHasFixedSize(true);

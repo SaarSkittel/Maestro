@@ -175,6 +175,15 @@ public class User {
         this.authStateListener = authStateListener;
     }
 
+    public void setUserNotification(String UID){
+        for (int i=0;i<notifications.size();++i){
+            if(notifications.get(i).matches(UID)){
+                notifications.remove(i);
+            }
+        }
+        notifications.add(UID);
+    }
+
     public void getUserData(){
         //User user = DatabaseProxy.getInstance().getUser(UID);
        //this.chats= DatabaseProxy.getInstance().getChats(getUID());

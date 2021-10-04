@@ -308,6 +308,11 @@ public class DatabaseService extends Service {
                 /*for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     user.getNotifications().add(dataSnapshot.getValue(String.class));
                 }*/
+                for (int i=0;i<user.getNotifications().size();++i){
+                    if(snapshot.getValue(String.class).matches(user.getNotifications().get(i))){
+                        user.getNotifications().remove(i);
+                    }
+                }
                 user.getNotifications().add(snapshot.getValue(String.class));
                 databaseProxy.setUserNotifications(new ArrayList<String>());
                 Intent intent = new Intent("notification_received");

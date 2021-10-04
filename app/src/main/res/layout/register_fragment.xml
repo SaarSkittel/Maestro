@@ -85,7 +85,7 @@
                 android:background="@drawable/edittextshape"
                 android:inputType="textPassword"
                 android:textSize="13sp"
-                
+
                 android:id="@+id/confirmPassword_input"/>
 
             <TextView

@@ -65,7 +65,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     User user;
-    SharedPreferences sp;
+    //SharedPreferences sp;
     ProgressBar progressBar;
     View headerLayout;
     TextView navTitle;
@@ -86,7 +86,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.menu);
 
-        sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
+        //sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
         user = User.getInstance();
         helloTv = view.findViewById(R.id.hello_tv);
         drawerLayout=view.findViewById(R.id.drawer_Layout);
@@ -261,13 +261,13 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     @Override
     public void onStart() {
         super.onStart();
-        user.AddListener();
+        //user.AddListener();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        user.RemoveListener();
+        //user.RemoveListener();
     }
 
     @Override

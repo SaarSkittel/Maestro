@@ -145,7 +145,7 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
 
     @Override
     public void onCompleted() {
-        Intent intent=new Intent(getContext() , DatabaseService.class);
+        Intent intent=new Intent(getActivity() , DatabaseService.class);
         getActivity().startService(intent);
         isGuest = !User.getInstance().isConnected();
         register.setText(getResources().getString(R.string.register_to_course));

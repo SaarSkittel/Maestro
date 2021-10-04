@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/dialog_shape"
     android:padding="15dp">
 
     <ImageView
@@ -28,7 +27,7 @@
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
         android:text="@string/sign_in"
-        android:textColor="@color/black"/>
+        android:textColor="#EC5151"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -42,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/email"
-                android:textColor="@color/black"
+                android:textColor="#EC5151"
                 android:layout_marginTop="20dp"/>
             <EditText
                 android:layout_width="match_parent"
@@ -58,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/password"
-                android:textColor="@color/black"
+                android:textColor="#EC5151"
                 android:layout_marginTop="20dp"/>
             <EditText
                 android:textColor="@color/black"
@@ -80,6 +79,7 @@
         android:layout_marginBottom="20dp">
 
         <CheckBox
+
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/remember_me"/>
@@ -105,12 +105,15 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
         android:id="@+id/submit_btn"
+        android:textColor="@color/white"
+        android:background="@drawable/buttonshape"
         android:textAllCaps="false"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
+        android:paddingTop="10dp"
+        android:textSize="15sp"
         android:text="@string/forgot"
         android:textColor="#04198A"
         android:id="@+id/forgot_btn"

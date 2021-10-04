@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#F8E008"
+    android:background="@color/white"
     android:padding="40dp">
 
     <TextView
@@ -14,7 +14,7 @@
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
         android:text="@string/register_title"
-        android:textColor="@color/black"/>
+        android:textColor="#EC5151"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/name"
-                android:textColor="@color/black"
+                android:textColor="#EC5151"
                 android:layout_marginTop="20dp"/>
             <EditText
                 android:textColor="@color/black"
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/email"
-                android:textColor="@color/black"
+                android:textColor="#EC5151"
                 android:layout_marginTop="20dp"/>
             <EditText
                 android:textColor="@color/black"
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/password"
-                android:textColor="@color/black"
+                android:textColor="#EC5151"
                 android:layout_marginTop="20dp"/>
             <EditText
                 android:textColor="@color/black"
@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/confirm_password"
-                android:textColor="@color/black"
+                android:textColor="#EC5151"
                 android:layout_marginTop="20dp"/>
             <EditText
                 android:textColor="@color/black"
@@ -85,13 +85,14 @@
                 android:background="@drawable/edittextshape"
                 android:inputType="textPassword"
                 android:textSize="13sp"
+                
                 android:id="@+id/confirmPassword_input"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/select_pic"
-                android:textColor="@color/black"
+                android:textColor="#EC5151"
                 android:layout_marginTop="20dp"/>
             <LinearLayout
                 android:id="@+id/buttons_layout"
@@ -103,13 +104,14 @@
                 android:layout_marginBottom="5dp"
                 android:paddingTop="5dp">
                 <Button
+
                     android:id="@+id/add_pic"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/white"
+                    android:background="@drawable/buttonshape"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:paddingRight="10dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="4dp"
@@ -133,6 +135,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/buttonshape"
+        android:textColor="@color/white"
         android:text="@string/Sign_up"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"

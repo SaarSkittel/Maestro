@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#F8E008"
+    android:background="@color/white"
     android:padding="40dp">
 
     <TextView
@@ -15,7 +15,7 @@
         android:textSize="20sp"
         android:text="@string/choose_action"
         android:layout_margin="10dp"
-        android:textColor="@color/black"/>
+        android:textColor="#EC5151"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -23,7 +23,9 @@
         android:text="@string/sign_in"
         android:textSize="20sp"
         android:gravity="center"
+        android:textColor="@color/white"
         android:layout_gravity="center_horizontal"
+        android:background="@drawable/buttonshape"
         android:textAllCaps="false"
         android:layout_margin="10dp"
         android:id="@+id/signin_btn"/>
@@ -34,6 +36,8 @@
         android:text="@string/Sign_up"
         android:textSize="20sp"
         android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@drawable/buttonshape"
         android:layout_gravity="center_horizontal"
         android:textAllCaps="false"
         android:layout_margin="10dp"

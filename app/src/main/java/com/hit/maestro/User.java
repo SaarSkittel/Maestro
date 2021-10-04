@@ -183,6 +183,7 @@ public class User {
     public void setUserData(){
         DatabaseProxy.getInstance().setUser(this);
     }
+
     private User(){
 
         firebaseAuth=FirebaseAuth.getInstance();
@@ -200,7 +201,6 @@ public class User {
                     //chats.put(UID,messages);
                     messaging.unsubscribeFromTopic(UID);
                     messaging.subscribeToTopic(UID);
-
                 }
                 else
                     isConnected=false;

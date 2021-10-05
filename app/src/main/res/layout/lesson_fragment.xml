@@ -25,7 +25,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/youtube_player_view"
         android:layout_above="@id/send_line"
-        android:background="#C7CF74"
+        android:background="@color/white"
         android:id="@+id/lesson_chat_rv"/>
 
     <RelativeLayout

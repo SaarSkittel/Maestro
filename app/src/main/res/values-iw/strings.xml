@@ -28,7 +28,7 @@
     <string name="reset_password_note">ברגע שתלחץ על \'אפס סיסמה\', אתה תקבל מייל על מנת לאפס את הסיסמה</string>
     <string name="check_email">בדוק את המייל שלך לאיפוס הסיסמא</string>
     <string name="save_pic">שמור תמונה</string>
-    <string name="hello">שלום</string>
+    <string name="hello">שלום,</string>
     <string name="chat">צ\'אט</string>
     <string name="edit_pic">החלף תמונה</string>
     <string name="register_to_course">הרשם לקורס</string>
@@ -40,5 +40,10 @@
     <string name="add_pic">הוסף תמונה</string>
     <string name="type">הקלד/י הודעה</string>
     <string name="chats">צ\'אטים</string>
-    <string name="hello_coma">שלום,</string>
+    <string name="wait">אנא המתן</string>
+    <string name="wrong">שם משתמש או סיסמה שגויים</string>
+    <string name="fields">אנא מלא את כל התאים</string>
+    <string name="success">הרשמה בוצעה בהצלחה, אנא המתן</string>
+    <string name="pass_valid">וודא שהסיסמה שלך נכונה</string>
+    <string name="permissions">אי אפשר לעבוד ללא הרשאות עבור להגדרות למתן גישהע</string>
 </resources>

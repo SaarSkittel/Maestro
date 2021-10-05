@@ -71,11 +71,14 @@ public class MessagingService extends FirebaseMessagingService {
                 int importance=NotificationManager.IMPORTANCE_DEFAULT;
                 NotificationChannel notificationChannel=new NotificationChannel(channelID,channelName,importance);
                 manager.createNotificationChannel(notificationChannel);
+
             }
 
             Notification.Builder builder=new Notification.Builder(getBaseContext(),channelID);
             builder.setSmallIcon(android.R.drawable.ic_dialog_email).setContentTitle("Maestro").setContentText("You Have New Messages");
+
             Notification notification= builder.build();
+            
             manager.notify(NOTIFICATION_ID,notification);
 
             //Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());

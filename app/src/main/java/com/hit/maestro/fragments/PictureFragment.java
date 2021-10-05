@@ -200,7 +200,7 @@ public class PictureFragment extends DialogFragment {
                 picFromMemory();
             }
             else {
-                Toast.makeText(view.getContext(),"Can't work without permissions go to setting to grant access.",Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext(),getResources().getString(R.string.permissions),Toast.LENGTH_LONG).show();
             }
         }
     }

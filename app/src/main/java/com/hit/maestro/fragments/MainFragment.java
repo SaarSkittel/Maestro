@@ -36,6 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
@@ -67,7 +68,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     RecyclerView recyclerView;
     CourseAdapter adapter;
     Button registerBtn;
-
+    BadgeDrawable badge;
     SignOutDialog signOutDialog;
     RegisterFragment registerFragment;
     RegisterOrLoginFragment registerOrLoginFragment;
@@ -93,7 +94,6 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.main_fragment,container,false);
-
         sp = getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
         progressBar=view.findViewById(R.id.progress_bar);
         Toolbar toolbar = view.findViewById(R.id.toolbar);

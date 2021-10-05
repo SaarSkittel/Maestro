@@ -123,9 +123,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:text="@string/confirm_password"
-                    android:textColor="#EC5151"
-                    android:layout_marginTop="20dp"/>
+                    android:textColor="#EC5151" />
                 <EditText
                     android:textColor="@color/black"
                     android:layout_width="match_parent"

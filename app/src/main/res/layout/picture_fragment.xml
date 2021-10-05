@@ -58,16 +58,16 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/album_btn"
-            android:rotationY="180"
-            app:borderWidth="0dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
             android:backgroundTint="@color/white"
+            android:src="@drawable/add_photo"
             android:tint="@color/orange"
-            android:src="@drawable/add_photo" />
+
+            app:borderWidth="0dp" />
 
     </LinearLayout>
     <Button

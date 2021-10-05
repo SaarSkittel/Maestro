@@ -68,7 +68,8 @@
                     android:background="@drawable/edittextshape"
                     android:textSize="15sp"
                     android:inputType="textPassword"
-                    android:id="@+id/password_login"/>
+                    android:id="@+id/password_login"
+                    android:gravity="start"/>
             </LinearLayout>
         </ScrollView>
 

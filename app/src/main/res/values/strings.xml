@@ -39,4 +39,10 @@
     <string name="add_pic">Add Picture</string>
     <string name="type">Type a message</string>
     <string name="chats">Chats</string>
+    <string name="wait">Please Wait</string>
+    <string name="wrong">The username or password is incorrect</string>
+    <string name="fields">Please fill all fields</string>
+    <string name="success">Sign up successful, please wait</string>
+    <string name="pass_valid">Make sure the password is correct</string>
+    <string name="permissions">Can\'t work without permissions go to setting to grant access.</string>
 </resources>

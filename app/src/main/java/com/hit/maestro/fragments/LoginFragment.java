@@ -55,7 +55,7 @@ public class LoginFragment extends DialogFragment {
                 String email = emailET.getText().toString();
                 String password = passwordET.getText().toString();
                 if(email.isEmpty()||password.isEmpty()){
-                    note.setText("Please fill all fields");
+                    note.setText(getResources().getString(R.string.fields));
                 }
                 else{/*
                     user.SignIn(email,password);
@@ -67,7 +67,7 @@ public class LoginFragment extends DialogFragment {
                     else{
                         note.setText("The username or password is incorrect");
                     }*/
-                    note.setText("please wait");
+                    note.setText(getResources().getString(R.string.wait));
                     User.getInstance().getFirebaseAuth().signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -92,7 +92,7 @@ public class LoginFragment extends DialogFragment {
                             else{
                                 //editor.putBoolean("status", false);
                                 User.getInstance().setConnected(false);
-                                note.setText("The username or password is incorrect");
+                                note.setText(getResources().getString(R.string.wrong));
                             }
                         }
                     });

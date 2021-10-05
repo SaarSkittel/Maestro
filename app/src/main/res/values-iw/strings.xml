@@ -40,4 +40,10 @@
     <string name="add_pic">הוסף תמונה</string>
     <string name="type">הקלד/י הודעה</string>
     <string name="chats">צ\'אטים</string>
+    <string name="wait">אנא המתן</string>
+    <string name="wrong">שם משתמש או סיסמה שגויים</string>
+    <string name="fields">אנא מלא את כל התאים</string>
+    <string name="success">הרשמה בוצעה בהצלחה, אנא המתן</string>
+    <string name="pass_valid">וודא שהסיסמה שלך נכונה</string>
+    <string name="permissions">\"אי אפשר לעבוד ללא הרשאות עבור להגדרה למתן גישה.</string>
 </resources>

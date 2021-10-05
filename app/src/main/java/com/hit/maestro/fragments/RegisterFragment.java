@@ -92,10 +92,10 @@ public class RegisterFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if(fullnameET.getText().toString().isEmpty()||emailET.getText().toString().isEmpty()||passwordET.getText().toString().isEmpty()||passwordConfET.getText().toString().isEmpty()){
-                    note.setText("Please fill all fields");
+                    note.setText(getResources().getString(R.string.fields));
                 }
                 else if(!passwordET.getText().toString().equals(passwordConfET.getText().toString())){
-                    note.setText("Make sure the password is correct");
+                    note.setText(getResources().getString(R.string.pass_valid));
                 }
                 /*else if(!exit){
                     note.setText("Please select a profile picture");
@@ -113,7 +113,7 @@ public class RegisterFragment extends DialogFragment {
                             }
                         }
                     });*/
-                    note.setText("Sign up successful, please wait");
+                    note.setText(getResources().getString(R.string.success));
                     user.CreateUser(fullnameET.getText().toString(),emailET.getText().toString(),passwordET.getText().toString(),pic);
                     //user.setUserData();
                     callBack.onCompleted();

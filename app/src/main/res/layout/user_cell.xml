@@ -1,31 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    app:cardElevation="10dp"
-    app:cardCornerRadius="30dp"
-    app:cardBackgroundColor="#CAC7C7"
-    app:cardMaxElevation="5dp"
-    app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="false"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp"
-    >
+    android:orientation="horizontal">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="8dp">
+        android:layout_height="match_parent"
+        android:background="@color/white_smoke">
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/user_image"
             app:srcCompat="@mipmap/ic_launcher"
             android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="24.5dp"
             android:layout_marginStart="20dp"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
         <TextView
@@ -33,10 +23,15 @@
             android:layout_height="wrap_content"
             android:id="@+id/username_tv"
             android:textStyle="bold"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="38dp"
             android:layout_marginStart="12dp"
             android:textColor="@color/black"
             android:layout_toEndOf="@+id/user_image" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@color/gray"
+            android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

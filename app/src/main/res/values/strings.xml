@@ -27,7 +27,8 @@
     <string name="reset_password_note">By clicking RESET, you will receive an email to reset you password</string>
     <string name="check_email">Please check your email to reset the password</string>
     <string name="save_pic">Save Picture</string>
-    <string name="hello">hello,</string>
+    <string name="hello">hello</string>
+    <string name="hello_coma">hello,</string>
     <string name="chat">Chat</string>
     <string name="edit_pic">Edit image</string>
     <string name="register_to_course">Register to the course</string>

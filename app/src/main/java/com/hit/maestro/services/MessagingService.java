@@ -3,6 +3,7 @@ package com.hit.maestro.services;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.hit.maestro.ChatMessage;
+import com.hit.maestro.MainActivity;
 import com.hit.maestro.User;
 import com.hit.maestro.proxy.DatabaseProxy;
 
@@ -74,11 +76,14 @@ public class MessagingService extends FirebaseMessagingService {
 
             }
 
+
             Notification.Builder builder=new Notification.Builder(getBaseContext(),channelID);
             builder.setSmallIcon(android.R.drawable.ic_dialog_email).setContentTitle("Maestro").setContentText("You Have New Messages");
-
+            Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+            PendingIntent pendingIntent= PendingIntent.getActivity(getBaseContext(),0,intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            builder.setContentIntent(pendingIntent);
             Notification notification= builder.build();
-            
+
             manager.notify(NOTIFICATION_ID,notification);
 
             //Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());

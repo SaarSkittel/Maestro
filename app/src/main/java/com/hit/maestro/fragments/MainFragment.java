@@ -86,6 +86,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     ShapeableImageView navImage;
     AnimatorSet animatorSet;
     List<String>courseTitles;
+    SharedPreferences spn;
     boolean isGuest;
     boolean createFirstTime = true;
     BroadcastReceiver newMessageReceived;
@@ -94,6 +95,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.main_fragment,container,false);
+
         sp = getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
         progressBar=view.findViewById(R.id.progress_bar);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
@@ -233,7 +235,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             RememberMe();
             createFirstTime = false;
         }
-
+/*
         IntentFilter filter=new IntentFilter("notification_received");
         newMessageReceived=new BroadcastReceiver() {
             @Override
@@ -247,7 +249,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);
-
+*/
         return view;
     }
 
@@ -329,6 +331,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     @Override
     public void onResume() {
         super.onResume();
+
     }
 
     private void setNavigationViewSituation(boolean signOutStatus){

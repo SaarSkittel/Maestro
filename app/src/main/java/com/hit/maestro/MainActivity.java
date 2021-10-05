@@ -22,10 +22,15 @@ public class MainActivity extends AppCompatActivity {
 
     final String TAG = "MainActivityTAG";
     SharedPreferences sp;
+    SharedPreferences spn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        spn=getSharedPreferences("notif",MODE_PRIVATE);
+        SharedPreferences.Editor editor=spn.edit();
+        editor.putBoolean("notif",getIntent().getBooleanExtra("notif",false));
+        editor.commit();
         setContentView(R.layout.activity_main);
         Log.d(TAG, "create");
 
@@ -34,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         /*Intent intent = new Intent("app_status");
         intent.putExtra("status",true);
         LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);*/

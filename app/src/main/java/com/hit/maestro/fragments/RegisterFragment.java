@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +62,7 @@ public class RegisterFragment extends DialogFragment {
     final String PICTURE_TAG="6";
     OnCompletedFragmentListener callBack;
     ShapeableImageView picture;
+    RelativeLayout relativeLayout;
     Uri pic=Uri.parse("android.resource://com.hit.maestro/drawable/default_profile_picture");
     View view;
 
@@ -128,8 +130,9 @@ public class RegisterFragment extends DialogFragment {
             }
         });
 
-        Button selectPic = view.findViewById(R.id.add_pic);
-        selectPic.setOnClickListener(new View.OnClickListener() {
+        //Button selectPic = view.findViewById(R.id.add_pic);
+        relativeLayout=view.findViewById(R.id.buttons_layout);
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PictureFragment pictureFragment=new PictureFragment(RegisterFragment.this,pic);

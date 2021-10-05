@@ -57,7 +57,7 @@ public class ConversationFragment extends Fragment {
         User.getInstance().updateNotifications(UID);
         //if( User.getInstance().getChats()==null) User.getInstance().getChats().put(UID,new ArrayList<ChatMessage>());
         if (User.getInstance().getChats().containsKey(UID) == false)
-           
+
             User.getInstance().getChats().put(UID, new ArrayList<ChatMessage>());
 
         chatMessages = new ArrayList<ChatMessage>(User.getInstance().getChatById(UID));

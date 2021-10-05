@@ -13,6 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark" />
     <com.google.android.material.tabs.TabLayout
+        android:layoutDirection="ltr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/teal_700"

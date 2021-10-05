@@ -20,6 +20,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="20sp"
+        android:layout_marginLeft="20sp"
         android:orientation="vertical">
         <TextView
             android:layout_width="200dp"
@@ -29,7 +31,37 @@
             android:textSize="20sp"
             android:text="@string/register_title"
             android:textColor="#EC5151"/>
-
+        <RelativeLayout
+            android:id="@+id/buttons_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center"
+            android:paddingTop="5dp">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_alignEnd="@+id/user_image"
+                android:layout_alignBottom="@+id/user_image"
+                android:id="@+id/add_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:tint="#EC5151"
+                app:fabSize="mini"
+                app:borderWidth="0dp"
+                android:textStyle="bold"
+                android:src="@drawable/ic_baseline_add_24"
+               />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:srcCompat="@mipmap/ic_launcher"
+                android:layout_margin="10dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                android:id="@+id/user_image"
+                />
+        </RelativeLayout>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -47,6 +79,7 @@
                     android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white_smoke"
                     android:hint="@string/enter_name"
                     android:background="@drawable/edittextshape"
                     android:textSize="13sp"
@@ -65,6 +98,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/enter_email"
                     android:background="@drawable/edittextshape"
+                    android:backgroundTint="@color/white_smoke"
                     android:inputType="textEmailAddress"
                     android:textSize="13sp"
                     android:id="@+id/email_input"/>
@@ -81,6 +115,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/enter_password"
                     android:background="@drawable/edittextshape"
+                    android:backgroundTint="@color/white_smoke"
                     android:textSize="13sp"
                     android:inputType="textPassword"
                     android:id="@+id/password_input"/>
@@ -99,48 +134,11 @@
                     android:background="@drawable/edittextshape"
                     android:inputType="textPassword"
                     android:textSize="13sp"
-
+                    android:backgroundTint="@color/white_smoke"
                     android:id="@+id/confirmPassword_input"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/select_pic"
-                    android:textColor="#EC5151"
-                    android:layout_marginTop="20dp"/>
-                <LinearLayout
-                    android:id="@+id/buttons_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:paddingTop="5dp">
-                    <Button
-                        android:id="@+id/add_pic"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/buttonshape"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
-                        android:paddingRight="10dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="4dp"
-                        android:drawablePadding="5dp"
-                        android:paddingLeft="10dp"
-                        android:layout_margin="5dp"
-                        android:text="@string/add_pic"/>
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        app:srcCompat="@mipmap/ic_launcher"
-                        android:layout_margin="10dp"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
-                        android:id="@+id/user_image"
-                        />
-                </LinearLayout>
+
+
 
             </LinearLayout>
         </ScrollView>

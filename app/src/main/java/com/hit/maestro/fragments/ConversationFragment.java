@@ -54,10 +54,10 @@ public class ConversationFragment extends Fragment {
         message = view.findViewById(R.id.chat_et);
         sendButton = view.findViewById(R.id.conv_btn);
         String UID = getArguments().getString("UID");
-
+        User.getInstance().updateNotifications(UID);
         //if( User.getInstance().getChats()==null) User.getInstance().getChats().put(UID,new ArrayList<ChatMessage>());
         if (User.getInstance().getChats().containsKey(UID) == false)
-            //User.getInstance().getChats().put(UID,new  HashMap<String, HashMap<String, Object>>());
+           
             User.getInstance().getChats().put(UID, new ArrayList<ChatMessage>());
 
         chatMessages = new ArrayList<ChatMessage>(User.getInstance().getChatById(UID));
@@ -86,12 +86,7 @@ public class ConversationFragment extends Fragment {
         newNotificationReceived = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                List<String>notificationList=User.getInstance().getNotifications();
-               for(int i=0;i<notificationList.size();++i){
-                   if(notificationList.get(i)==UID) {
-                       User.getInstance().getNotifications().remove(i);
-                   }
-               }
+               User.getInstance().updateNotifications(UID);
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newNotificationReceived, filter);

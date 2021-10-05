@@ -95,7 +95,7 @@ public class MessagingProxy {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    Log.d("VOLLEY_IS_SHIT",error.toString());
+                    Log.d("VOLLEY",error.toString());
                     //Send message when something goes wrong
 
                 }
@@ -114,7 +114,7 @@ public class MessagingProxy {
                 }
             };
             queue.add(request);
-            queue.start();
+            //queue.start();
 
         } catch (JSONException e) {
             e.printStackTrace();

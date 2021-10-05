@@ -42,8 +42,8 @@ public class ChatFragment extends androidx.fragment.app.Fragment {
         viewPager = view.findViewById(R.id.chat_vp);
         tabLayout = view.findViewById(R.id.chat_tl);
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-        viewPagerAdapter.addFragment(new ChatListFragment(), "Chats");
-        viewPagerAdapter.addFragment(new UserListFragment(), "Contacts");
+        viewPagerAdapter.addFragment(new ChatListFragment(), getResources().getString(R.string.chats));
+        viewPagerAdapter.addFragment(new UserListFragment(), getResources().getString(R.string.contacts));
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         return view;

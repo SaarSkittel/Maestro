@@ -64,7 +64,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     RecyclerView recyclerView;
     CourseAdapter adapter;
     Button registerBtn;
-    TextView helloTv;
+
     SignOutDialog signOutDialog;
     RegisterFragment registerFragment;
     RegisterOrLoginFragment registerOrLoginFragment;
@@ -100,7 +100,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         //sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
         user = User.getInstance();
         registerBtn = view.findViewById(R.id.login_btn);
-        helloTv = view.findViewById(R.id.hello_tv);
+
         drawerLayout=view.findViewById(R.id.drawer_Layout);
         navigationView=view.findViewById(R.id.navigation_view);
         headerLayout = navigationView.getHeaderView(0);
@@ -321,7 +321,6 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             editPic.setVisibility(View.VISIBLE);
             Intent intent=new Intent(getContext() , DatabaseService.class);
             String title = getResources().getString(R.string.hello) +" "+ user.getFullName();
-            helloTv.setText(title);
             navTitle.setText(title);
             isGuest = false;
             pic=Uri.parse(DatabaseProxy.getInstance().getUserImageUri(User.getInstance().getUID()));
@@ -330,7 +329,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         else{
             registerBtn.setVisibility(View.VISIBLE);
             editPic.setVisibility(View.INVISIBLE);
-            helloTv.setText("Guest mode");
+
             navTitle.setText(getResources().getString(R.string.hello));
             isGuest=true;
             pic=Uri.parse("android.resource://com.hit.maestro/drawable/default_profile_picture");

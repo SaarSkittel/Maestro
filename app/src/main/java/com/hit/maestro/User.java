@@ -35,6 +35,14 @@ public class User {
     private FirebaseMessaging messaging=FirebaseMessaging.getInstance();
     private List<String>orderMessages;
 
+    public void updateNotifications(String UID){
+        for(int i=0;i<notifications.size();++i){
+            if(notifications.get(i).matches(UID)) {
+                notifications.remove(i);
+            }
+        }
+    }
+
     public void addMessageToOrderList(String UID){
         for(int i=0;i<orderMessages.size();++i){
             if(orderMessages.get(i).matches(UID)){

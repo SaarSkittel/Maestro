@@ -7,10 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,13 +21,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hit.maestro.Course;
 import com.hit.maestro.R;
-import com.hit.maestro.Reaction;
 import com.hit.maestro.User;
-import com.hit.maestro.adapter.ReactionAdapter;
 import com.hit.maestro.services.DatabaseService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AboutCourseFragment extends Fragment implements RegisterFragment.OnCompletedFragmentListener, RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener {
 

@@ -131,7 +131,7 @@
                         android:drawablePadding="5dp"
                         android:paddingLeft="10dp"
                         android:layout_margin="5dp"
-                        android:text="Add pic"/>
+                        android:text="@string/add_pic"/>
                     <com.google.android.material.imageview.ShapeableImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"

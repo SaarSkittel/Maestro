@@ -42,7 +42,7 @@
             android:layout_marginStart="50dp"
             android:id="@+id/text_send"
             android:background="@android:color/transparent"
-            android:hint="Type message"
+            android:hint="@string/type"
             android:layout_toStartOf="@id/btn_send"
             android:layout_centerVertical="true"/>
 

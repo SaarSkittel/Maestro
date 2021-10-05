@@ -35,6 +35,15 @@ public class User {
     private FirebaseMessaging messaging=FirebaseMessaging.getInstance();
     private List<String>orderMessages;
 
+    public void addMessageToOrderList(String UID){
+        for(int i=0;i<orderMessages.size();++i){
+            if(orderMessages.get(i).matches(UID)){
+                orderMessages.remove(i);
+            }
+        }
+        orderMessages.add(UID);
+    }
+
     public FirebaseMessaging getMessaging() {
         return messaging;
     }
@@ -78,6 +87,7 @@ public class User {
         }
         return isRegistered;
     }
+
     public List<ChatMessage> getChatById(String UID){
 
         return chats.get(UID);

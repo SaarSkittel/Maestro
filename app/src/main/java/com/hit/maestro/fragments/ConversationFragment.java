@@ -75,6 +75,7 @@ public class ConversationFragment extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 chatMessages.clear();
                 chatMessages.addAll(User.getInstance().getChatById(UID));
+                User.getInstance().addMessageToOrderList(UID);
                 adapter.notifyDataSetChanged();
                 recyclerView.scrollToPosition(adapter.getItemCount() - 1);
             }
@@ -100,6 +101,7 @@ public class ConversationFragment extends Fragment {
             public void onClick(View v) {
                 if (!message.getText().toString().isEmpty()) {
                     User.getInstance().setUserNotification(UID);
+                    User.getInstance().addMessageToOrderList(UID);
                     MessagingProxy.SendMessageTo(UID, message.getText().toString(), true, getContext());
                     message.setText("");
                 }

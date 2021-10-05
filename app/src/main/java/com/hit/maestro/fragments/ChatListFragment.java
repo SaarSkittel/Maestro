@@ -22,6 +22,7 @@ import com.hit.maestro.R;
 import com.hit.maestro.User;
 import com.hit.maestro.adapter.ChatListAdapter;
 
+import java.sql.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,12 +72,13 @@ public class ChatListFragment extends Fragment {
                 map=new HashMap<>(User.getInstance().getChats());
                 //if(!map.isEmpty()){
                     //keys=new ArrayList<String>(map.keySet());
-                    keys.clear();
-                    keys.addAll(User.getInstance().getOrderMessages());
-                    Collections.reverse(keys);
-                    //keys=sortHashMapByValues(User.getInstance().getChats());
-                    adapter.notifyDataSetChanged();
+                keys.clear();
+                keys.addAll(User.getInstance().getOrderMessages());
+                Collections.reverse(keys);
+                //keys.addAll(map.keySet());
+                adapter.notifyDataSetChanged();
                 //}
+
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);
@@ -109,10 +111,14 @@ public class ChatListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        /*map.clear();
-        map=new LinkedHashMap<>( User.getInstance().getChats());
+        map.clear();
+        map=new HashMap<>(User.getInstance().getChats());
+        //if(!map.isEmpty()){
+        //keys=new ArrayList<String>(User.getInstance().getOrderMessages());
         keys.clear();
-        keys.addAll(map.keySet());
-        adapter.notifyDataSetChanged();*/
+        keys.addAll(User.getInstance().getOrderMessages());
+        Collections.reverse(keys);
+        //keys.addAll(map.keySet());
+        adapter.notifyDataSetChanged();
     }
 }

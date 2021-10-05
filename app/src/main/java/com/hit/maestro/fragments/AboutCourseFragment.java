@@ -45,6 +45,7 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
     RegisterFragment registerFragment;
     RegisterOrLoginFragment registerOrLoginFragment;
     LoginFragment loginFragment;
+    String courseTitle;
     boolean isGuest;
 
     @Override
@@ -80,6 +81,7 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
         register =       view.findViewById(R.id.registerBtn);
         //addComment=      view.findViewById(R.id.add_comment_btn);
 
+        courseTitle=getArguments().getString("Title");
         receivedCourse = (Course) getArguments().getSerializable("Course");
         isGuest = getArguments().getBoolean("guest",true);
 
@@ -112,7 +114,7 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
                     registerOrLoginFragment.show(getChildFragmentManager(),REGISTER_OR_LOGIN_TAG);
                 }
                 else{
-                    User.getInstance().addCourseToUser(receivedCourse.getName());
+                    User.getInstance().addCourseToUser(courseTitle);
                     continueToCoursePage();
                 }
             }
@@ -148,7 +150,7 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
         getActivity().startService(intent);
         isGuest = !User.getInstance().isConnected();
 
-        if(!isGuest && User.getInstance().isUserRegisteredToCourse(receivedCourse.getName())){
+        if(!isGuest && User.getInstance().isUserRegisteredToCourse(courseTitle)){
             continueToCoursePage();
         }
         else {

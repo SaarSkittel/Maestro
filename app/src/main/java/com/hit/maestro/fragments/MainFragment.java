@@ -81,6 +81,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     LinearLayout editPic;
     ShapeableImageView navImage;
     AnimatorSet animatorSet;
+    List<String>courseTitles;
     boolean isGuest;
 
     @Nullable
@@ -95,7 +96,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.menu);
-
+        courseTitles=new ArrayList<>();
         //sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
         user = User.getInstance();
         registerBtn = view.findViewById(R.id.login_btn);
@@ -154,6 +155,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                 if (snapshot.exists()) {
                     courseList.clear();
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        courseTitles.add(dataSnapshot.getKey());
                         Course course = dataSnapshot.getValue(Course.class);
                         courseList.add(course);
                     }
@@ -176,7 +178,8 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                 editor.putBoolean("status", user.isConnected());
                 editor.commit();*/
                 isGuest=!user.isConnected();
-                String course = courseList.get(position).getName();
+                String course =courseTitles.get(position);
+                //String course = courseList.get(position).getName();
                 if(!isGuest && User.getInstance().isUserRegisteredToCourse(course)){
                     Bundle bundle=new Bundle();
                     bundle.putSerializable("Course", courseList.get(position));
@@ -186,10 +189,12 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                     Bundle bundle=new Bundle();
                     if(isGuest){
                         bundle.putBoolean("guest",true);
+
                     }
                     else{
                         bundle.putBoolean("guest",false);
                     }
+                    bundle.putString("Title",courseTitles.get(position));
                     bundle.putSerializable("Course", courseList.get(position));
                     Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_aboutCourseFragment,bundle);
                 }

@@ -33,4 +33,7 @@
     <string name="edit_pic">החלף תמונה</string>
     <string name="register_to_course">הרשם לקורס</string>
     <string name="notif">התראות</string>
+    <string name="make_sure_logout">האם אתה בטוח שברצונך להתנתק?</string>
+    <string name="yes">כן</string>
+    <string name="no">לא</string>
 </resources>

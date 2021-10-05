@@ -6,8 +6,8 @@
     android:orientation="vertical">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/conv_toolbar"
-        android:background="@color/black"
-        app:titleTextColor="@color/white"
+        android:background="@color/white"
+        app:titleTextColor="@color/orange"
         app:title="@string/app_name"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

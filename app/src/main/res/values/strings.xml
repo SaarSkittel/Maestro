@@ -32,4 +32,7 @@
     <string name="edit_pic">Edit image</string>
     <string name="register_to_course">Register to the course</string>
     <string name="notif">notifications</string>
+    <string name="make_sure_logout">Are you sure you want to log out?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

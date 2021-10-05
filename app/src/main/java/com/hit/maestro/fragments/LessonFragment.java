@@ -55,6 +55,7 @@ public class LessonFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.back);
         Lesson lesson =(Lesson) getArguments().getSerializable("Lesson");
         text=view.findViewById(R.id.text_send);
         button=view.findViewById(R.id.btn_send);

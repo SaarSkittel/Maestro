@@ -50,6 +50,7 @@ public class ConversationFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.back);
         message = view.findViewById(R.id.chat_et);
         sendButton = view.findViewById(R.id.conv_btn);
         String UID = getArguments().getString("UID");

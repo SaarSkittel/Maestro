@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,9 +36,10 @@ public class RegisterOrLoginFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.register_or_login_fragment,container,false);
+        View view = inflater.inflate(R.layout.register_or_login_fragment,container,false);
 
-        Button signUpBtn = rootView.findViewById(R.id.signup_btn);
+        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_shape);
+        Button signUpBtn = view.findViewById(R.id.signup_btn);
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,7 +47,7 @@ public class RegisterOrLoginFragment extends DialogFragment {
             }
         });
 
-        Button signInBtn = rootView.findViewById(R.id.signin_btn);
+        Button signInBtn = view.findViewById(R.id.signin_btn);
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,7 +55,15 @@ public class RegisterOrLoginFragment extends DialogFragment {
             }
         });
 
-        return rootView;
+        ImageView close = view.findViewById(R.id.close_register_or_login);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RegisterOrLoginFragment.this.dismiss();
+            }
+        });
+
+        return view;
     }
 }
 

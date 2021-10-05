@@ -54,16 +54,18 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class MainFragment extends Fragment implements RegisterFragment.OnCompletedFragmentListener, RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener {
+public class MainFragment extends Fragment implements RegisterFragment.OnCompletedFragmentListener, RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener, SignOutDialog.OnSignOutListener {
     View view;
     final String REGISTER_TAG="1";
     final String REGISTER_OR_LOGIN_TAG="2";
     final String LOGIN_TAG = "3";
     final String PICTURE_TAG="6";
+    final String SIGN_OUT_TAG="7";
     RecyclerView recyclerView;
     CourseAdapter adapter;
     Button registerBtn;
     TextView helloTv;
+    SignOutDialog signOutDialog;
     RegisterFragment registerFragment;
     RegisterOrLoginFragment registerOrLoginFragment;
     LoginFragment loginFragment;
@@ -125,12 +127,8 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                         registerFragment.show(getChildFragmentManager(),REGISTER_TAG);
                         break;
                     case R.id.item_sign_out:
-                        user.setUserData();
-                        user.SignOut();
-                        setNavigationViewSituation(false);
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putBoolean("remember", false);
-                        editor.commit();
+                        signOutDialog=new SignOutDialog((SignOutDialog.OnSignOutListener)MainFragment.this);
+                        signOutDialog.show(getChildFragmentManager(),SIGN_OUT_TAG);
                         break;
                     case R.id.item_chat:
                         drawerLayout.closeDrawer(GravityCompat.START);
@@ -275,6 +273,16 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     }
 
     @Override
+    public void onSignOut() {
+        user.setUserData();
+        user.SignOut();
+        setNavigationViewSituation(false);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean("remember", false);
+        editor.commit();
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         //user.AddListener();
@@ -318,6 +326,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             registerBtn.setVisibility(View.VISIBLE);
             editPic.setVisibility(View.INVISIBLE);
             helloTv.setText("Guest mode");
+            navTitle.setText(getResources().getString(R.string.hello));
             isGuest=true;
             pic=Uri.parse("android.resource://com.hit.maestro/drawable/default_profile_picture");
         }

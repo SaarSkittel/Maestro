@@ -77,6 +77,7 @@ public class RegisterFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.register_fragment,container,false);
+        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_shape);
         EditText fullnameET = view.findViewById(R.id.fullname_input);
         EditText emailET = view.findViewById(R.id.email_input);
         EditText passwordET = view.findViewById(R.id.password_input);
@@ -208,6 +209,15 @@ public class RegisterFragment extends DialogFragment {
                 }
             }
         });777*/
+
+        ImageView close = view.findViewById(R.id.close_register);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RegisterFragment.this.dismiss();
+            }
+        });
+
         return view;
     }
 

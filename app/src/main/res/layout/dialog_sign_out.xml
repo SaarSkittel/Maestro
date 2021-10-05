@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="15dp">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="-5dp"
+        android:layout_marginEnd="-5dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/close_logout"
+        android:clickable="true"
+        android:src="@drawable/close"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:text="@string/make_sure_logout"
+            android:textColor="@color/orange"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/yes"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:id="@+id/yes_btn"
+                android:textColor="@color/white"
+                android:background="@drawable/buttonshape"
+                android:textAllCaps="false"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/no"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:id="@+id/no_btn"
+                android:textColor="@color/white"
+                android:background="@drawable/buttonshape"
+                android:textAllCaps="false"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

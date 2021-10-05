@@ -45,6 +45,7 @@ public class CourseFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.back);
         title = view.findViewById(R.id.course_title);
         imageView=view.findViewById(R.id.course_image_iv);
         //Boolean connectedStatus = sp.getBoolean("status",false);

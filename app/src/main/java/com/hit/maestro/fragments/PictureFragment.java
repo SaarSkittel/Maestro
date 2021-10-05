@@ -68,6 +68,8 @@ public class PictureFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.picture_fragment,container,false);
+        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_shape);
+
         title=view.findViewById(R.id.change_pic_tv);
 
         camera=view.findViewById(R.id.camera_btn);
@@ -157,6 +159,15 @@ public class PictureFragment extends DialogFragment {
                 }
             }
         });
+
+        ImageView close = view.findViewById(R.id.close_pic);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PictureFragment.this.dismiss();
+            }
+        });
+
         return view;
     }
 

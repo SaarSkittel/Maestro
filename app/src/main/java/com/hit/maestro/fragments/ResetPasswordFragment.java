@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class ResetPasswordFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.reset_password_fragment,container,false);
+        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_shape);
         emailET=view.findViewById(R.id.reset_email);
         note=view.findViewById(R.id.reset_note);
         resetBtn=view.findViewById(R.id.reset_btn);
@@ -53,6 +55,15 @@ public class ResetPasswordFragment extends DialogFragment {
                 }
             }
         });
+
+        ImageView close = view.findViewById(R.id.close_reset);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ResetPasswordFragment.this.dismiss();
+            }
+        });
+
         return view;
     }
 }

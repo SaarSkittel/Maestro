@@ -1,45 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/white"
-    android:padding="40dp">
+    android:padding="15dp">
 
-    <TextView
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="-5dp"
+        android:layout_marginEnd="-5dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/close_register_or_login"
+        android:clickable="true"
+        android:src="@drawable/close"/>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        android:text="@string/choose_action"
-        android:layout_margin="10dp"
-        android:textColor="#EC5151"/>
+        android:layout_marginTop="25dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:text="@string/choose_action"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:textColor="#EC5151"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_in"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/buttonshape"
-        android:textAllCaps="false"
-        android:layout_margin="10dp"
-        android:id="@+id/signin_btn"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_in"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/buttonshape"
+            android:textAllCaps="false"
+            android:layout_margin="10dp"
+            android:id="@+id/signin_btn"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Sign_up"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:background="@drawable/buttonshape"
-        android:layout_gravity="center_horizontal"
-        android:textAllCaps="false"
-        android:layout_margin="10dp"
-        android:id="@+id/signup_btn"/>
-</LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Sign_up"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/buttonshape"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="false"
+            android:layout_margin="10dp"
+            android:id="@+id/signup_btn"/>
+    </LinearLayout>
+</FrameLayout>

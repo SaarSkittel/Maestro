@@ -56,7 +56,9 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.back);
 
+        /*
         RecyclerView recyclerView = view.findViewById(R.id.recycleView_aboutCourse);
         recyclerView.setHasFixedSize(true);
 
@@ -69,13 +71,14 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
         ReactionAdapter reactionAdapter = new ReactionAdapter(reactions);
         recyclerView.setAdapter(reactionAdapter);
 
+         */
         
         courseNameTv =   view.findViewById(R.id.course_name_tv);
         lecturerNameTv = view.findViewById(R.id.lecturer_name_tv);
         descriptionTv =  view.findViewById(R.id.description_tv);
         CoursePhoto =    view.findViewById(R.id.course_iv);
         register =       view.findViewById(R.id.registerBtn);
-        addComment=      view.findViewById(R.id.add_comment_btn);
+        //addComment=      view.findViewById(R.id.add_comment_btn);
 
         receivedCourse = (Course) getArguments().getSerializable("Course");
         isGuest = getArguments().getBoolean("guest",true);
@@ -84,19 +87,15 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
         setText(lecturerNameTv, receivedCourse.getLecturer());
         setText(descriptionTv, receivedCourse.getDescription());
         Glide.with(this).load(receivedCourse.getImage()).centerCrop().into(CoursePhoto);
-        //Bitmap bitmap=ReactionAdapter.StringToBitMap(receivedCourse.getImage());
-        //CoursePhoto.setImageBitmap(bitmap);
 
-
-
-        addComment.setOnClickListener(new View.OnClickListener() {
+        /*addComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //open dialog
                 //take a comment
                 //save in firebase
             }
-        });
+        });*/
         if(isGuest){
             register.setText(getResources().getString(R.string.login_or_register));
         }
@@ -109,7 +108,6 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
                 //add to my courses list
                 //get full Permissions
                 if(isGuest){
-
                     registerOrLoginFragment=new RegisterOrLoginFragment((RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener)AboutCourseFragment.this);
                     registerOrLoginFragment.show(getChildFragmentManager(),REGISTER_OR_LOGIN_TAG);
                 }
@@ -149,7 +147,13 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
         Intent intent=new Intent(getActivity() , DatabaseService.class);
         getActivity().startService(intent);
         isGuest = !User.getInstance().isConnected();
-        register.setText(getResources().getString(R.string.register_to_course));
+
+        if(!isGuest && User.getInstance().isUserRegisteredToCourse(receivedCourse.getName())){
+            continueToCoursePage();
+        }
+        else {
+            register.setText(getResources().getString(R.string.register_to_course));
+        }
         //User.getInstance().addCourseToUser(receivedCourse.getName());
     }
 

@@ -41,6 +41,7 @@ public class LoginFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment,container,false);
+        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_shape);
         EditText emailET = view.findViewById(R.id.email_login);
         EditText passwordET = view.findViewById(R.id.password_login);
         TextView note = view.findViewById(R.id.note_login);

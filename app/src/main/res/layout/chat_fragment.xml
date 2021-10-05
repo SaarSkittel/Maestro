@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/chat_toolbar"
-        android:background="@color/white"
-        app:titleTextColor="@color/orange"
+        android:background="@color/orange"
+        app:titleTextColor="@color/white"
         app:title="@string/app_name"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -16,11 +17,11 @@
         android:layoutDirection="ltr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/orange"
         android:id="@+id/chat_tl"
-        app:tabSelectedTextColor="@color/orange"
-        app:tabIndicatorColor="@color/orange"
-        app:tabTextColor="@color/orange"/>
+        app:tabSelectedTextColor="@color/white"
+        app:tabIndicatorColor="@color/black"
+        app:tabTextColor="@color/white"/>
 
     <androidx.viewpager.widget.ViewPager
         android:layout_width="wrap_content"

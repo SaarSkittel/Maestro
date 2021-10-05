@@ -38,7 +38,7 @@ public class ChatFragment extends androidx.fragment.app.Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.back);
+        actionBar.setHomeAsUpIndicator(R.drawable.white_back);
         viewPager = view.findViewById(R.id.chat_vp);
         tabLayout = view.findViewById(R.id.chat_tl);
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());

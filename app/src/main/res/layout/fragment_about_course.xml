@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -18,8 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/about_sv"
-        android:layout_below="@+id/about_toolbar"
-        android:layout_above="@+id/registerBtn">
+        android:layout_above="@+id/registerBtn"
+        android:layout_below="@+id/about_toolbar">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="AAAAA"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:gravity="start"
                 android:layout_margin="5dp"
@@ -44,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="AAAAA"
-                android:textColor="@color/black"
+                android:textColor="@color/white_smoke"
                 android:layout_margin="5dp"
                 android:gravity="start"
                 android:textSize="18sp"
@@ -53,60 +54,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:layout_margin="10dp"
                 android:gravity="center"
                 android:textSize="20sp"
                 android:id="@+id/description_tv" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_margin="10dp"
-                android:background="@color/black"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAllCaps="false"
-                android:textSize="18sp"
-                android:textColor="@color/orange"
-                android:background="@drawable/button_shape"
-                android:padding="20dp"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:text="Add comment"
-                android:id="@+id/add_comment_btn">
-            </Button>
-
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="8"
-                    android:id="@+id/recycleView_aboutCourse"/>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center">
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_toLeftOf="@+id/conv_btn"
-                        android:id="@+id/chat_et"/>
-                </RelativeLayout>
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_margin="10dp"
-                android:background="@color/black"/>
-        </LinearLayout>
     </ScrollView>
     <Button
         android:layout_width="wrap_content"

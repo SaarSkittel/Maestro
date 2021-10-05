@@ -4,6 +4,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -27,6 +28,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +51,7 @@ import com.hit.maestro.User;
 import com.hit.maestro.services.DatabaseService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -83,6 +86,8 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     AnimatorSet animatorSet;
     List<String>courseTitles;
     boolean isGuest;
+    boolean createFirstTime = true;
+    BroadcastReceiver newMessageReceived;
 
     @Nullable
     @Override
@@ -224,7 +229,24 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             }
         });
 
-        RememberMe();
+        if(createFirstTime){
+            RememberMe();
+            createFirstTime = false;
+        }
+
+        IntentFilter filter=new IntentFilter("notification_received");
+        newMessageReceived=new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(User.getInstance().getNotifications().isEmpty()){
+                    navigationView.getMenu().findItem(R.id.item_notif).setIcon(R.drawable.notifications);
+                }
+                else{
+                    navigationView.getMenu().findItem(R.id.item_notif).setIcon(R.drawable.blue_notifications);
+                }
+            }
+        };
+        LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);
 
         return view;
     }
@@ -320,11 +342,17 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             registerBtn.setVisibility(View.GONE);
             editPic.setVisibility(View.VISIBLE);
             Intent intent=new Intent(getContext() , DatabaseService.class);
-            String title = getResources().getString(R.string.hello) +" "+ user.getFullName();
+            String title = getResources().getString(R.string.hello_coma) +" "+ user.getFullName();
             navTitle.setText(title);
             isGuest = false;
             pic=Uri.parse(DatabaseProxy.getInstance().getUserImageUri(User.getInstance().getUID()));
             getActivity().startService(intent);
+            if(User.getInstance().getNotifications().isEmpty()){
+                navigationView.getMenu().findItem(R.id.item_notif).setIcon(R.drawable.notifications);
+            }
+            else{
+                navigationView.getMenu().findItem(R.id.item_notif).setIcon(R.drawable.blue_notifications);
+            }
         }
         else{
             registerBtn.setVisibility(View.VISIBLE);
@@ -361,15 +389,17 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
 
     private void RememberMe(){
         if (sp.getBoolean("remember", false)) {
-            User.getInstance().getFirebaseAuth().signInWithEmailAndPassword(sp.getString("email", ""), sp.getString("password", "")).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            String email = sp.getString("email", "");
+            String password = sp.getString("password", "");
+            User.getInstance().getFirebaseAuth().signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         //editor.putBoolean("status", true);
                         User.getInstance().setConnected(true);
                         User.getInstance().setFullName(User.getInstance().getFirebaseUser().getDisplayName());
-                        User.getInstance().setUserName(sp.getString("email", ""));
-                        User.getInstance().setPassword(sp.getString("password", ""));
+                        User.getInstance().setUserName(email);
+                        User.getInstance().setPassword(password);
                         User.getInstance().setFirebaseUser(User.getInstance().getFirebaseAuth().getCurrentUser());
                         User.getInstance().setUID(User.getInstance().getFirebaseUser().getUid());
                         //User.getInstance().setCourses(new ArrayList<>());

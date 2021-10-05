@@ -32,7 +32,6 @@ public class CourseFragment extends Fragment {
     View view;
     ExpandableListView expandableListView;
     SubjectAdapter adapter;
-    TextView title;
     SharedPreferences sp;
     ImageView imageView;
 
@@ -41,17 +40,17 @@ public class CourseFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.course_fragment, container, false);
         sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
+        Course course = (Course) getArguments().getSerializable("Course");
         Toolbar toolbar = view.findViewById(R.id.curse_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.back);
-        title = view.findViewById(R.id.course_title);
+        TextView title=view.findViewById(R.id.course_title);
+        title.setText(course.getName());
         imageView=view.findViewById(R.id.course_image_iv);
         //Boolean connectedStatus = sp.getBoolean("status",false);
-        Course course = (Course) getArguments().getSerializable("Course");
-        Glide.with(view).load(course.getImage()).into(imageView);
-        title.setText(course.getName());
+        Glide.with(view).load(course.getImage()).centerCrop().into(imageView);
         adapter = new SubjectAdapter(getContext(), course.getSubjects());
         adapter.setListener(new SubjectAdapter.MyLessonListener() {
             @Override

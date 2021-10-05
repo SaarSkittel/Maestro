@@ -72,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
             editor.commit();
             User.getInstance().setConnected(true);
         } else {
-            User.getInstance().getFirebaseAuth().signOut();
-
-            //User.getInstance().SignOut();
+            //User.getInstance().getFirebaseAuth().signOut();
+            if(User.getInstance().isConnected())
+                User.getInstance().SignOut();
         }
     }
 }

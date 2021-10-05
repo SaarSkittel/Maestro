@@ -94,6 +94,7 @@ public class SubjectAdapter extends BaseExpandableListAdapter {
         }
         TextView lessonTV =(TextView)convertView.findViewById(R.id.lesson_tv);
         lessonTV.setText(lesson.getNameLesson());
+        lessonTV.setTextColor(context.getResources().getColor(R.color.white));
         lessonTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

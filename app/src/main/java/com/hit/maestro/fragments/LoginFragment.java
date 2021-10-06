@@ -22,6 +22,8 @@ import com.hit.maestro.ChatMessage;
 import com.hit.maestro.R;
 import com.hit.maestro.User;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +33,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class LoginFragment extends DialogFragment {
 
     RegisterFragment.OnCompletedFragmentListener callback;
-    SharedPreferences sp;
+    //SharedPreferences sp;
     final String RESET_TAG = "4";
 
     public LoginFragment(RegisterFragment.OnCompletedFragmentListener callback) {
@@ -46,7 +48,7 @@ public class LoginFragment extends DialogFragment {
         EditText passwordET = view.findViewById(R.id.password_login);
         TextView note = view.findViewById(R.id.note_login);
         CheckBox rememberCheckBox = view.findViewById(R.id.remember_me);
-        sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
+        //sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
 
         Button submitBtn = view.findViewById(R.id.submit_btn);
         submitBtn.setOnClickListener(new View.OnClickListener() {
@@ -97,12 +99,14 @@ public class LoginFragment extends DialogFragment {
                         }
                     });
                 }
-                SharedPreferences.Editor editor = sp.edit();
+                //SharedPreferences.Editor editor = sp.edit();
                 if(rememberCheckBox.isChecked())
-                    editor.putBoolean("remember", true);
+                    //editor.putBoolean("remember", true);
+                    setRememberMe(true);
                 else
-                    editor.putBoolean("remember", false);
-                editor.commit();
+                    //editor.putBoolean("remember", false);
+                setRememberMe(false);
+                //editor.commit();
             }
         });
 
@@ -124,5 +128,17 @@ public class LoginFragment extends DialogFragment {
         });
 
         return view;
+    }
+
+    private void setRememberMe(boolean isRemember){
+        try {
+            FileOutputStream fileOutputStream = getActivity().openFileOutput("remember", MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(isRemember);
+            objectOutputStream.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

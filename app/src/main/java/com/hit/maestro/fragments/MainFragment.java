@@ -51,6 +51,11 @@ import com.hit.maestro.R;
 import com.hit.maestro.User;
 import com.hit.maestro.services.DatabaseService;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -78,7 +83,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     User user;
-    SharedPreferences sp;
+    //SharedPreferences sp;
     SharedPreferences spn;
     ProgressBar progressBar;
     View headerLayout;
@@ -97,7 +102,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.main_fragment,container,false);
 
-        sp = getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
+        //sp = getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
         progressBar=view.findViewById(R.id.progress_bar);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
@@ -307,9 +312,10 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         user.setUserData();
         user.SignOut();
         setNavigationViewSituation(false);
-        SharedPreferences.Editor editor = sp.edit();
+        /*SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean("remember", false);
-        editor.commit();
+        editor.commit();*/
+        setRememberMeAtStorage(false);
     }
 
     @Override
@@ -397,9 +403,11 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     }
 
     private void RememberMe(){
-        if (sp.getBoolean("remember", false)) {
-            String email = sp.getString("email", "");
-            String password = sp.getString("password", "");
+        if (loadRememberMe()/*sp.getBoolean("remember", false)*/) {
+            //String email = sp.getString("email", "");
+            //String password = sp.getString("password", "");
+            String email = loadEmail();
+            String password = loadPassword();
             User.getInstance().getFirebaseAuth().signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -424,6 +432,57 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                     }
                 }
             });
+        }
+    }
+
+    private boolean loadRememberMe(){
+        try {
+            FileInputStream fileInputStream= getActivity().openFileInput("remember");
+            ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream);
+            boolean isRemember = (boolean)objectInputStream.readObject();
+            objectInputStream.close();
+            return isRemember;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private String loadEmail(){
+        try {
+            FileInputStream fileInputStream= getActivity().openFileInput("email");
+            ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream);
+            String email = (String)objectInputStream.readObject();
+            objectInputStream.close();
+            return email;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private String loadPassword(){
+        try {
+            FileInputStream fileInputStream= getActivity().openFileInput("password");
+            ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream);
+            String password = (String)objectInputStream.readObject();
+            objectInputStream.close();
+            return password;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private void setRememberMeAtStorage(boolean isRemember){
+        try {
+            FileOutputStream fileOutputStream = getActivity().openFileOutput("remember", MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(isRemember);
+            objectOutputStream.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

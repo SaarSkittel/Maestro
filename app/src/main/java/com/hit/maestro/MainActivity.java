@@ -19,6 +19,10 @@ import com.google.firebase.auth.AuthResult;
 import com.hit.maestro.fragments.LoginFragment;
 import com.hit.maestro.fragments.NotificationFragment;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +30,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     final String TAG = "MainActivityTAG";
-    SharedPreferences sp;
+    //SharedPreferences sp;
     SharedPreferences spn;
 
     @Override
@@ -93,12 +97,14 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         Log.d(TAG, "stop");
 
-        sp = getSharedPreferences("login_status", MODE_PRIVATE);
-        if (sp.getBoolean("remember", false)) {
-            SharedPreferences.Editor editor = sp.edit();
+        //sp = getSharedPreferences("login_status", MODE_PRIVATE);
+        if (loadRememberMe()/*sp.getBoolean("remember", false)*/) {
+            /*SharedPreferences.Editor editor = sp.edit();
             editor.putString("email", User.getInstance().getEmail());
             editor.putString("password", User.getInstance().getPassword());
-            editor.commit();
+            editor.commit();*/
+            setEmailAtStorage(User.getInstance().getEmail());
+            setPasswordAtStorage(User.getInstance().getPassword());
             User.getInstance().setConnected(true);
         } else {
             //User.getInstance().getFirebaseAuth().signOut();
@@ -111,5 +117,42 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "destroy");
+    }
+
+    private boolean loadRememberMe(){
+        try {
+            FileInputStream fileInputStream= openFileInput("remember");
+            ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream);
+            boolean isRemember = (boolean)objectInputStream.readObject();
+            objectInputStream.close();
+            return isRemember;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private void setEmailAtStorage(String email){
+        try {
+            FileOutputStream fileOutputStream = openFileOutput("email", MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(email);
+            objectOutputStream.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setPasswordAtStorage(String password){
+        try {
+            FileOutputStream fileOutputStream = openFileOutput("password", MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(password);
+            objectOutputStream.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

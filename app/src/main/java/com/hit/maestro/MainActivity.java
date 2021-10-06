@@ -4,6 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.app.Notification;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.hit.maestro.fragments.LoginFragment;
+import com.hit.maestro.fragments.NotificationFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +28,12 @@ public class MainActivity extends AppCompatActivity {
     final String TAG = "MainActivityTAG";
     SharedPreferences sp;
     SharedPreferences spn;
+
+    @Override
+    public void setIntent(Intent newIntent) {
+        super.setIntent(newIntent);
+        setIntent(newIntent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +50,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            final boolean fromNotification = extras.getBoolean("notification");
+            if (fromNotification) {
+                spn=getSharedPreferences("notif",MODE_PRIVATE);
+                SharedPreferences.Editor editor=spn.edit();
+                editor.putBoolean("notif",true);
+                editor.commit();
+            }
+        }
         /*Intent intent = new Intent("app_status");
         intent.putExtra("status",true);
         LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);*/

@@ -10,6 +10,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.navigation.NavDeepLinkBuilder;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,6 +20,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.hit.maestro.ChatMessage;
 import com.hit.maestro.MainActivity;
+import com.hit.maestro.R;
 import com.hit.maestro.User;
 import com.hit.maestro.proxy.DatabaseProxy;
 
@@ -26,7 +28,7 @@ public class MessagingService extends FirebaseMessagingService {
     final String TAG="MessagingService";
     private FirebaseDatabase database;
     private DatabaseReference user;
-
+    private static final String NOTIFICATION="notification";
     NotificationManager manager;
     final int NOTIFICATION_ID=1;
 
@@ -80,7 +82,10 @@ public class MessagingService extends FirebaseMessagingService {
             Notification.Builder builder=new Notification.Builder(getBaseContext(),channelID);
             builder.setSmallIcon(android.R.drawable.ic_dialog_email).setContentTitle("Maestro").setContentText("You Have New Messages");
             Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+            intent.putExtra(NOTIFICATION,true);
             PendingIntent pendingIntent= PendingIntent.getActivity(getBaseContext(),0,intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            //NavDeepLinkBuilder navDeepLinkBuilder= new NavDeepLinkBuilder(getBaseContext());
+            //PendingIntent pendingIntent=navDeepLinkBuilder.setComponentName(MainActivity.class).setGraph(R.navigation.nav).setDestination(R.id.action_mainFragment_to_notificationFragment).createPendingIntent();
             builder.setContentIntent(pendingIntent);
             Notification notification= builder.build();
 

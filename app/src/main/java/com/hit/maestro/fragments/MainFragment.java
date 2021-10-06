@@ -79,6 +79,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     NavigationView navigationView;
     User user;
     SharedPreferences sp;
+    SharedPreferences spn;
     ProgressBar progressBar;
     View headerLayout;
     TextView navTitle;
@@ -86,7 +87,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     ShapeableImageView navImage;
     AnimatorSet animatorSet;
     List<String>courseTitles;
-    SharedPreferences spn;
+
     boolean isGuest;
     boolean createFirstTime = true;
     BroadcastReceiver newMessageReceived;
@@ -331,6 +332,11 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     @Override
     public void onResume() {
         super.onResume();
+        spn =getActivity().getSharedPreferences("notif",MODE_PRIVATE);
+        boolean notification = spn.getBoolean("notif",false);
+        if(notification){
+            Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_notificationFragment);
+        }
 
     }
 

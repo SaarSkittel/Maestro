@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, "resume");
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             final boolean fromNotification = extras.getBoolean("notification");
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d(TAG, "stop");
 
         sp = getSharedPreferences("login_status", MODE_PRIVATE);
         if (sp.getBoolean("remember", false)) {
@@ -102,5 +105,11 @@ public class MainActivity extends AppCompatActivity {
             if(User.getInstance().isConnected())
                 User.getInstance().SignOut();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "destroy");
     }
 }

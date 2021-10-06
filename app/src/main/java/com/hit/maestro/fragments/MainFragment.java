@@ -273,7 +273,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
 
     @Override
     public void onCompleted() {
-        setNavigationViewSituation(user.isConnected());
+        setNavigationViewSituation(true);
     }
 
     @Override
@@ -335,9 +335,11 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         spn =getActivity().getSharedPreferences("notif",MODE_PRIVATE);
         boolean notification = spn.getBoolean("notif",false);
         if(notification){
-            Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_notificationFragment);
+            /*Bundle bundle1=new Bundle();
+            bundle1.putBoolean("from_notif",true);
+            Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_notificationFragment,bundle1);*/
+            navigationView.getMenu().findItem(R.id.item_notif).setIcon(R.drawable.blue_notifications);
         }
-
     }
 
     private void setNavigationViewSituation(boolean signOutStatus){
@@ -371,9 +373,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             isGuest=true;
             pic=Uri.parse("android.resource://com.hit.maestro/drawable/default_profile_picture");
         }
-        Glide.with(this)
-                .load(pic)
-                .into(navImage);
+        Glide.with(this).load(pic).into(navImage);
     }
 
     @Override

@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hit.maestro.Course;
 import com.hit.maestro.R;
 import com.hit.maestro.User;
 import com.hit.maestro.adapter.ChatListAdapter;
@@ -38,12 +39,14 @@ public class NotificationFragment extends Fragment {
     ChatListAdapter adapter;
     BroadcastReceiver newMessageReceived;
     User user;
+    //boolean fromNotif;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view=  inflater.inflate(R.layout.fragment_notification, container, false);
+        //fromNotif = getArguments().getBoolean("from_notif");
         Toolbar toolbar = view.findViewById(R.id.notif_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
@@ -96,8 +99,15 @@ public class NotificationFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            //getParentFragmentManager().popBackStack();
             getActivity().onBackPressed();
+            //getParentFragmentManager().popBackStack();
+            /*if(fromNotif){
+                getParentFragmentManager().popBackStack();
+                Navigation.findNavController(view).navigate(R.id.action_notificationFragment_to_mainFragment);
+            }
+            else{
+                getActivity().onBackPressed();
+            }*/
         }
         return super.onOptionsItemSelected(item);
     }

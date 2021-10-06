@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.hit.maestro.Course;
 import com.hit.maestro.R;
 import com.hit.maestro.User;
+import com.hit.maestro.proxy.DatabaseProxy;
 import com.hit.maestro.services.DatabaseService;
 
 public class AboutCourseFragment extends Fragment implements RegisterFragment.OnCompletedFragmentListener, RegisterOrLoginFragment.OnRegisterOrLoginFragmentListener {
@@ -177,5 +178,14 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
         Bundle bundle=new Bundle();
         bundle.putSerializable("Course", receivedCourse);
         Navigation.findNavController(view).navigate(R.id.action_aboutCourseFragment_to_courseFragment,bundle);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(User.getInstance().isUserRegisteredToCourse(courseTitle)){
+            getActivity().onBackPressed();
+        }
+
     }
 }

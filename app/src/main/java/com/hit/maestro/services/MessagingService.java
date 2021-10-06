@@ -83,12 +83,12 @@ public class MessagingService extends FirebaseMessagingService {
             builder.setSmallIcon(android.R.drawable.ic_dialog_email).setContentTitle("Maestro").setContentText("You Have New Messages");
             Intent intent=new Intent(getApplicationContext(), MainActivity.class);
             intent.putExtra(NOTIFICATION,true);
-            PendingIntent pendingIntent= PendingIntent.getActivity(getBaseContext(),0,intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent pendingIntent= PendingIntent.getActivity(getBaseContext(),0,intent, 0);
             //NavDeepLinkBuilder navDeepLinkBuilder= new NavDeepLinkBuilder(getBaseContext());
             //PendingIntent pendingIntent=navDeepLinkBuilder.setComponentName(MainActivity.class).setGraph(R.navigation.nav).setDestination(R.id.action_mainFragment_to_notificationFragment).createPendingIntent();
             builder.setContentIntent(pendingIntent);
             Notification notification= builder.build();
-
+            notification.flags |= Notification.FLAG_AUTO_CANCEL;
             manager.notify(NOTIFICATION_ID,notification);
 
             //Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());

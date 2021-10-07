@@ -63,6 +63,7 @@ public class PictureFragment extends DialogFragment {
     RegisterFragment registerFragment;
     MainFragment mainFragment;
     View view;
+    String UID;
 
     @Nullable
     @Override
@@ -71,7 +72,9 @@ public class PictureFragment extends DialogFragment {
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_shape);
 
         title=view.findViewById(R.id.change_pic_tv);
-
+        if(mainFragment!=null){
+            UID=User.getInstance().getUID();
+        }
         camera=view.findViewById(R.id.camera_btn);
         album=view.findViewById(R.id.album_btn);
         picture=view.findViewById(R.id.song_iv);
@@ -119,7 +122,7 @@ public class PictureFragment extends DialogFragment {
                 if(registerFragment!=null)
                     registerFragment.setPic(pic);
                 else{
-                    DatabaseProxy.getInstance().setUserImageUri(pic, User.getInstance().getUID());
+                    DatabaseProxy.getInstance().setUserImageInStorage(pic, UID);
                     mainFragment.setAndLoadPic(pic);
                 }
                 PictureFragment.this.dismiss();

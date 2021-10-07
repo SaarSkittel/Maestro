@@ -316,6 +316,8 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         editor.putBoolean("remember", false);
         editor.commit();*/
         setRememberMeAtStorage(false);
+        setEmailAtStorage("");
+        setPasswordAtStorage("");
     }
 
     @Override
@@ -408,30 +410,32 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             //String password = sp.getString("password", "");
             String email = loadEmail();
             String password = loadPassword();
-            User.getInstance().getFirebaseAuth().signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        //editor.putBoolean("status", true);
-                        User.getInstance().setConnected(true);
-                        User.getInstance().setFullName(User.getInstance().getFirebaseUser().getDisplayName());
-                        User.getInstance().setUserName(email);
-                        User.getInstance().setPassword(password);
-                        User.getInstance().setFirebaseUser(User.getInstance().getFirebaseAuth().getCurrentUser());
-                        User.getInstance().setUID(User.getInstance().getFirebaseUser().getUid());
-                        //User.getInstance().setCourses(new ArrayList<>());
-                        User.getInstance().setChats(new HashMap<String, List<ChatMessage>>(0));
-                        User.getInstance().setNotifications(new ArrayList<String>());
-                        User.getInstance().getMessaging().unsubscribeFromTopic(User.getInstance().getUID());
-                        User.getInstance().getMessaging().subscribeToTopic(User.getInstance().getUID());
-                        User.getInstance().setOrderMessages(new ArrayList<String>());
-                        User.getInstance().getUserData();
-                        setNavigationViewSituation(true);
-                    } else {
-                        User.getInstance().setConnected(false);
+            if ((!email.equals("")) && (!password.equals(""))) {
+                User.getInstance().getFirebaseAuth().signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            //editor.putBoolean("status", true);
+                            User.getInstance().setConnected(true);
+                            User.getInstance().setFullName(User.getInstance().getFirebaseUser().getDisplayName());
+                            User.getInstance().setUserName(email);
+                            User.getInstance().setPassword(password);
+                            User.getInstance().setFirebaseUser(User.getInstance().getFirebaseAuth().getCurrentUser());
+                            User.getInstance().setUID(User.getInstance().getFirebaseUser().getUid());
+                            //User.getInstance().setCourses(new ArrayList<>());
+                            User.getInstance().setChats(new HashMap<String, List<ChatMessage>>(0));
+                            User.getInstance().setNotifications(new ArrayList<String>());
+                            User.getInstance().getMessaging().unsubscribeFromTopic(User.getInstance().getUID());
+                            User.getInstance().getMessaging().subscribeToTopic(User.getInstance().getUID());
+                            User.getInstance().setOrderMessages(new ArrayList<String>());
+                            User.getInstance().getUserData();
+                            setNavigationViewSituation(true);
+                        } else {
+                            User.getInstance().setConnected(false);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
 
@@ -479,6 +483,30 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             FileOutputStream fileOutputStream = getActivity().openFileOutput("remember", MODE_PRIVATE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(isRemember);
+            objectOutputStream.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setEmailAtStorage(String email){
+        try {
+            FileOutputStream fileOutputStream = getActivity().openFileOutput("email", MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(email);
+            objectOutputStream.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setPasswordAtStorage(String password){
+        try {
+            FileOutputStream fileOutputStream = getActivity().openFileOutput("password", MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(password);
             objectOutputStream.close();
         }
         catch (Exception e) {

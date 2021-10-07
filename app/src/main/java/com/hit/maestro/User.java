@@ -316,12 +316,11 @@ public class User {
     }
 
     public void SignOut() {
-        firebaseAuth.signOut();
         isConnected = false;
         messaging.unsubscribeFromTopic(UID);
         DatabaseProxy.getInstance().setUserNotifications(notifications);
         DatabaseProxy.getInstance().setOrderMessages(orderMessages,UID);
-
+        firebaseAuth.signOut();
         user=null;
     }
 

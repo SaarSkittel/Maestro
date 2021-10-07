@@ -82,6 +82,7 @@ public class MessagingService extends FirebaseMessagingService {
             Notification.Builder builder=new Notification.Builder(getBaseContext(),channelID);
             builder.setSmallIcon(android.R.drawable.ic_dialog_email).setContentTitle("Maestro").setContentText("You Have New Messages");
             Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+
             intent.putExtra(NOTIFICATION,true);
             PendingIntent pendingIntent= PendingIntent.getActivity(getBaseContext(),0,intent, 0);
             //NavDeepLinkBuilder navDeepLinkBuilder= new NavDeepLinkBuilder(getBaseContext());

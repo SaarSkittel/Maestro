@@ -4,6 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -54,6 +57,11 @@ public class ConversationFragment extends Fragment {
         message = view.findViewById(R.id.chat_et);
         sendButton = view.findViewById(R.id.conv_btn);
         String UID = getArguments().getString("UID");
+
+        Intent intent = new Intent("notification_cancel");
+        intent.putExtra("UID",UID);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+
         User.getInstance().updateNotifications(UID);
         //if( User.getInstance().getChats()==null) User.getInstance().getChats().put(UID,new ArrayList<ChatMessage>());
         if (User.getInstance().getChats().containsKey(UID) == false)
@@ -79,6 +87,15 @@ public class ConversationFragment extends Fragment {
                 adapter.notifyDataSetChanged();
                 User.getInstance().updateNotifications(UID);
                 recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                if (!chatMessages.get(chatMessages.size() - 1).getUID().matches(User.getInstance().getUID())) {
+                    try {
+                        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                        Ringtone r = RingtoneManager.getRingtone(getContext(), notification);
+                        r.play();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived, filter);
@@ -111,7 +128,9 @@ public class ConversationFragment extends Fragment {
         super.onPause();
         //LocalBroadcastManager.getInstance(view.getContext()).unregisterReceiver(newMessageReceived);
         LocalBroadcastManager.getInstance(view.getContext()).unregisterReceiver(newMessageReceived);
-
+        Intent intent = new Intent("notification_cancel");
+        intent.putExtra("UID","");
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
 
     }
 

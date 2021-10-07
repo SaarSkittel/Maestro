@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -55,6 +56,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         holder.userName.setText(DatabaseProxy.getInstance().getUserName(keys.get(position)));
         Glide.with(holder.itemView).load(Uri.parse(DatabaseProxy.getInstance().getUserImageUri(keys.get(position)))).into(holder.imageView);
         holder.latestMessage.setText(chatMessages.get(chatMessages.size()-1).getMessage());
+        if(!User.getInstance().isInNotifications(keys.get(position))){
+            holder.notification.setVisibility(View.INVISIBLE);
+        }
+        else {
+            holder.notification.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -70,10 +77,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         ShapeableImageView imageView;
         TextView userName;
         TextView latestMessage;
+        ImageView notification;
         public ChatListViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView=itemView.findViewById(R.id.conv_image);
             userName=itemView.findViewById(R.id.user_conv_tv);
+            notification=itemView.findViewById(R.id.notification_icon_iv);
             latestMessage=itemView.findViewById(R.id.last_message_tv);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

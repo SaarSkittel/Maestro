@@ -77,11 +77,12 @@ public class ConversationFragment extends Fragment {
                 chatMessages.addAll(User.getInstance().getChatById(UID));
                 User.getInstance().addMessageToOrderList(UID);
                 adapter.notifyDataSetChanged();
+                User.getInstance().updateNotifications(UID);
                 recyclerView.scrollToPosition(adapter.getItemCount() - 1);
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived, filter);
-
+/*
         IntentFilter filter2 = new IntentFilter("notification_received");
         newNotificationReceived = new BroadcastReceiver() {
             @Override
@@ -90,7 +91,7 @@ public class ConversationFragment extends Fragment {
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newNotificationReceived, filter);
-
+*/
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +104,15 @@ public class ConversationFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //LocalBroadcastManager.getInstance(view.getContext()).unregisterReceiver(newMessageReceived);
+        LocalBroadcastManager.getInstance(view.getContext()).unregisterReceiver(newMessageReceived);
+
+
     }
 
     @Override

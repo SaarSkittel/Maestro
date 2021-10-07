@@ -1,5 +1,6 @@
 package com.hit.maestro;
 
+import android.app.PendingIntent;
 import android.net.Uri;
 import android.util.Log;
 
@@ -34,6 +35,17 @@ public class User {
     private HashMap<String,List<ChatMessage>> chats;
     private FirebaseMessaging messaging=FirebaseMessaging.getInstance();
     private List<String>orderMessages;
+
+    public boolean isInNotifications(String UID){
+        boolean answer=false;
+        for(int i=0;i<notifications.size();++i){
+            if(notifications.get(i).matches(UID)){
+                answer=true;
+                break;
+            }
+        }
+        return answer;
+    }
 
     public void updateNotifications(String UID){
         for(int i=0;i<notifications.size();++i){

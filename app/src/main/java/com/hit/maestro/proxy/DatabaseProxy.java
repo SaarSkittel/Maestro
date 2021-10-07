@@ -149,7 +149,6 @@ public class DatabaseProxy {
     }
 
     public void setUserImageUri(Uri image, String UID){
-
         StorageReference fileReference = storageReference.child(UID);
         fileReference.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -166,7 +165,17 @@ public class DatabaseProxy {
         });
     }
 
-    public String getUserImageUri(String UID){
+    public void setUserImageInStorage(Uri image, String UID) {
+        StorageReference fileReference = storageReference.child(UID);
+        fileReference.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d("setImage","Uploaded");
+            }
+        });
+    }
+
+        public String getUserImageUri(String UID){
         String image=new String();
         for(int i=0;i<userList.size();++i){
             if(userList.get(i).get("UID").matches(UID)){

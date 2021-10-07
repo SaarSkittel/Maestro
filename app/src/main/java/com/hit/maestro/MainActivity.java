@@ -108,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
             User.getInstance().setConnected(true);
         } else {
             //User.getInstance().getFirebaseAuth().signOut();
+            setEmailAtStorage("");
+            setPasswordAtStorage("");
             if(User.getInstance().isConnected())
                 User.getInstance().SignOut();
         }

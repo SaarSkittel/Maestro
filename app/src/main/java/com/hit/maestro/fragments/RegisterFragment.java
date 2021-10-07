@@ -43,13 +43,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.hit.maestro.ChatMessage;
 import com.hit.maestro.R;
 import com.hit.maestro.User;
+import com.hit.maestro.proxy.DatabaseProxy;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 public class RegisterFragment extends DialogFragment {
 
@@ -114,10 +120,48 @@ public class RegisterFragment extends DialogFragment {
                         }
                     });*/
                     note.setText(getResources().getString(R.string.success));
-                    user.CreateUser(fullnameET.getText().toString(),emailET.getText().toString(),passwordET.getText().toString(),pic);
+                    /*user.CreateUser(fullnameET.getText().toString(),emailET.getText().toString(),passwordET.getText().toString(),pic);
                     //user.setUserData();
                     callBack.onCompleted();
-                    RegisterFragment.this.dismiss();
+                    RegisterFragment.this.dismiss();*/
+
+                    String email = emailET.getText().toString();
+                    String password = passwordET.getText().toString();
+                    user.getFirebaseAuth().createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                User.getInstance().setConnected(true);
+                                User.getInstance().setFirebaseUser(User.getInstance().getFirebaseAuth().getCurrentUser());
+                                User.getInstance().setFullName(fullnameET.getText().toString());
+                                User.getInstance().setUserName(email);
+                                User.getInstance().setPassword(password);
+                                User.getInstance().setUID(User.getInstance().getFirebaseUser().getUid());
+                                User.getInstance().setChats(new HashMap<String, List<ChatMessage>>(0));
+                                User.getInstance().setNotifications(new ArrayList<String>());
+                                User.getInstance().setCourses(new ArrayList<String>());
+                                User.getInstance().getMessaging().unsubscribeFromTopic(User.getInstance().getUID());
+                                User.getInstance().getMessaging().subscribeToTopic(User.getInstance().getUID());
+                                User.getInstance().setOrderMessages(new ArrayList<String>());
+
+                                user.getFirebaseUser().updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(fullnameET.getText().toString()).build());
+                                DatabaseProxy.getInstance().setUserImageUri(pic,User.getInstance().getUID());
+                                DatabaseProxy.getInstance().setUserName(fullnameET.getText().toString());
+
+                                RegisterFragment.this.dismiss();
+                                callBack.onCompleted();
+                                //  UserProfileChangeRequest request=new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(image)).build();
+                                //user.getFirebaseAuth().getCurrentUser().updateProfile(request);
+                            }
+                            else {
+                                User.getInstance().setConnected(false);
+                                User.getInstance().setFullName("");
+                                User.getInstance().setUserName("");
+                                User.getInstance().setPassword("");
+                                note.setText(getResources().getString(R.string.wrong));
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -148,71 +192,6 @@ public class RegisterFragment extends DialogFragment {
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .into(picture);
 
-        /*777file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES),new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+".jpg");
-        takePictureActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    exit=true;
-                    //Glide.with(RegisterFragment.this).load(pic).into(picture);
-                }
-            }
-        });
-
-        picFromAlbumActivityResultLauncher =registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    //Glide.with(RegisterFragment.this).load(result.getData().getData()).into(picture);
-                    pic=result.getData().getData();
-                    view.getContext().getContentResolver().takePersistableUriPermission(pic
-                            , result.getData().getFlags()
-                                    & ( Intent.FLAG_GRANT_READ_URI_PERMISSION
-                                    + Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                            )
-                    );
-                    exit=true;
-                }
-            }
-        });
-
-
-        camera = view.findViewById(R.id.camera);
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= 23) {
-                    int hasWritePermission = getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                    if (hasWritePermission == PackageManager.PERMISSION_GRANTED) {
-                        takePicture();
-                    } else {
-
-                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, write_permission_request_camera);
-                    }
-                } else {
-                    takePicture();
-                }
-
-            }
-        });
-
-        album = view.findViewById(R.id.gallery);
-        album.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= 23) {
-                    int hasWritePermission = getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                    if (hasWritePermission == PackageManager.PERMISSION_GRANTED) {
-                        picFromMemory();
-                    } else {
-                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, write_permission_request_album);
-                    }
-                } else {
-                    picFromMemory();
-                }
-            }
-        });777*/
-
         ImageView close = view.findViewById(R.id.close_register);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,38 +215,4 @@ public class RegisterFragment extends DialogFragment {
     public Uri getPic() {
         return pic;
     }
-
-    /*private void picFromMemory(){
-        exit=false;
-        Intent intent= new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        //Intent intent= new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-        picFromAlbumActivityResultLauncher.launch(intent);
-    }
-
-    private void takePicture() {
-        exit=false;
-        Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        pic= FileProvider.getUriForFile(view.getContext(),getActivity().getPackageName()+".provider",file);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,pic);
-        takePictureActivityResultLauncher.launch(intent);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if (requestCode == write_permission_request_camera){
-                takePicture();
-            }
-            else if(requestCode == write_permission_request_album){
-                picFromMemory();
-            }
-            else {
-                Toast.makeText(view.getContext(),"Can't work without permissions go to setting to grant access.",Toast.LENGTH_LONG).show();
-            }
-        }
-    }*/
 }

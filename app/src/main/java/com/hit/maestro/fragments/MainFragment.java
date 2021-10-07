@@ -45,6 +45,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.hit.maestro.ChatMessage;
 import com.hit.maestro.Course;
+import com.hit.maestro.ReadAndWriteStorage;
 import com.hit.maestro.adapter.CourseAdapter;
 import com.hit.maestro.proxy.DatabaseProxy;
 import com.hit.maestro.R;
@@ -315,9 +316,9 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         /*SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean("remember", false);
         editor.commit();*/
-        setRememberMeAtStorage(false);
-        setEmailAtStorage("");
-        setPasswordAtStorage("");
+        ReadAndWriteStorage.setRememberMeAtStorage(getActivity(),false);
+        ReadAndWriteStorage.setEmailAtStorage(getActivity(),"");
+        ReadAndWriteStorage.setPasswordAtStorage(getActivity(),"");
     }
 
     @Override
@@ -347,6 +348,9 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             bundle1.putBoolean("from_notif",true);
             Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_notificationFragment,bundle1);*/
             navigationView.getMenu().findItem(R.id.item_notif).setIcon(R.drawable.blue_notifications);
+        }
+        if(ReadAndWriteStorage.loadFromNotification(getActivity())){
+            Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_chatFragment);
         }
     }
 
@@ -405,11 +409,11 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     }
 
     private void RememberMe(){
-        if (loadRememberMe()/*sp.getBoolean("remember", false)*/) {
+        if (ReadAndWriteStorage.loadRememberMe(getActivity())/*sp.getBoolean("remember", false)*/) {
             //String email = sp.getString("email", "");
             //String password = sp.getString("password", "");
-            String email = loadEmail();
-            String password = loadPassword();
+            String email = ReadAndWriteStorage.loadEmail(getActivity());
+            String password = ReadAndWriteStorage.loadPassword(getActivity());
             if ((!email.equals("")) && (!password.equals(""))) {
                 User.getInstance().getFirebaseAuth().signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -439,7 +443,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         }
     }
 
-    private boolean loadRememberMe(){
+    /*private boolean loadRememberMe(){
         try {
             FileInputStream fileInputStream= getActivity().openFileInput("remember");
             ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream);
@@ -512,5 +516,5 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

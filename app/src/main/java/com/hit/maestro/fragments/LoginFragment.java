@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.hit.maestro.ChatMessage;
 import com.hit.maestro.R;
+import com.hit.maestro.ReadAndWriteStorage;
 import com.hit.maestro.User;
 
 import java.io.FileOutputStream;
@@ -102,10 +103,10 @@ public class LoginFragment extends DialogFragment {
                 //SharedPreferences.Editor editor = sp.edit();
                 if(rememberCheckBox.isChecked())
                     //editor.putBoolean("remember", true);
-                    setRememberMe(true);
+                    ReadAndWriteStorage.setRememberMeAtStorage(getActivity(),true);
                 else
                     //editor.putBoolean("remember", false);
-                setRememberMe(false);
+                    ReadAndWriteStorage.setRememberMeAtStorage(getActivity(),false);
                 //editor.commit();
             }
         });
@@ -130,7 +131,7 @@ public class LoginFragment extends DialogFragment {
         return view;
     }
 
-    private void setRememberMe(boolean isRemember){
+    /*private void setRememberMe(boolean isRemember){
         try {
             FileOutputStream fileOutputStream = getActivity().openFileOutput("remember", MODE_PRIVATE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -140,5 +141,5 @@ public class LoginFragment extends DialogFragment {
         catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

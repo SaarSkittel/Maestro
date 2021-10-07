@@ -24,6 +24,7 @@ import androidx.navigation.Navigation;
 import com.bumptech.glide.Glide;
 import com.hit.maestro.Course;
 import com.hit.maestro.R;
+import com.hit.maestro.ReadAndWriteStorage;
 import com.hit.maestro.User;
 import com.hit.maestro.adapter.SubjectAdapter;
 
@@ -33,14 +34,15 @@ public class CourseFragment extends Fragment {
     View view;
     ExpandableListView expandableListView;
     SubjectAdapter adapter;
-    SharedPreferences sp;
+    //SharedPreferences sp;
     ImageView imageView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.course_fragment, container, false);
-        sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
+        //sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
+
         Course course = (Course) getArguments().getSerializable("Course");
         Toolbar toolbar = view.findViewById(R.id.curse_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -83,5 +85,13 @@ public class CourseFragment extends Fragment {
             getActivity().onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(ReadAndWriteStorage.loadFromNotification(getActivity())){
+            getActivity().onBackPressed();
+        }
     }
 }

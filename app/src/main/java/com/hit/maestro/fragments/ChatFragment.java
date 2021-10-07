@@ -13,12 +13,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.navigation.Navigation;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.hit.maestro.R;
+import com.hit.maestro.ReadAndWriteStorage;
 import com.hit.maestro.adapter.ViewPagerAdapter;
 
 public class ChatFragment extends androidx.fragment.app.Fragment {
@@ -61,5 +63,13 @@ public class ChatFragment extends androidx.fragment.app.Fragment {
             getActivity().onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(ReadAndWriteStorage.loadFromNotification(getActivity())){
+            ReadAndWriteStorage.setFromNotificationStorage(getActivity(),false);
+        }
     }
 }

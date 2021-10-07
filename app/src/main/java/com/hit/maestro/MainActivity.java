@@ -30,7 +30,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     final String TAG = "MainActivityTAG";
-    //SharedPreferences sp;
+    SharedPreferences sp;
     SharedPreferences spn;
 
     @Override
@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         spn=getSharedPreferences("notif",MODE_PRIVATE);
         SharedPreferences.Editor editor=spn.edit();
-        editor.putBoolean("notif",getIntent().getBooleanExtra("notif",false));
+        boolean a=getIntent().getBooleanExtra("notification",false);
+        editor.putBoolean("notif",getIntent().getBooleanExtra("notification",false));
         editor.commit();
         setContentView(R.layout.activity_main);
         Log.d(TAG, "create");
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.commit();
             }
         }
+
         /*Intent intent = new Intent("app_status");
         intent.putExtra("status",true);
         LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);*/
@@ -155,5 +157,30 @@ public class MainActivity extends AppCompatActivity {
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void setFromNotificationStorage(boolean fromNotification){
+        try {
+            FileOutputStream fileOutputStream = openFileOutput("notification", MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(fromNotification);
+            objectOutputStream.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean loadFromNotification(){
+        try {
+            FileInputStream fileInputStream= openFileInput("notification");
+            ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream);
+            boolean fromNotification = (boolean)objectInputStream.readObject();
+            objectInputStream.close();
+            return fromNotification;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

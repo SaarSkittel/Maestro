@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hit.maestro.Course;
 import com.hit.maestro.R;
+import com.hit.maestro.ReadAndWriteStorage;
 import com.hit.maestro.User;
 import com.hit.maestro.proxy.DatabaseProxy;
 import com.hit.maestro.services.DatabaseService;
@@ -187,6 +188,9 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
             if (User.getInstance().isUserRegisteredToCourse(courseTitle)) {
                 getActivity().onBackPressed();
             }
+        }
+        if(ReadAndWriteStorage.loadFromNotification(getActivity())){
+            getActivity().onBackPressed();
         }
     }
 }

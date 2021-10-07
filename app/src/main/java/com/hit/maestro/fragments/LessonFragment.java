@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import com.hit.maestro.ChatMessage;
 import com.hit.maestro.Course;
 import com.hit.maestro.Lesson;
 import com.hit.maestro.R;
+import com.hit.maestro.ReadAndWriteStorage;
 import com.hit.maestro.User;
 import com.hit.maestro.adapter.ChatAdapter;
 import com.hit.maestro.proxy.DatabaseProxy;
@@ -34,8 +36,12 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class LessonFragment extends Fragment {
     View view;
@@ -133,6 +139,9 @@ public class LessonFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if(ReadAndWriteStorage.loadFromNotification(getActivity())){
+            getActivity().onBackPressed();
+        }
         youTubePlayer.getYouTubePlayerWhenReady(YouTubePlayer::play);
     }
 }

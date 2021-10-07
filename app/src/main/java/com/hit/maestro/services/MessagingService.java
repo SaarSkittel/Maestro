@@ -24,8 +24,12 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.hit.maestro.ChatMessage;
 import com.hit.maestro.MainActivity;
 import com.hit.maestro.R;
+import com.hit.maestro.ReadAndWriteStorage;
 import com.hit.maestro.User;
 import com.hit.maestro.proxy.DatabaseProxy;
+
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 
 public class MessagingService extends FirebaseMessagingService {
     final String TAG="MessagingService";
@@ -45,7 +49,7 @@ public class MessagingService extends FirebaseMessagingService {
         newMessageReceived = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-               UID=new String(intent.getStringExtra("UID"));
+                UID=new String(intent.getStringExtra("UID"));
             }
         };
         LocalBroadcastManager.getInstance(getBaseContext()).registerReceiver(newMessageReceived, filter);
@@ -98,10 +102,11 @@ public class MessagingService extends FirebaseMessagingService {
 
                 }
 
-
-                Notification.Builder builder = new Notification.Builder(getBaseContext(), channelID);
+                Notification.Builder builder=new Notification.Builder(getBaseContext(),channelID);
                 builder.setSmallIcon(android.R.drawable.ic_dialog_email).setContentTitle("Maestro").setContentText("You Have New Messages");
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                setFromNotificationStorage();
+
 
                 intent.putExtra(NOTIFICATION, true);
                 PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, 0);
@@ -126,6 +131,18 @@ public class MessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
 
+        }
+    }
+
+    private void setFromNotificationStorage(){
+        try {
+            FileOutputStream fileOutputStream = openFileOutput("notification", MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(true);
+            objectOutputStream.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             setEmailAtStorage("");
             setPasswordAtStorage("");
             if(User.getInstance().isConnected())
-                User.getInstance().SignOut();
+                User.getInstance().SignOut(getBaseContext());
         }
     }
 

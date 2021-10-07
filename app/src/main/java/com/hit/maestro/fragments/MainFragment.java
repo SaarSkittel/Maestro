@@ -311,7 +311,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     @Override
     public void onSignOut() {
         user.setUserData();
-        user.SignOut();
+        user.SignOut(getContext());
         setNavigationViewSituation(false);
         /*SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean("remember", false);

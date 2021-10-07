@@ -1,6 +1,8 @@
 package com.hit.maestro.fragments;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,6 +44,8 @@ public class ChatFragment extends androidx.fragment.app.Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.chat_fragment, container, false);
+        NotificationManager notifManager= (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notifManager.cancelAll();
         Toolbar toolbar = view.findViewById(R.id.chat_toolbar);
         Intent intent = new Intent("notification_cancel");
         intent.putExtra("UID","");

@@ -1,5 +1,7 @@
 package com.hit.maestro.fragments;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +46,7 @@ public class SignOutDialog extends DialogFragment {
             public void onClick(View v) {
                 callBack.onSignOut();
                 SignOutDialog.this.dismiss();
+
             }
         });
 

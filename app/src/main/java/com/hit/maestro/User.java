@@ -1,6 +1,8 @@
 package com.hit.maestro;
 
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
@@ -315,12 +317,14 @@ public class User {
         });
     }
 
-    public void SignOut() {
+    public void SignOut(Context context) {
         isConnected = false;
         messaging.unsubscribeFromTopic(UID);
         DatabaseProxy.getInstance().setUserNotifications(notifications);
         DatabaseProxy.getInstance().setOrderMessages(orderMessages,UID);
         firebaseAuth.signOut();
+        NotificationManager notifManager= (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notifManager.cancelAll();
         user=null;
     }
 

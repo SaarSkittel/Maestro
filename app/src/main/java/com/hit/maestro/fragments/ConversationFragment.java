@@ -60,6 +60,7 @@ public class ConversationFragment extends Fragment {
 
         Intent intent = new Intent("notification_cancel");
         intent.putExtra("UID",UID);
+        intent.putExtra("isInChatFragment",false);
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
 
         User.getInstance().updateNotifications(UID);
@@ -87,7 +88,7 @@ public class ConversationFragment extends Fragment {
                 adapter.notifyDataSetChanged();
                 User.getInstance().updateNotifications(UID);
                 recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-                if (!chatMessages.get(chatMessages.size() - 1).getUID().matches(User.getInstance().getUID())) {
+               /* if (!chatMessages.get(chatMessages.size() - 1).getUID().matches(User.getInstance().getUID())) {
                     try {
                         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                         Ringtone r = RingtoneManager.getRingtone(getContext(), notification);
@@ -95,7 +96,7 @@ public class ConversationFragment extends Fragment {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }
+                }*/
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived, filter);
@@ -130,6 +131,7 @@ public class ConversationFragment extends Fragment {
         LocalBroadcastManager.getInstance(view.getContext()).unregisterReceiver(newMessageReceived);
         Intent intent = new Intent("notification_cancel");
         intent.putExtra("UID","");
+        intent.putExtra("isInChatFragment",false);
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
 
     }

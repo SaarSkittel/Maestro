@@ -8,6 +8,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
@@ -40,6 +43,7 @@ public class MessagingService extends FirebaseMessagingService {
     final int NOTIFICATION_ID=1;
     BroadcastReceiver newMessageReceived;
     static String UID ="";
+    static boolean status= false;
 
     @Override
     public void onCreate() {
@@ -49,7 +53,8 @@ public class MessagingService extends FirebaseMessagingService {
         newMessageReceived = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                UID=new String(intent.getStringExtra("UID"));
+               UID=new String(intent.getStringExtra("UID"));
+               status=intent.getBooleanExtra("isInChatFragment",false);
             }
         };
         LocalBroadcastManager.getInstance(getBaseContext()).registerReceiver(newMessageReceived, filter);
@@ -88,7 +93,7 @@ public class MessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         //sender==>sender.chat.setmessage==>messageproxy==>sendmessage(uid)==>fcm==>Receiver.onmessagereceived==>setMessage==>pushnotif
 
-        if(UID==null||!UID.matches(remoteMessage.getData().get("UID"))) {
+        if((UID==null||!UID.matches(remoteMessage.getData().get("UID")))&&!status) {
             if (remoteMessage.getData().size() > 0) {
                 //Log.d(TAG, "Message data payload: " + remoteMessage.getData());
                 String channelID = null;
@@ -126,6 +131,14 @@ public class MessagingService extends FirebaseMessagingService {
             }*/
             /*Intent intent= new Intent("message_received");
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);*/
+        }else{
+            try {
+                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone r = RingtoneManager.getRingtone(getBaseContext(), notification);
+                r.play();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         // Check if message contains a notification payload.

@@ -4,6 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,8 +55,10 @@ public class ChatListFragment extends Fragment {
         //keys = new ArrayList<String>( map.keySet());
         keys=new ArrayList<>(User.getInstance().getOrderMessages());
         Collections.reverse(keys);
+
        /* if(!map.isEmpty()) {
             keys = sortHashMapByValues(User.getInstance().getChats());
+
         }*/
         adapter=new ChatListAdapter(keys);
         adapter.setListener(new ChatListAdapter.myChatListener() {
@@ -68,10 +73,13 @@ public class ChatListFragment extends Fragment {
         newMessageReceived=new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+
+
+
                 map.clear();
                 map=new HashMap<>(User.getInstance().getChats());
                 //if(!map.isEmpty()){
-                    //keys=new ArrayList<String>(map.keySet());
+                //keys=new ArrayList<String>(map.keySet());
                 keys.clear();
                 keys.addAll(User.getInstance().getOrderMessages());
                 Collections.reverse(keys);
@@ -107,6 +115,12 @@ public class ChatListFragment extends Fragment {
         return sortedKeys;
     }
 */
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(view.getContext()).unregisterReceiver(newMessageReceived);
+    }
 
     @Override
     public void onResume() {

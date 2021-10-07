@@ -183,9 +183,10 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
     @Override
     public void onResume() {
         super.onResume();
-        if(User.getInstance().isUserRegisteredToCourse(courseTitle)){
-            getActivity().onBackPressed();
+        if(!isGuest) {
+            if (User.getInstance().isUserRegisteredToCourse(courseTitle)) {
+                getActivity().onBackPressed();
+            }
         }
-
     }
 }

@@ -96,7 +96,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "stop");
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "destroy");
         //sp = getSharedPreferences("login_status", MODE_PRIVATE);
         if (loadRememberMe()/*sp.getBoolean("remember", false)*/) {
             /*SharedPreferences.Editor editor = sp.edit();
@@ -113,12 +118,6 @@ public class MainActivity extends AppCompatActivity {
             if(User.getInstance().isConnected())
                 User.getInstance().SignOut();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "destroy");
     }
 
     private boolean loadRememberMe(){

@@ -121,4 +121,18 @@ public class LessonFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(view.getContext()).unregisterReceiver(newMessageReceived);
+        youTubePlayer.getYouTubePlayerWhenReady(YouTubePlayer::pause);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        youTubePlayer.getYouTubePlayerWhenReady(YouTubePlayer::play);
+    }
 }

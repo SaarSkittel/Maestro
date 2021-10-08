@@ -14,6 +14,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -169,7 +171,7 @@ public class RegisterFragment extends DialogFragment {
                             }
                             else {
                                 User.getInstance().setConnected(false);
-                                User.getInstance().setFullName("");
+                                //User.getInstance().setFullName("");
                                 User.getInstance().setUserName("");
                                 User.getInstance().setPassword("");
                                 note.setText(getResources().getString(R.string.wrong));
@@ -229,6 +231,7 @@ public class RegisterFragment extends DialogFragment {
         return view;
     }
     private void getCountryName(){
+        Handler handler=new Handler(Looper.getMainLooper());
         client= LocationServices.getFusedLocationProviderClient(getActivity());
         geocoder=new Geocoder(getContext());
         LocationCallback callback=new LocationCallback() {
@@ -242,7 +245,12 @@ public class RegisterFragment extends DialogFragment {
                         super.run();
                         try {
                             List<Address>addresses=geocoder.getFromLocation(location1.getLatitude(),location1.getLongitude(),1);
-                            location.setText(addresses.get(0).getCountryName());
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    location.setText(addresses.get(0).getCountryName());
+                                }
+                            });
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

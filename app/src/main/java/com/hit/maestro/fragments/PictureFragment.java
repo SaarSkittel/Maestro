@@ -261,7 +261,7 @@ public class PictureFragment extends DialogFragment {
     private void reduce(){
         try {
             Bitmap bitmap = decodeUri(getContext(),pic,200);
-            bitmap = rotateImage(bitmap,270);
+            //bitmap = rotateImage(bitmap,270);
             pic = getImageUri(getContext(),bitmap);
         }
         catch (FileNotFoundException e){

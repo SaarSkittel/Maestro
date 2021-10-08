@@ -175,6 +175,8 @@
                         android:layout_gravity="center_horizontal"
                         android:id="@+id/gps_btn"
                         android:layout_alignParentEnd="true"
+                        android:layout_marginTop="11dp"
+                        android:layout_marginBottom="11dp"
                         android:textAllCaps="false"/>
             </LinearLayout>
 

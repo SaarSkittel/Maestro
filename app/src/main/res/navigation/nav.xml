@@ -1,70 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav"
     app:startDestination="@id/mainFragment">
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.hit.maestro.fragments.MainFragment"
-        android:label="MainFragment" >
+        android:label="MainFragment"
+        tools:layout="@layout/activity_main">
         <action
             android:id="@+id/action_mainFragment_to_chatFragment"
-            app:destination="@id/chatFragment" />
+            app:destination="@id/chatFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
         <action
             android:id="@+id/action_mainFragment_to_courseFragment"
-            app:destination="@id/courseFragment" />
+            app:destination="@id/courseFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_mainFragment_to_aboutCourseFragment"
-            app:destination="@id/aboutCourseFragment" />
+            app:destination="@id/aboutCourseFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_mainFragment_to_notificationFragment"
-            app:destination="@id/notificationFragment" />
+            app:destination="@id/notificationFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.hit.maestro.fragments.ChatFragment"
-        android:label="ChatFragment" >
+        android:label="ChatFragment"
+        tools:layout="@layout/chat_fragment">
         <action
             android:id="@+id/action_chatFragment_to_conversationFragment"
-            app:destination="@id/conversationFragment" />
+            app:destination="@id/conversationFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
     </fragment>
     <fragment
         android:id="@+id/courseFragment"
         android:name="com.hit.maestro.fragments.CourseFragment"
-        android:label="CourseFragment" >
+        android:label="CourseFragment"
+        tools:layout="@layout/course_fragment">
         <action
             android:id="@+id/action_courseFragment_to_lessonFragment"
-            app:destination="@id/lessonFragment" />
+            app:destination="@id/lessonFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/aboutCourseFragment"
         android:name="com.hit.maestro.fragments.AboutCourseFragment"
-        android:label="AboutCourseFragment" >
+        android:label="AboutCourseFragment"
+        tools:layout="@layout/fragment_about_course">
         <action
             android:id="@+id/action_aboutCourseFragment_to_courseFragment"
-            app:destination="@id/courseFragment" />
+            app:destination="@id/courseFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/lessonFragment"
         android:name="com.hit.maestro.fragments.LessonFragment"
-        android:label="LessonFragment" />
+        android:label="LessonFragment"
+        tools:layout="@layout/lesson_fragment"/>
     <fragment
         android:id="@+id/userListFragment"
         android:name="com.hit.maestro.fragments.UserListFragment"
-        android:label="UserListFragment" />
+        android:label="UserListFragment"
+        tools:layout="@layout/user_list_fragment"/>
     <fragment
         android:id="@+id/chatListFragment"
         android:name="com.hit.maestro.fragments.ChatListFragment"
-        android:label="ChatListFragment" />
+        android:label="ChatListFragment"
+        tools:layout="@layout/chat_list_fragment"/>
     <fragment
         android:id="@+id/conversationFragment"
         android:name="com.hit.maestro.fragments.ConversationFragment"
-        android:label="ConversationFragment" />
+        android:label="ConversationFragment"
+        tools:layout="@layout/conversation_fragment"/>
     <fragment
         android:id="@+id/notificationFragment"
         android:name="com.hit.maestro.fragments.NotificationFragment"
-        android:label="NotificationFragment" >
+        android:label="NotificationFragment"
+        tools:layout="@layout/fragment_notification">
         <action
             android:id="@+id/action_notificationFragment_to_conversationFragment"
-            app:destination="@id/conversationFragment" />
+            app:destination="@id/conversationFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
     </fragment>
 </navigation>

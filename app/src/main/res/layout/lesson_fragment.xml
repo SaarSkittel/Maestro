@@ -25,7 +25,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/youtube_player_view"
         android:layout_above="@id/send_line"
-        android:background="@color/white"
+        android:background="@null"
         android:id="@+id/lesson_chat_rv"/>
 
     <RelativeLayout
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:id="@+id/send_line"
-        android:background="#fff"
+        android:background="#DCDCDC"
         android:layout_alignParentBottom="true">
 
         <EditText
@@ -46,12 +46,20 @@
             android:layout_toStartOf="@id/btn_send"
             android:layout_centerVertical="true"/>
 
-        <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_baseline_send_24"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_send"
-            android:layout_alignParentEnd="true" />
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/orange"
+            app:borderWidth="0dp"
+            android:src="@drawable/ic_baseline_send_24"
+            android:tint="@color/white"/>
 
     </RelativeLayout>
 

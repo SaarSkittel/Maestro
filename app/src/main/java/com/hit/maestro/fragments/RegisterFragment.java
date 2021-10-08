@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +40,11 @@ import androidx.fragment.app.DialogFragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -51,6 +59,7 @@ import com.hit.maestro.User;
 import com.hit.maestro.proxy.DatabaseProxy;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -63,15 +72,17 @@ public class RegisterFragment extends DialogFragment {
         void onCompleted();
         void onSignInFromRegisterFragment();
     }
-
+    final int LOCATION_PERMISSION_REQUEST=1;
     User user;
     final String PICTURE_TAG="6";
     OnCompletedFragmentListener callBack;
     ShapeableImageView picture;
     RelativeLayout relativeLayout;
+    FusedLocationProviderClient client;
+    EditText location;
     Uri pic=Uri.parse("android.resource://com.hit.maestro/drawable/default_profile_picture");
     View view;
-
+    Geocoder geocoder;
     public RegisterFragment(OnCompletedFragmentListener callBack) {
         this.callBack = callBack;
     }
@@ -91,13 +102,14 @@ public class RegisterFragment extends DialogFragment {
         EditText passwordET = view.findViewById(R.id.password_input);
         EditText passwordConfET = view.findViewById(R.id.confirmPassword_input);
         TextView note = view.findViewById(R.id.note);
-
+        location=view.findViewById(R.id.country_input);
+        Button gps=view.findViewById(R.id.gps_btn);
         user=User.getInstance();
         Button registerBtn = view.findViewById(R.id.register_btn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(fullnameET.getText().toString().isEmpty()||emailET.getText().toString().isEmpty()||passwordET.getText().toString().isEmpty()||passwordConfET.getText().toString().isEmpty()){
+                if(fullnameET.getText().toString().isEmpty()||emailET.getText().toString().isEmpty()||passwordET.getText().toString().isEmpty()||passwordConfET.getText().toString().isEmpty()||location.getText().toString().isEmpty()){
                     note.setText(getResources().getString(R.string.fields));
                 }
                 else if(!passwordET.getText().toString().equals(passwordConfET.getText().toString())){
@@ -143,7 +155,7 @@ public class RegisterFragment extends DialogFragment {
                                 User.getInstance().getMessaging().unsubscribeFromTopic(User.getInstance().getUID());
                                 User.getInstance().getMessaging().subscribeToTopic(User.getInstance().getUID());
                                 User.getInstance().setOrderMessages(new ArrayList<String>());
-
+                                User.getInstance().setLocation(location.getText().toString());
                                 user.getFirebaseUser().updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(fullnameET.getText().toString()).build());
                                 DatabaseProxy.getInstance().setUserImageUri(pic,User.getInstance().getUID());
                                 DatabaseProxy.getInstance().setUserName(fullnameET.getText().toString());
@@ -165,7 +177,19 @@ public class RegisterFragment extends DialogFragment {
                 }
             }
         });
-
+        gps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Build.VERSION.SDK_INT>=23){
+                    int hasLocationPermission= getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+                    if(hasLocationPermission!=PackageManager.PERMISSION_GRANTED){
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},LOCATION_PERMISSION_REQUEST);
+                    }
+                    else getCountryName();
+                }
+               getCountryName();
+            }
+        });
         TextView signInBtn = view.findViewById(R.id.sign_in_btn);
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,6 +225,46 @@ public class RegisterFragment extends DialogFragment {
         });
 
         return view;
+    }
+    private void getCountryName(){
+        client= LocationServices.getFusedLocationProviderClient(getActivity());
+        geocoder=new Geocoder(getContext());
+        LocationCallback callback=new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                Location location1=locationResult.getLastLocation();
+                new Thread(){
+                    @Override
+                    public void run() {
+                        super.run();
+                        try {
+                            List<Address>addresses=geocoder.getFromLocation(location1.getLatitude(),location1.getLongitude(),1);
+                            location.setText(addresses.get(0).getCountryName());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+
+            }
+        };
+        LocationRequest request=LocationRequest.create();
+        request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        if(Build.VERSION.SDK_INT>=23&&getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED)
+            client.requestLocationUpdates(request,callback,null);
+        else if(Build.VERSION.SDK_INT<=22)
+            client.requestLocationUpdates(request,callback,null);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults[0]!=PackageManager.PERMISSION_GRANTED){
+
+        }
+        else getCountryName();
     }
 
     public void setPic(Uri pic) {

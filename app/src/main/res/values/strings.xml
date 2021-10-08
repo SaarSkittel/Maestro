@@ -46,4 +46,7 @@
     <string name="success">Sign up successful, please wait</string>
     <string name="pass_valid">Make sure the password is correct</string>
     <string name="permissions">Can\'t work without permissions go to setting to grant access.</string>
+    <string name="country">Country</string>
+    <string name="country_hint">Enter country name</string>
+    <string name="gps">Use GPS</string>
 </resources>

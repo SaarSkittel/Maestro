@@ -37,6 +37,8 @@ public class User {
     private HashMap<String,List<ChatMessage>> chats;
     private FirebaseMessaging messaging=FirebaseMessaging.getInstance();
     private List<String>orderMessages;
+    private  String location;
+
 
     public boolean isInNotifications(String UID){
         boolean answer=false;
@@ -47,6 +49,14 @@ public class User {
             }
         }
         return answer;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public void updateNotifications(String UID){
@@ -234,6 +244,7 @@ public class User {
                 firebaseUser = firebaseAuth.getCurrentUser();
                 if(firebaseUser!=null) {
                     isConnected = true;
+                    location=new String();
                     courses=new ArrayList<>();
                     orderMessages=new ArrayList<>();
                     chats=new HashMap<String,List<ChatMessage>>(0);
@@ -275,6 +286,7 @@ public class User {
                     messaging.subscribeToTopic(UID);
                     DatabaseProxy.getInstance().setUserImageUri(image,UID);
                     DatabaseProxy.getInstance().setUserName(i_fullName);
+                    DatabaseProxy.getInstance().setLocation(location);
                   //  UserProfileChangeRequest request=new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(image)).build();
                     //user.getFirebaseAuth().getCurrentUser().updateProfile(request);
                     Log.d(TAG,"Sign up successful");
@@ -322,6 +334,7 @@ public class User {
         messaging.unsubscribeFromTopic(UID);
         DatabaseProxy.getInstance().setUserNotifications(notifications);
         DatabaseProxy.getInstance().setOrderMessages(orderMessages,UID);
+
         firebaseAuth.signOut();
         NotificationManager notifManager= (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notifManager.cancelAll();

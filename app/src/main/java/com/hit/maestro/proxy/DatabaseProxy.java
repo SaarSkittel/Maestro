@@ -105,6 +105,10 @@ public class DatabaseProxy {
         });
         return orderMessages;
     }
+    public void  setLocation(String location){
+        DatabaseReference reference = database.getReference("/users/"+User.getInstance().getUID()).child("location");
+        reference.setValue(location);
+    }
     public void setUserName(String name){
         DatabaseReference reference = database.getReference("/users/"+User.getInstance().getUID()).child("name");
         reference.setValue(name);

@@ -54,8 +54,8 @@
                 android:src="@drawable/ic_baseline_add_24"
                />
             <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 app:srcCompat="@mipmap/ic_launcher"
                 android:layout_margin="10dp"
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
@@ -137,11 +137,47 @@
                     android:backgroundTint="@color/white_smoke"
                     android:id="@+id/confirmPassword_input"/>
 
-
-
-
             </LinearLayout>
         </ScrollView>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/country"
+                android:id="@+id/country_tv"
+                android:textColor="#EC5151" />
+
+            <EditText
+                android:layout_toStartOf="@+id/gps_btn"
+                android:layout_marginEnd="12dp"
+                android:layout_below="@+id/country_tv"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/country_hint"
+                android:background="@drawable/edittextshape"
+
+                android:textSize="13sp"
+                android:backgroundTint="@color/white_smoke"
+                android:id="@+id/country_input"/>
+
+            <Button
+                android:layout_marginEnd="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/buttonshape"
+                android:textColor="@color/white"
+                android:text="@string/gps"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:id="@+id/gps_btn"
+                android:layout_alignParentEnd="true"
+                android:textAllCaps="false"/>
+        </RelativeLayout>
+
 
         <Button
             android:layout_width="wrap_content"

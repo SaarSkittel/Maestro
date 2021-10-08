@@ -47,4 +47,7 @@
     <string name="success">הרשמה בוצעה בהצלחה, אנא המתן</string>
     <string name="pass_valid">וודא שהסיסמה שלך נכונה</string>
     <string name="permissions">אי אפשר לעבוד ללא הרשאות עבור להגדרות למתן גישהע</string>
+    <string name="country">מדינה</string>
+    <string name="country_hint">הכנס שם מדינה</string>
+    <string name="gps">השתמש ב- GPS</string>
 </resources>

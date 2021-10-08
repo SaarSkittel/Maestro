@@ -140,7 +140,7 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
     }
 
     @Override
-    public void onCompleted() {
+    public void onCompleted(String name) {
         Intent intent=new Intent(getActivity() , DatabaseService.class);
         getActivity().startService(intent);
         isGuest = !User.getInstance().isConnected();

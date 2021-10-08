@@ -93,7 +93,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     ShapeableImageView navImage;
     AnimatorSet animatorSet;
     List<String>courseTitles;
-
+    String name;
     boolean isGuest;
     boolean createFirstTime = true;
     BroadcastReceiver newMessageReceived;
@@ -278,8 +278,11 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
 */
 
     @Override
-    public void onCompleted() {
+    public void onCompleted(String fullName) {
+
         setNavigationViewSituation(true);
+        String title = getResources().getString(R.string.hello_coma) +" "+ fullName;
+        navTitle.setText(title);
     }
 
     @Override
@@ -320,6 +323,8 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         ReadAndWriteStorage.setEmailAtStorage(getActivity(),"");
         ReadAndWriteStorage.setPasswordAtStorage(getActivity(),"");
     }
+
+
 
     @Override
     public void onStart() {

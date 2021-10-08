@@ -90,7 +90,7 @@ public class LoginFragment extends DialogFragment {
                                 User.getInstance().setOrderMessages(new ArrayList<String>());
                                 LoginFragment.this.dismiss();
                                 User.getInstance().getUserData();
-                                callback.onCompleted();
+                                callback.onCompleted(User.getInstance().getFullName());
                             }
                             else{
                                 //editor.putBoolean("status", false);

@@ -73,7 +73,7 @@ import java.util.List;
 public class RegisterFragment extends DialogFragment {
 
     interface OnCompletedFragmentListener{
-        void onCompleted();
+        void onCompleted(String fullName);
         void onSignInFromRegisterFragment();
     }
     final int LOCATION_PERMISSION_REQUEST=1;
@@ -94,7 +94,6 @@ public class RegisterFragment extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
     }
 
     @Override
@@ -165,7 +164,7 @@ public class RegisterFragment extends DialogFragment {
                                 DatabaseProxy.getInstance().setUserName(fullnameET.getText().toString());
 
                                 RegisterFragment.this.dismiss();
-                                callBack.onCompleted();
+                                callBack.onCompleted(fullnameET.getText().toString());
                                 //  UserProfileChangeRequest request=new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(image)).build();
                                 //user.getFirebaseAuth().getCurrentUser().updateProfile(request);
                             }

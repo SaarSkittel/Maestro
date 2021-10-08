@@ -50,6 +50,8 @@ import com.google.android.gms.tasks.Task;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -262,7 +264,7 @@ public class RegisterFragment extends DialogFragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults[0]!=PackageManager.PERMISSION_GRANTED){
-
+            Snackbar.make(view,R.string.permissions, BaseTransientBottomBar.LENGTH_LONG).show();
         }
         else getCountryName();
     }

@@ -162,6 +162,7 @@ public class RegisterFragment extends DialogFragment {
                                 user.getFirebaseUser().updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(fullnameET.getText().toString()).build());
                                 DatabaseProxy.getInstance().setUserImageUri(pic,User.getInstance().getUID());
                                 DatabaseProxy.getInstance().setUserName(fullnameET.getText().toString());
+                                DatabaseProxy.getInstance().setLocation(location.getText().toString());
 
                                 RegisterFragment.this.dismiss();
                                 callBack.onCompleted(fullnameET.getText().toString());

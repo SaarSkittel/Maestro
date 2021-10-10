@@ -68,9 +68,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        /*Intent intent = new Intent("app_status");
-        intent.putExtra("status",true);
-        LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);*/
+
     }
 
     @Override
@@ -78,20 +76,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         Log.d(TAG, "pause");
 
-        /*Log.d(TAG,"pause");
-        Intent intent = new Intent("app_status");
-        intent.putExtra("status",false);
-        LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
-        SharedPreferences.Editor editor = sp.edit();
-        if (sp.getBoolean("remember", false)) {
-            editor.putString("email", User.getInstance().getEmail());
-            editor.putString("password", User.getInstance().getPassword());
-            User.getInstance().setConnected(true);
-        } else {
-            //editor.putBoolean("status", false);
-            User.getInstance().setConnected(false);
-        }
-        editor.commit();*/
     }
 
     @Override
@@ -104,17 +88,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "destroy");
-        //sp = getSharedPreferences("login_status", MODE_PRIVATE);
-        if (loadRememberMe()/*sp.getBoolean("remember", false)*/) {
-            /*SharedPreferences.Editor editor = sp.edit();
-            editor.putString("email", User.getInstance().getEmail());
-            editor.putString("password", User.getInstance().getPassword());
-            editor.commit();*/
+
+        if (loadRememberMe()) {
             setEmailAtStorage(User.getInstance().getEmail());
             setPasswordAtStorage(User.getInstance().getPassword());
             User.getInstance().setConnected(true);
         } else {
-            //User.getInstance().getFirebaseAuth().signOut();
+
             setEmailAtStorage("");
             setPasswordAtStorage("");
             if(User.getInstance().isConnected())

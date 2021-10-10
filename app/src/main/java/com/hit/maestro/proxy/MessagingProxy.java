@@ -64,25 +64,6 @@ public class MessagingProxy {
                         notifications.add(user.getUID());
                         reference.setValue(notifications);
 
-                        /*
-                        if(!user.getChatById(to).isEmpty()){
-                            chatMessages.add(chatMessage);
-                            //DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to).setValue(I);
-                            //reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to);
-                            reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to);
-                            reference.setValue(Arrays.asList(chatMessage));
-                            reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+to+"/chats/").child(user.getUID());
-                            reference.setValue(Arrays.asList(chatMessage));
-                            //user.getChats().put(to,new ArrayList<ChatMessage>());
-                        }
-                        else{
-                            List<ChatMessage>chatMessages=new ArrayList<>();
-                            chatMessages.add(chatMessage);
-                            reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+user.getUID()+"/chats/").child(to);
-                            reference.setValue(Arrays.asList(chatMessage));
-                            reference=DatabaseProxy.getInstance().getDatabase().getReference("/users/"+to+"/chats/").child(user.getUID());
-                            reference.setValue(Arrays.asList(chatMessage));
-                        }*/
                     }
                     else {
                         List<ChatMessage>chatMessages=new ArrayList<>(DatabaseProxy.getInstance().getLessonChatById(to));
@@ -114,7 +95,6 @@ public class MessagingProxy {
                 }
             };
             queue.add(request);
-            //queue.start();
 
         } catch (JSONException e) {
             e.printStackTrace();

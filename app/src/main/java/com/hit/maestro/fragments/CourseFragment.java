@@ -34,14 +34,12 @@ public class CourseFragment extends Fragment {
     View view;
     ExpandableListView expandableListView;
     SubjectAdapter adapter;
-    //SharedPreferences sp;
     ImageView imageView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.course_fragment, container, false);
-        //sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
 
         Course course = (Course) getArguments().getSerializable("Course");
         Toolbar toolbar = view.findViewById(R.id.curse_toolbar);
@@ -52,7 +50,6 @@ public class CourseFragment extends Fragment {
         TextView title=view.findViewById(R.id.course_title);
         title.setText(course.getName());
         imageView=view.findViewById(R.id.course_image_iv);
-        //Boolean connectedStatus = sp.getBoolean("status",false);
         Glide.with(view).load(course.getImage()).centerCrop().into(imageView);
         adapter = new SubjectAdapter(getContext(), course.getSubjects());
         adapter.setListener(new SubjectAdapter.MyLessonListener() {
@@ -81,7 +78,6 @@ public class CourseFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            //getParentFragmentManager().popBackStack();
             getActivity().onBackPressed();
         }
         return super.onOptionsItemSelected(item);

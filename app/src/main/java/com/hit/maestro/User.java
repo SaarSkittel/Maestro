@@ -112,9 +112,6 @@ public class User {
                 if(courseName.matches(courses.get(i))){
                     isRegistered=true;
                 }
-                /*if(courseName.equals(courses.get(i))){
-                    isRegistered=true;
-                }*/
             }
         }
         return isRegistered;
@@ -227,8 +224,6 @@ public class User {
     }
 
     public void getUserData(){
-        //User user = DatabaseProxy.getInstance().getUser(UID);
-       //this.chats= DatabaseProxy.getInstance().getChats(getUID());
        this.courses= DatabaseProxy.getInstance().getCourses(getUID());
     }
     public void setUserData(){
@@ -250,7 +245,6 @@ public class User {
                     chats=new HashMap<String,List<ChatMessage>>(0);
                     notifications=new ArrayList<String>();
                     UID=firebaseUser.getUid();
-                    //chats.put(UID,messages);
                     messaging.unsubscribeFromTopic(UID);
                     messaging.subscribeToTopic(UID);
                 }
@@ -287,8 +281,6 @@ public class User {
                     DatabaseProxy.getInstance().setUserImageUri(image,UID);
                     DatabaseProxy.getInstance().setUserName(i_fullName);
                     DatabaseProxy.getInstance().setLocation(location);
-                  //  UserProfileChangeRequest request=new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(image)).build();
-                    //user.getFirebaseAuth().getCurrentUser().updateProfile(request);
                     Log.d(TAG,"Sign up successful");
                 }
                 else {

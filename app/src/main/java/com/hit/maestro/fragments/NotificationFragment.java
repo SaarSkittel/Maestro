@@ -39,14 +39,13 @@ public class NotificationFragment extends Fragment {
     ChatListAdapter adapter;
     BroadcastReceiver newMessageReceived;
     User user;
-    //boolean fromNotif;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view=  inflater.inflate(R.layout.fragment_notification, container, false);
-        //fromNotif = getArguments().getBoolean("from_notif");
         Toolbar toolbar = view.findViewById(R.id.notif_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
@@ -63,12 +62,9 @@ public class NotificationFragment extends Fragment {
             @Override
             public void onReceive(Context context, Intent intent) {
                 notifications.clear();
-
                 notifications.addAll(User.getInstance().getNotifications());
                 Collections.reverse(notifications);
-                //keys=sortHashMapByValues(User.getInstance().getChats());
                 adapter.notifyDataSetChanged();
-                //}
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);
@@ -82,7 +78,6 @@ public class NotificationFragment extends Fragment {
             public void onChatClicked(String UID, View view) {
                 Bundle bundle=new Bundle();
                 bundle.putString("UID",UID);
-
                 Navigation.findNavController(view).navigate(R.id.conversationFragment,bundle);
             }
         });
@@ -100,14 +95,6 @@ public class NotificationFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             getActivity().onBackPressed();
-            //getParentFragmentManager().popBackStack();
-            /*if(fromNotif){
-                getParentFragmentManager().popBackStack();
-                Navigation.findNavController(view).navigate(R.id.action_notificationFragment_to_mainFragment);
-            }
-            else{
-                getActivity().onBackPressed();
-            }*/
         }
         return super.onOptionsItemSelected(item);
     }

@@ -52,14 +52,8 @@ public class ChatListFragment extends Fragment {
         view=inflater.inflate(R.layout.chat_list_fragment,container,false);
         recyclerView=view.findViewById(R.id.list_chat_rv);
         map=new HashMap<>( User.getInstance().getChats());
-        //keys = new ArrayList<String>( map.keySet());
         keys=new ArrayList<>(User.getInstance().getOrderMessages());
         Collections.reverse(keys);
-
-       /* if(!map.isEmpty()) {
-            keys = sortHashMapByValues(User.getInstance().getChats());
-
-        }*/
         adapter=new ChatListAdapter(keys);
         adapter.setListener(new ChatListAdapter.myChatListener() {
             @Override
@@ -74,19 +68,12 @@ public class ChatListFragment extends Fragment {
             @Override
             public void onReceive(Context context, Intent intent) {
 
-
-
                 map.clear();
                 map=new HashMap<>(User.getInstance().getChats());
-                //if(!map.isEmpty()){
-                //keys=new ArrayList<String>(map.keySet());
                 keys.clear();
                 keys.addAll(User.getInstance().getOrderMessages());
                 Collections.reverse(keys);
-                //keys.addAll(map.keySet());
                 adapter.notifyDataSetChanged();
-                //}
-
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);
@@ -97,24 +84,6 @@ public class ChatListFragment extends Fragment {
 
         return view;
     }
-   /* public List<String> sortHashMapByValues(HashMap<String, List<ChatMessage>> passedMap) {
-        Map<LocalDateTime,String> hashMap=new HashMap<>();
-        List<LocalDateTime>dateTimes=new ArrayList<>();
-        for (Map.Entry entry: passedMap.entrySet()){
-            List<ChatMessage> list=passedMap.get(entry.getKey());
-            hashMap.put(LocalDateTime.parse(list.get(list.size()-1).getTime()),entry.getKey().toString());
-            dateTimes.add(LocalDateTime.parse(list.get(list.size()-1).getTime()));
-        }
-
-        Collections.sort(dateTimes);
-        List<String>sortedKeys=new ArrayList<>();
-        for (int i= 0;i<dateTimes.size();++i){
-            sortedKeys.add(hashMap.get(dateTimes.get(i)));
-        }
-
-        return sortedKeys;
-    }
-*/
 
     @Override
     public void onDestroy() {
@@ -127,12 +96,9 @@ public class ChatListFragment extends Fragment {
         super.onResume();
         map.clear();
         map=new HashMap<>(User.getInstance().getChats());
-        //if(!map.isEmpty()){
-        //keys=new ArrayList<String>(User.getInstance().getOrderMessages());
         keys.clear();
         keys.addAll(User.getInstance().getOrderMessages());
         Collections.reverse(keys);
-        //keys.addAll(map.keySet());
         adapter.notifyDataSetChanged();
     }
 }

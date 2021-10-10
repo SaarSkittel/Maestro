@@ -79,8 +79,6 @@ public class PictureFragment extends DialogFragment {
         album=view.findViewById(R.id.album_btn);
         picture=view.findViewById(R.id.song_iv);
         save=view.findViewById(R.id.save_pic_btn);
-        //pic =Uri.parse(requireArguments().getString("image"));
-        //pic = registerFragment.getPic();
         Glide.with(this)
                 .load(pic)
                 .apply(RequestOptions.skipMemoryCacheOf(true))
@@ -176,7 +174,6 @@ public class PictureFragment extends DialogFragment {
 
     private void picFromMemory(){
         exit=false;
-        //Intent intent= new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         Intent intent= new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

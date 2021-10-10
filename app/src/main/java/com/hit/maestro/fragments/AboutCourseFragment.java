@@ -54,27 +54,14 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.back);
 
-        /*
-        RecyclerView recyclerView = view.findViewById(R.id.recycleView_aboutCourse);
-        recyclerView.setHasFixedSize(true);
 
-        List<Reaction> reactions = new ArrayList<>();
-        reactions.add(new Reaction("Saaar ","https://www.washingtoninstitute.org/sites/default/files/2021-02/SaarGideon_0.jpg","asscasasad",5));
-        reactions.add(new Reaction("Saaar ","https://www.washingtoninstitute.org/sites/default/files/2021-02/SaarGideon_0.jpg","asscasasad",5));
-        reactions.add(new Reaction("Saaar ","https://www.washingtoninstitute.org/sites/default/files/2021-02/SaarGideon_0.jpg","asscasasad",5));
-        reactions.add(new Reaction("Saaar ","https://www.washingtoninstitute.org/sites/default/files/2021-02/SaarGideon_0.jpg","asscasasad",5));
-
-        ReactionAdapter reactionAdapter = new ReactionAdapter(reactions);
-        recyclerView.setAdapter(reactionAdapter);
-
-         */
         
         courseNameTv =   view.findViewById(R.id.course_name_tv);
         lecturerNameTv = view.findViewById(R.id.lecturer_name_tv);
         descriptionTv =  view.findViewById(R.id.description_tv);
         CoursePhoto =    view.findViewById(R.id.course_iv);
         register =       view.findViewById(R.id.registerBtn);
-        //addComment=      view.findViewById(R.id.add_comment_btn);
+
 
         courseTitle=getArguments().getString("Title");
         receivedCourse = (Course) getArguments().getSerializable("Course");
@@ -85,14 +72,7 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
         setText(descriptionTv, receivedCourse.getDescription());
         Glide.with(this).load(receivedCourse.getImage()).centerCrop().into(CoursePhoto);
 
-        /*addComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //open dialog
-                //take a comment
-                //save in firebase
-            }
-        });*/
+
         if(isGuest){
             register.setText(getResources().getString(R.string.login_or_register));
         }
@@ -133,7 +113,7 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            //getParentFragmentManager().popBackStack();
+
             getActivity().onBackPressed();
         }
         return super.onOptionsItemSelected(item);
@@ -151,7 +131,6 @@ public class AboutCourseFragment extends Fragment implements RegisterFragment.On
         else {
             register.setText(getResources().getString(R.string.register_to_course));
         }
-        //User.getInstance().addCourseToUser(receivedCourse.getName());
     }
 
     @Override

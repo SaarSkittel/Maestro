@@ -103,7 +103,6 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.main_fragment,container,false);
 
-        //sp = getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
         progressBar=view.findViewById(R.id.progress_bar);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
@@ -111,7 +110,6 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.menu);
         courseTitles=new ArrayList<>();
-        //sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
         user = User.getInstance();
         registerBtn = view.findViewById(R.id.login_btn);
 
@@ -158,7 +156,6 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                 return false;
             }
         });
-        //boolean connected = sp.getBoolean("status",false);
         setNavigationViewSituation(user.isConnected()?true:false);
         proxy= DatabaseProxy.getInstance();
 
@@ -188,12 +185,9 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         adapter.setListener(new CourseAdapter.myCourseListener() {
             @Override
             public void onCourseClicked(int position, View view) {
-                /*SharedPreferences.Editor editor = sp.edit();
-                editor.putBoolean("status", user.isConnected());
-                editor.commit();*/
+
                 isGuest=!user.isConnected();
                 String course =courseTitles.get(position);
-                //String course = courseList.get(position).getName();
                 if(!isGuest && User.getInstance().isUserRegisteredToCourse(course)){
                     Bundle bundle=new Bundle();
                     bundle.putSerializable("Course", courseList.get(position));
@@ -212,9 +206,6 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                     bundle.putSerializable("Course", courseList.get(position));
                     Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_aboutCourseFragment,bundle);
                 }
-                //Bundle bundle=new Bundle();
-                //bundle.putSerializable("Course", courseList.get(position));
-                //Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_courseFragment,bundle);
             }
         });
         recyclerView =view.findViewById(R.id.course_rv);
@@ -242,40 +233,10 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             RememberMe();
             createFirstTime = false;
         }
-/*
-        IntentFilter filter=new IntentFilter("notification_received");
-        newMessageReceived=new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if(User.getInstance().getNotifications().isEmpty()){
-                    navigationView.getMenu().findItem(R.id.item_notif).setIcon(R.drawable.notifications);
-                }
-                else{
-                    navigationView.getMenu().findItem(R.id.item_notif).setIcon(R.drawable.blue_notifications);
-                }
-            }
-        };
-        LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived,filter);
-*/
         return view;
     }
 
-    /*
-    @Override
-    public void onSignInFromRegisterFragment(){
-        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(REGISTER_TAG);//ליצור תג במיין
-        getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
 
-        //להעלות את הפרגמנט של ההתחברות
-    }
-
-    @Override
-    public void onRegister(String fullname,String username,String email, String password){
-        //save to DB
-        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(REGISTER_TAG);//ליצור תג במיין
-        getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-    }
-*/
 
     @Override
     public void onCompleted(String fullName) {
@@ -294,8 +255,7 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
 
     @Override
     public void onSignIn() {
-        //Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(REGISTER_OR_LOGIN_TAG);
-        //getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+
         registerOrLoginFragment.dismiss();
         loginFragment = new LoginFragment((RegisterFragment.OnCompletedFragmentListener)this);
         loginFragment.show(getChildFragmentManager(),LOGIN_TAG);
@@ -303,12 +263,11 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
 
     @Override
     public void onSignUp() {
-        //Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(REGISTER_OR_LOGIN_TAG);
-        //getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+
         registerOrLoginFragment.dismiss();
         registerFragment=new RegisterFragment((RegisterFragment.OnCompletedFragmentListener)this);
         registerFragment.show(getChildFragmentManager(),REGISTER_TAG);
-        //setNavigationViewSituation(user.isConnected());
+
     }
 
     @Override
@@ -316,9 +275,6 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         user.setUserData();
         user.SignOut(getContext());
         setNavigationViewSituation(false);
-        /*SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean("remember", false);
-        editor.commit();*/
         ReadAndWriteStorage.setRememberMeAtStorage(getActivity(),false);
         ReadAndWriteStorage.setEmailAtStorage(getActivity(),"");
         ReadAndWriteStorage.setPasswordAtStorage(getActivity(),"");
@@ -329,13 +285,11 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     @Override
     public void onStart() {
         super.onStart();
-        //user.AddListener();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        //user.RemoveListener();
     }
 
     @Override
@@ -349,9 +303,6 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
         spn =getActivity().getSharedPreferences("notif",MODE_PRIVATE);
         boolean notification = spn.getBoolean("notif",false);
         if(notification){
-            /*Bundle bundle1=new Bundle();
-            bundle1.putBoolean("from_notif",true);
-            Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_notificationFragment,bundle1);*/
             navigationView.getMenu().findItem(R.id.item_notif).setIcon(R.drawable.blue_notifications);
         }
         if(ReadAndWriteStorage.loadFromNotification(getActivity())){
@@ -414,9 +365,8 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
     }
 
     private void RememberMe(){
-        if (ReadAndWriteStorage.loadRememberMe(getActivity())/*sp.getBoolean("remember", false)*/) {
-            //String email = sp.getString("email", "");
-            //String password = sp.getString("password", "");
+        if (ReadAndWriteStorage.loadRememberMe(getActivity())) {
+
             String email = ReadAndWriteStorage.loadEmail(getActivity());
             String password = ReadAndWriteStorage.loadPassword(getActivity());
             if ((!email.equals("")) && (!password.equals(""))) {
@@ -424,14 +374,13 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            //editor.putBoolean("status", true);
+
                             User.getInstance().setConnected(true);
                             User.getInstance().setFullName(User.getInstance().getFirebaseUser().getDisplayName());
                             User.getInstance().setUserName(email);
                             User.getInstance().setPassword(password);
                             User.getInstance().setFirebaseUser(User.getInstance().getFirebaseAuth().getCurrentUser());
                             User.getInstance().setUID(User.getInstance().getFirebaseUser().getUid());
-                            //User.getInstance().setCourses(new ArrayList<>());
                             User.getInstance().setChats(new HashMap<String, List<ChatMessage>>(0));
                             User.getInstance().setNotifications(new ArrayList<String>());
                             User.getInstance().getMessaging().unsubscribeFromTopic(User.getInstance().getUID());
@@ -447,79 +396,4 @@ public class MainFragment extends Fragment implements RegisterFragment.OnComplet
             }
         }
     }
-
-    /*private boolean loadRememberMe(){
-        try {
-            FileInputStream fileInputStream= getActivity().openFileInput("remember");
-            ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream);
-            boolean isRemember = (boolean)objectInputStream.readObject();
-            objectInputStream.close();
-            return isRemember;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    private String loadEmail(){
-        try {
-            FileInputStream fileInputStream= getActivity().openFileInput("email");
-            ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream);
-            String email = (String)objectInputStream.readObject();
-            objectInputStream.close();
-            return email;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    private String loadPassword(){
-        try {
-            FileInputStream fileInputStream= getActivity().openFileInput("password");
-            ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream);
-            String password = (String)objectInputStream.readObject();
-            objectInputStream.close();
-            return password;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    private void setRememberMeAtStorage(boolean isRemember){
-        try {
-            FileOutputStream fileOutputStream = getActivity().openFileOutput("remember", MODE_PRIVATE);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(isRemember);
-            objectOutputStream.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void setEmailAtStorage(String email){
-        try {
-            FileOutputStream fileOutputStream = getActivity().openFileOutput("email", MODE_PRIVATE);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(email);
-            objectOutputStream.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void setPasswordAtStorage(String password){
-        try {
-            FileOutputStream fileOutputStream = getActivity().openFileOutput("password", MODE_PRIVATE);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(password);
-            objectOutputStream.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
 }

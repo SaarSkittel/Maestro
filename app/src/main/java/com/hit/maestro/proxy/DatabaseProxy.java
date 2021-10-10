@@ -81,10 +81,6 @@ public class DatabaseProxy {
     public void setUser(User user){ //Hash<String,Hash<String,List<ChatMessage>>,List<String>>
         DatabaseReference ref=FirebaseDatabase.getInstance().getReference().child("users").child(user.getUID()).child("courses");
         ref.setValue(user.getCourses());
-        //DatabaseReference ref1=FirebaseDatabase.getInstance().getReference().child("users").child(user.getUID()).child("chats");
-        //ref1.setValue(user.getChats());
-
-
     }
 
     public void setOrderMessages(List<String>messages, String UID){
@@ -201,8 +197,6 @@ public class DatabaseProxy {
 
                 }
             }
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -219,59 +213,8 @@ public class DatabaseProxy {
             return new ArrayList<ChatMessage>();
     }
 
-    /*
-    public HashMap<String,List<ChatMessage>> getChats(String UID){
-        final HashMap<String, List<ChatMessage>>[] chats = new HashMap[]{new HashMap<String, List<ChatMessage>>()};
-        database.getReference().child("users/"+UID+"/chats").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                if(snapshot.exists()){
-                     chats[0] =(HashMap<String,List<ChatMessage>>)snapshot.getValue();
-                    for (DataSnapshot dataSnapshot:snapshot.getChildren(UID)){
-                        Course course= dataSnapshot.getValue(Course.class);
-                        courseList.add(course);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        return chats[0];
-    }*/
-
-   /* public List<Course> getCourses(){
-
-        courses.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    courseList.clear();
-                    for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                        Course course= dataSnapshot.getValue(Course.class);
-                        courseList.add(course);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        return courseList;
-    }
-*/
-
     public void setCourses(List<String> courses){
-       //DatabaseReference reference = database.getReference().child("users").child(User.getInstance().getUID()).child("courses");
        DatabaseReference reference = database.getReference().child("users/"+User.getInstance().getUID()+"/courses");
-
         reference.setValue(courses);
     }
 }

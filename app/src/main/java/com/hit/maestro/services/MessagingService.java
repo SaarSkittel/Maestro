@@ -64,38 +64,18 @@ public class MessagingService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
         Log.e(TAG,"service is up");
-       /* database= FirebaseDatabase.getInstance();
-        user=database.getReference().child("users");
-        user.child(s).setValue(s).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-
-                    Log.e(TAG,"success!");
-                }
-                else {
-                    Log.e(TAG,task.getException().getMessage());
-                }
-            }
-        });
-*/
     }
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        // ...
-
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
-
-        // Check if message contains a data payload.
         //sender==>sender.chat.setmessage==>messageproxy==>sendmessage(uid)==>fcm==>Receiver.onmessagereceived==>setMessage==>pushnotif
-
         if((UID==null||!UID.matches(remoteMessage.getData().get("UID")))&&!status) {
             if (remoteMessage.getData().size() > 0) {
-                //Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+
                 String channelID = null;
                 manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 if (Build.VERSION.SDK_INT >= 26) {
@@ -115,22 +95,13 @@ public class MessagingService extends FirebaseMessagingService {
 
                 intent.putExtra(NOTIFICATION, true);
                 PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, 0);
-                //NavDeepLinkBuilder navDeepLinkBuilder= new NavDeepLinkBuilder(getBaseContext());
-                //PendingIntent pendingIntent=navDeepLinkBuilder.setComponentName(MainActivity.class).setGraph(R.navigation.nav).setDestination(R.id.action_mainFragment_to_notificationFragment).createPendingIntent();
+
                 builder.setContentIntent(pendingIntent);
                 Notification notification = builder.build();
                 notification.flags |= Notification.FLAG_AUTO_CANCEL;
                 manager.notify(NOTIFICATION_ID, notification);
             }
-            //Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-           /* User user=User.getInstance();
-            ChatMessage chatMessage=new ChatMessage(remoteMessage.getData().get("message"),remoteMessage.getData().get("UID"),remoteMessage.getData().get("UID"),"android.resource://com.hit.maestro/drawable/acoustic_guitar");
-            DatabaseReference reference=DatabaseProxy.getInstance().getDatabase().getReference().child("/users/"+user.getUID()+"/chats/").child(remoteMessage.getData().get("UID"));
-            if (remoteMessage.getFrom().matches("/topics/"+user.getUID())){
-                reference.push().setValue(chatMessage);
-            }*/
-            /*Intent intent= new Intent("message_received");
-            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);*/
+
         }else{
             try {
                 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

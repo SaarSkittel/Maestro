@@ -49,7 +49,6 @@ public class LoginFragment extends DialogFragment {
         EditText passwordET = view.findViewById(R.id.password_login);
         TextView note = view.findViewById(R.id.note_login);
         CheckBox rememberCheckBox = view.findViewById(R.id.remember_me);
-        //sp = this.getActivity().getSharedPreferences("login_status", MODE_PRIVATE);
 
         Button submitBtn = view.findViewById(R.id.submit_btn);
         submitBtn.setOnClickListener(new View.OnClickListener() {
@@ -60,29 +59,19 @@ public class LoginFragment extends DialogFragment {
                 if(email.isEmpty()||password.isEmpty()){
                     note.setText(getResources().getString(R.string.fields));
                 }
-                else{/*
-                    user.SignIn(email,password);
-                    if(user.isConnected()){
-                        LoginFragment.this.dismiss();
-                        user.getUserData();
-                        callback.onCompleted();
-                    }
-                    else{
-                        note.setText("The username or password is incorrect");
-                    }*/
+                else{
                     note.setText(getResources().getString(R.string.wait));
                     User.getInstance().getFirebaseAuth().signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                //editor.putBoolean("status", true);
+
                                 User.getInstance().setConnected(true);
                                 User.getInstance().setFullName(User.getInstance().getFirebaseUser().getDisplayName());
                                 User.getInstance().setUserName(email);
                                 User.getInstance().setPassword(password);
                                 User.getInstance().setFirebaseUser(User.getInstance().getFirebaseAuth().getCurrentUser());
                                 User.getInstance().setUID(User.getInstance().getFirebaseUser().getUid());
-                                //User.getInstance().setCourses(new ArrayList<>());
                                 User.getInstance().setChats(new HashMap<String, List<ChatMessage>>(0));
                                 User.getInstance().setNotifications(new ArrayList<String>());
                                 User.getInstance().getMessaging().unsubscribeFromTopic(User.getInstance().getUID());
@@ -93,21 +82,17 @@ public class LoginFragment extends DialogFragment {
                                 callback.onCompleted(User.getInstance().getFullName());
                             }
                             else{
-                                //editor.putBoolean("status", false);
                                 User.getInstance().setConnected(false);
                                 note.setText(getResources().getString(R.string.wrong));
                             }
                         }
                     });
                 }
-                //SharedPreferences.Editor editor = sp.edit();
+
                 if(rememberCheckBox.isChecked())
-                    //editor.putBoolean("remember", true);
                     ReadAndWriteStorage.setRememberMeAtStorage(getActivity(),true);
                 else
-                    //editor.putBoolean("remember", false);
                     ReadAndWriteStorage.setRememberMeAtStorage(getActivity(),false);
-                //editor.commit();
             }
         });
 
@@ -130,16 +115,4 @@ public class LoginFragment extends DialogFragment {
 
         return view;
     }
-
-    /*private void setRememberMe(boolean isRemember){
-        try {
-            FileOutputStream fileOutputStream = getActivity().openFileOutput("remember", MODE_PRIVATE);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(isRemember);
-            objectOutputStream.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
 }

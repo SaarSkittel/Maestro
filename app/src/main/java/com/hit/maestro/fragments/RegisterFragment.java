@@ -118,28 +118,10 @@ public class RegisterFragment extends DialogFragment {
                 else if(!passwordET.getText().toString().equals(passwordConfET.getText().toString())){
                     note.setText(getResources().getString(R.string.pass_valid));
                 }
-                /*else if(!exit){
-                    note.setText("Please select a profile picture");
-                }*/
-                else{
-                   /* user.getFirebaseAuth().createUserWithEmailAndPassword(emailET.getText().toString(),passwordET.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                user.getFirebaseUser().updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(fullname).build());
-                                note.setText("Sign up successful");
-                            }
-                            else {
-                                note.setText(task.getException().getMessage());
-                            }
-                        }
-                    });*/
-                    note.setText(getResources().getString(R.string.success));
-                    /*user.CreateUser(fullnameET.getText().toString(),emailET.getText().toString(),passwordET.getText().toString(),pic);
-                    //user.setUserData();
-                    callBack.onCompleted();
-                    RegisterFragment.this.dismiss();*/
 
+                else{
+
+                    note.setText(getResources().getString(R.string.success));
                     String email = emailET.getText().toString();
                     String password = passwordET.getText().toString();
                     user.getFirebaseAuth().createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -166,12 +148,9 @@ public class RegisterFragment extends DialogFragment {
 
                                 RegisterFragment.this.dismiss();
                                 callBack.onCompleted(fullnameET.getText().toString());
-                                //  UserProfileChangeRequest request=new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(image)).build();
-                                //user.getFirebaseAuth().getCurrentUser().updateProfile(request);
                             }
                             else {
                                 User.getInstance().setConnected(false);
-                                //User.getInstance().setFullName("");
                                 User.getInstance().setUserName("");
                                 User.getInstance().setPassword("");
                                 note.setText(getResources().getString(R.string.wrong));
@@ -202,7 +181,6 @@ public class RegisterFragment extends DialogFragment {
             }
         });
 
-        //Button selectPic = view.findViewById(R.id.add_pic);
         relativeLayout=view.findViewById(R.id.buttons_layout);
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,7 +190,6 @@ public class RegisterFragment extends DialogFragment {
             }
         });
 
-        //pic = Uri.parse(sp.getString("path_pic",null));
         picture = view.findViewById(R.id.user_image);
         Glide.with(this)
                 .load(pic)

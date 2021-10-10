@@ -64,7 +64,6 @@ public class ConversationFragment extends Fragment {
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
 
         User.getInstance().updateNotifications(UID);
-        //if( User.getInstance().getChats()==null) User.getInstance().getChats().put(UID,new ArrayList<ChatMessage>());
         if (User.getInstance().getChats().containsKey(UID) == false)
 
             User.getInstance().getChats().put(UID, new ArrayList<ChatMessage>());
@@ -88,28 +87,10 @@ public class ConversationFragment extends Fragment {
                 adapter.notifyDataSetChanged();
                 User.getInstance().updateNotifications(UID);
                 recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-               /* if (!chatMessages.get(chatMessages.size() - 1).getUID().matches(User.getInstance().getUID())) {
-                    try {
-                        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                        Ringtone r = RingtoneManager.getRingtone(getContext(), notification);
-                        r.play();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }*/
             }
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived, filter);
-/*
-        IntentFilter filter2 = new IntentFilter("notification_received");
-        newNotificationReceived = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-               User.getInstance().updateNotifications(UID);
-            }
-        };
-        LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newNotificationReceived, filter);
-*/
+
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +108,6 @@ public class ConversationFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        //LocalBroadcastManager.getInstance(view.getContext()).unregisterReceiver(newMessageReceived);
         LocalBroadcastManager.getInstance(view.getContext()).unregisterReceiver(newMessageReceived);
         Intent intent = new Intent("notification_cancel");
         intent.putExtra("UID","");
@@ -145,7 +125,6 @@ public class ConversationFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            //getParentFragmentManager().popBackStack();
             getActivity().onBackPressed();
         }
         return super.onOptionsItemSelected(item);

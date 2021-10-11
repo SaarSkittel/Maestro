@@ -91,6 +91,16 @@ public class ConversationFragment extends Fragment {
         };
         LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newMessageReceived, filter);
 
+        IntentFilter filter1 = new IntentFilter("notification_received");
+        newNotificationReceived = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                User.getInstance().updateNotifications(UID);
+            }
+        };
+        LocalBroadcastManager.getInstance(view.getContext()).registerReceiver(newNotificationReceived, filter1);
+
+
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,10 +109,22 @@ public class ConversationFragment extends Fragment {
                     User.getInstance().addMessageToOrderList(UID);
                     MessagingProxy.SendMessageTo(UID, message.getText().toString(), true, getContext());
                     message.setText("");
+                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
                 }
             }
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String UID = getArguments().getString("UID");
+
+        Intent intent = new Intent("notification_cancel");
+        intent.putExtra("UID",UID);
+        intent.putExtra("isInChatFragment",false);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
     }
 
     @Override

@@ -8,6 +8,7 @@ The client has the option to choose from all courses. Every course has different
 ## App Flow
 ### Home Screen
 ![image](https://saar-skittel.netlify.app/images/maestro/maestro_home.jpg)
+
 The home screen consist of all the instrument courses that the app is offering. In addition, when logged in the side screen navigate to the chats or to the notifications screen. When clicking on a course if the user is registered to the course it will navigate directly to the course page. Otherwise it will navigate to the registration screen.
 
 ### Registration
